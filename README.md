@@ -3,14 +3,6 @@
 ```html
 <input bind="name" label="Name:">
 <p>Hello @name!</p>
-
-<script>
-	function $input( node, bind, label ) {
-		...
-		$$input( node, bind, label );
-		...
-	}
-</script>
 ```
 ```html
 <template name="bs-input">
@@ -24,7 +16,25 @@
 	</widget>
 </template>
 
-<bs-input bind="name" label="Name"></bs-input>
+<inputBox bind="name" label="Name"></inputBox>
+
+<script>
+	var app = {
+		name: ""
+	}
+
+	function $inputBox( node, bind, label ) {
+		...
+		$$inputBox( node, bind, label );
+		...
+	}
+</script>
+
+<script type="text/C#">
+
+	<!-- convert javascript to C# or C# to javascript? -->
+	
+</script>
 ```
 
 After more than thirty years developing application with various languages on different platforms, I came to the web applications.
@@ -94,7 +104,7 @@ export class AppComponent  { name = 'Angular'; }
 Name: <input id="name" type="text" value="World"/>
 <p>Hello <span id="msg"></span>!</p>
 <script>
-	// not triggered on value=...
+	// "" not triggered on value=...
 	name.addEventListener("change",function(){
 		msg.innerText = this.value;
 	});
@@ -107,7 +117,7 @@ Name: <input id="name" type="text" value="World"/>
 Name: <input id="name" type="text" value="World"/>
 <p>Hello <span id="msg"></span>!</p>
 <script>
-	// not triggered on value=...
+	// !! not triggered on value=...
 	$("#name").change(function() {
 		$("#msg").text($(this).val());
 	});
@@ -120,12 +130,11 @@ Name: <input id="name" type="text" value="World"/>
 <p>Name: <input data-bind="value: Name" /></p>
 <p>Hello, <span data-bind="text: Name"> </span>!</p>
 <script>
-// Here's my data model
 	var ViewModel = function(name) {
 	    this.Name = ko.observable(name);
 	};
  
-	ko.applyBindings(new ViewModel("World")); // This makes Knockout get to work
+	ko.applyBindings(new ViewModel("World"));
 </script>
 ```
 
@@ -133,14 +142,14 @@ Name: <input id="name" type="text" value="World"/>
 
 ```html
 <div id="app-6">
-  Name:<input v-model="message">
-  Message:<p>{{ message }}</p>
+  Name:<input v-model="name">
+  Hello <p>{{ name }}</p>!
 </div>
 <script>
 var app6 = new Vue({
   el: '#app-6',
   data: {
-    message: 'Hello Vue!'
+    name: 'World'
   }
 })
 </script>
@@ -185,13 +194,13 @@ that automatically define (or check matches if defined before):
 ```javascript
 var app = {
 	name: "World",
-	// hidden code
+	// generated code
 	$name: document.getElementById("app.name"),
 	name$change, $name$change, name$update, ...
 }
 ```
-
-**The goal** is to recycle basic knowledge and tools:
+## Goals ##
+**Recycle** basic knowledge and tools:
 
 - common (and free) editors with basic features about auto completition, syntax check and highlight
 - simple and common xml/html parsers
@@ -343,6 +352,8 @@ y: <input bind="y" link="x_ym,x" require="m">
 ```
 
 ###Expression case study in Knockout
+See [test code](./src/ko_ymx_expression_test.html).
+
 ```html
 x:<input data-bind="value:x"><br>
 m:<input data-bind="value:m"><br>
