@@ -1,0 +1,323 @@
+<html>
+<head>
+	<!--style>
+		#app: {display:none}
+	</style-->
+</head>
+
+<body>
+	<script>
+	var nt = {
+		// auto IDs
+		counterId: 0,
+		uniqueId: function(){ return 'me-' + counterId++ },
+		
+		// common/base/reserved attributes
+		reservedAttributes:[
+			"each",		// espect an array value and repeat the relative tag
+			"as",		// name of variable given to item of each
+			"idx",		// name of variable given to for of each
+			"me",		// optional name given to instance of template
+			"bind",		// name of member of model
+			"update",	// event to fire on update of control (keyup/change*)
+			"if",		// if value of param is undefined/null, avoid process the tag
+			"visibleIf",// name of member to check/call to show/hide tag
+			"enabledIf",
+			"click",	// name of function member to call in case of click
+			],
+		
+	}
+	
+	
+	function collectParameters(element,params)
+	{
+		function param(p,n,t) {
+			return {param:p,node:n,type:t}
+		}
+		
+		for (var i=0;i<element.attributes.length;i++) {
+			var attr = element.attributes[i];
+			var param = attr.value; 
+			if (param.substr(0,1)==="@") {
+				if (params[param] === undefined) params[param] = [];
+				params[param].push(param(attr.value,node,"a"));
+			}
+		}
+
+		var param = element.innerText; 
+		if (it.substr(0,1)==="@") {
+			if (params[param] === undefined) params[param] = [];
+			params[param].push(param(it,element,"v"));
+		}
+		
+		for(var i=0;i<element.childElementCount;i++)
+			collectParameters(element.children[i],params);
+	}
+
+	/*
+	function replaceTemplates(element)
+	{
+		if (element === undefined) element = document.body;
+		var templates = element.getElementsByTagName("template");
+		for (var i=0;
+			 i<templates.length && templates[i].parentNode.nodeName!="template";
+			 i++) 
+		{
+			var tpl = templates[i].cloneNode(true);
+			var widget = tbl.getElementsByTagName("widget")[0]
+			if (widget == null) widget = tpl;
+			// expand inner templates
+			// replaceTemplates(widget);
+			var instances = element.getElementsByTagName(tpl.name);
+			for (;instances.length>0;) {
+				var obj = $instances[0];
+				var cls = widget.cloneNode(true);
+				var params = [];
+				collectParameters(cls,params);
+
+				var me = obj.attributes["me"];
+				if (me === undefined) me = uniqueId();
+				var tmp = obj;
+				var root = "";
+				if (tmp.parentElement.nodeName!="BODY") {
+					tmp = tmp.parentElement;
+					root = tmp.id;
+				} 
+				while (tmp.parentElement.nodeName!="BODY") {
+					tmp = tmp.parentElement;
+					root = tmp.id + "." + root;
+				}
+				obj.id = root + "." + me;
+				for (var j=0;j<obj.attributes.length;j++) {
+					var attr = obj.attributes[j];
+					var name = attr.name;
+					if (["if","each","as","idx"].indexOf(name)==-1) {
+						var param = "@" + name;
+						if (params[param] !== undefined) {
+							for (var k=0;k<params[param].length;k++) {
+								var param = params[k];
+								var value = attr.value;
+								if (param.type === "a") param.node.value = value;
+								if (param.type === "v") param.node.innerText = value;  
+							}
+						}
+					}	
+				}
+				
+				parent = obj.parentNode; 
+				parent.replaceChild(cls,obj);
+			}
+		}
+	}
+	*/
+	
+	function $inputBox(base,label$,default$)
+	{
+		var widget = base.widget;
+		var me$ = base.me$;
+		var bind$ = base.bind$;
+		
+		var id;
+		var parent = widget.parentElement;
+		var child;
+		var root = "";
+
+		function getRoot() {
+			var tmp = parent;
+			if (tmp.nodeName!="BODY") {
+				root = tmp.localName;
+				tmp = tmp.parentElement;
+			} 
+			while (tmp.nodeName!="BODY") {
+				root = tmp.localName + "." + root;
+				tmp = tmp.parentElement;
+			}
+		}
+		
+		function getId() {
+			if (bind$ === undefined && me$ !== undefined) bind$ = me$;
+			if (me$ !== undefined) {
+				getRoot(widget);
+				id = root + "." + me$.value;
+			}
+			if (me$ === undefined) id = uniqueId();
+		}
+		
+		function $caption(label$,for$) {
+			child = document.createElement("label");
+			child.innerText = label$.value;
+			if (for$ !== undefined)	child.attributes.for = for$.value;
+		}
+		
+		function $input(id,default$,update$) {
+			child = document.createElement("input");
+			child.id = id;
+			if (default$ !== undefined) child.value = default$.value;
+			if (update$ !== undefined) {
+				if (bind$ == undefined) throw("inputBox 'update' require 'bind' to be specified"); 
+				if (update$.value == "change")
+					child.addEventListener("change", app[bind$.value+"$updated"]);
+				else if (update$.value == "keyup")
+					child.addEventListener("keyup", app[bind$.value+"$updated"]);
+				else throw("inputBox: wrong 'update' value");
+			}
+		}
+		
+		getId();
+
+		var pos = widget;
+
+		// if="@label"
+		if (label$!== undefined) {
+			var for$ = document.createAttribute("for");
+			for$.value = id;
+			$caption( label$, for$ );
+			pos.insertAdjacentElement("afterEnd",child);
+			pos = child;
+		}
+		
+		$input( id , value$ );
+		pos.insertAdjacentElement("afterEnd",child);
+		// pos = child;
+		
+	} // $inputBox
+	
+	function $combo(base,items$)
+	{
+	}
+	
+	function replaceTemplates(element)
+	{
+		if (element === undefined) element = document.body;
+		var templates = element.getElementsByTagName("TEMPLATE");
+		for (var i=0;
+			 i<templates.length && templates[i].parentNode.nodeName!="TEMPLATE";
+			 i++) 
+		{
+			var tpl = templates[i];
+			var widgets = element.getElementsByTagName(tpl.attributes.name.value);
+
+			while (widgets.length>0) {
+
+				widget = widgets[0];
+				var parent = widget.parentElement;
+				var base = {
+					widget: widget,
+					me$: widget.attributes.me,
+					bind$: widget.attributes.bind
+				}
+
+				if (widget.nodeName === "INPUTBOX") 
+					$inputBox(
+						base, 
+						widget.attributes.label, 
+						widget.value
+					)
+
+				if (widget.nodeName === "COMBO") 
+					$combo(
+						base, 
+						widget.attributes.items
+					)
+
+				// ensure to not loop infinitelly
+				parent.removeChild(widget);
+
+			} // while
+		} // for
+	} // replaceTemplates
+	
+	</script>
+
+	<!-- ============================================================================ -->
+	<!--                                                                              -->
+	<!--                           TEMPLATES                                          --> 
+	<!--                                                                              -->
+	<!-- ============================================================================ -->
+
+	<template name = "inputBox">
+		<params>
+			<me>optional name of control that will be expantend throught parents</me>
+			<bind>optional name of member of main app object where store/get value</bind>
+			<label>optional text for label</label>
+			<default>init value</value>
+			<update>
+				define how binded is updated
+				<default value="change">update on return or focus leave</default>
+				<option value="keyup">update every key release</option>
+			</update> 
+		</params>
+		
+		<template name = "caption">
+			<params>
+				<label>text for label</label>
+				<for>optional reference</for>
+			</params>
+			
+			<widget>
+				<label for="for">label</label>
+			</widget>
+		</template>
+		
+		<widget>
+			<caption if="label" for="id">label</caption>
+			<input id="id" value="default" update="update"/>
+		</widget>
+		
+	</template>
+	
+	<!-- ----------------------------------------- -->
+	
+	<template name = "combo">
+		<params>
+			<items>array of objects of type {id,name}</items>
+			<bind></bind>
+		</params>
+		<widget>
+			<select>
+				<option each="items" as="item" value="item.id">item.name</option>
+			</select>
+		</widget>
+	</template>
+	
+	<!-- ============================================================================ -->
+	<!--                                                                              -->
+	<!--                           MAIN CODE/APP                                      --> 
+	<!--                                                                              -->
+	<!-- ============================================================================ -->
+	
+	<script>
+		var cars = [
+			{id:1, name:"volvo"},
+			{id:2, name:"saab"}
+			{id:3, name:"mercedes"}
+			{id:4, name:"audi"}
+		];
+		
+		var app = {
+			car:2,
+			car$updated = function(ev) {console.log("Car changed")}
+		}
+	</script>
+	
+	<inputBox label="name:" bind="name" default="Mario"></inputBox><br>
+	
+	age:<inputBox bind="age"></inputBox><br>
+	
+	Duplicate:<inputBox bind="name"></inputBox><br>
+	
+	<br>
+	
+	<inputBox label="classic"></inputBox><br><br>
+	
+	<combo items="cars" bind="car"></combo>
+	
+	<tree items="nodes" selected="selected"></tree>
+	
+	<script>
+		replaceTemplates();
+		// app.cars$push( {id:5, name:"fiat"} ); // test 
+	</script>
+	
+</body>
+</html>

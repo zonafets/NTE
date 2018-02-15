@@ -1,0 +1,56 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+</head>
+
+<body>
+
+Name: <input id="name" type="text" value="World!"/>
+<p>Hello <span id="msg"></span>!</p>
+
+x:<input data-bind="value:x"><br>
+m:<input data-bind="value:m"><br>
+y:<input data-bind="value:y, enable: !isNaN(vm.m()||'a')"><br>
+
+<script>
+	$("#name").change(function() {
+		$("#msg").text($(this).val());
+		if (typeof mychange!=="undefined") mychange();
+	});
+
+	var vm = {
+		x: ko.observable(),
+		m: ko.observable(1),
+		y: ko.observable(),
+		line: function(val) { 
+			var m = vm.m()||'a';
+			var x = vm.x()||'a';
+			var y = vm.y()||'a';
+			if (isNaN(m)) return;
+			if (isNaN(x) && !isNaN(y)) vm.reverse();
+			else vm.y( m * x ) 
+		},
+		reverse: function(val) {
+			var m = vm.m()||'a';
+			if (isNaN(m) || m==0) return;
+			var y = vm.y()||'a';
+			var x = y / m;
+			if (isNaN(x) || !isFinite(x)) x = null;
+			vm.x( x ) 
+		}
+	}
+	vm.x.subscribe( vm.line )
+	vm.m.subscribe( vm.line )
+	vm.y.subscribe( vm.reverse );
+	ko.applyBindings(vm);	
+
+</script>
+
+
+
+</body>
+
+</html>
+
+

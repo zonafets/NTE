@@ -1,0 +1,19 @@
+<input id="app.name" value="World"/>
+</app>
+
+<!-- possible generated code -->
+<script>
+	var app= {
+		name:"World",
+		$name:document.getElementById("app.name"),
+		name$update:()=>{app.name = app.$name.value;if (typeof app.name$change!=="undefined") app.name$change();app.$name$update();},
+		$name$update:()=>{app.$name.value=app.name;},
+		$name$change:()=>{app.name$update()}
+		}
+	app.$name.addEventListener("keyup",app.name$update);
+	app.$name.addEventListener("change",app.name$change);
+	app.name$update();
+</script>
+
+
+
