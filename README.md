@@ -1,33 +1,18 @@
 # Natural template engine
-######(Under construction)
-<table cellspacing="0" cellpadding="0">
-<td>
+###### (Under construction)
 ```html
-
 <input bind="name" label="Name:">
-
 <p>Hello @name!</p>
 
-
 <script>
-
 	function $input( node, bind, label ) {
-	
 		...
-		
 		$$input( node, bind, label );
-		
 		...
-		
 	}
-	
 </script>
-
 ```
-</td>
-<td style="vertical-align:top">
 ```html
-
 <template name="bs-input">
 	<widget>
 		<div class="form-group">
@@ -39,13 +24,8 @@
 	</widget>
 </template>
 
-
 <bs-input bind="name" label="Name"></bs-input>
-
-
 ```
-</td>
-</table>
 
 After more than thirty years developing application with various languages on different platforms, I came to the web applications.
 
