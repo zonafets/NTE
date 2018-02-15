@@ -1,18 +1,116 @@
-<input id="app.name" value="World"/>
-</app>
+<h2> NTE ymx expression test </h2>
 
-<!-- possible generated code -->
+x: <input bind="x" link="calc_line,y"><br>
+m: <input bind="m" link="line_or_reverse,y,x" default="1"><br>
+y: <input bind="y" link="reverse_line,x" require="m" _debug="link"><br>
+
 <script>
-	var app= {
-		name:"World",
-		$name:document.getElementById("app.name"),
-		name$update:()=>{app.name = app.$name.value;if (typeof app.name$change!=="undefined") app.name$change();app.$name$update();},
-		$name$update:()=>{app.$name.value=app.name;},
-		$name$change:()=>{app.name$update()}
+
+	var app = function() {
+		
+		var me = this;
+		
+		/** public members **/
+		/*
+		me.x = null;
+		me.m = 1;
+		me.y = null;
+		*/	
+		/** private methods **/
+		
+		function checkNaN() {
+			return {
+				x:isNaN( me.x||'a'),
+				m:isNaN( me.m||'a'),
+				y:isNaN( me.y||'a'),
+				x_infinite:!isFinite(me.x) 
+			}
 		}
-	app.$name.addEventListener("keyup",app.name$update);
-	app.$name.addEventListener("change",app.name$change);
-	app.name$update();
+		
+		/** public methods **/
+		
+		me.calc_line = function() {
+			// y = m*x
+			var nan = checkNaN();
+			if (!nan.x && !nan.m)
+				me.y = me.x * me.m; 
+		}
+		
+		me.line_or_reverse = function() {
+			// y = m*x or x = y/m
+			var nan = checkNaN();
+			if (!nan.x) me.y = me.m * me.x;
+			if (!nan.y) me.x = me.y / me.m;
+		}
+			
+		me.reverse_line = function() {
+			// x = y/m
+			var nan = checkNaN();
+			if (!nan.y && !nan.m)
+				me.x = me.y / me.m;
+		}
+
+	}
+	
+</script>
+
+<!-- expected generated code -->
+<script>
+
+	(function() {
+		var $mdl = new app();
+		
+		/** binds **/
+		var x = document.querySelector("input[bind='x']");
+		var m = document.querySelector("input[bind='m']");		
+		var y = document.querySelector("input[bind='y']");
+		
+		function $upd( input, value ) {
+			if (value !== undefined && input.value != value) {
+				input.value = value;
+				input.dispatchEvent(new Event('change'))
+			}
+		}
+		
+		function $require( value ) {
+			if (value === undefined || value == 0 || value == "" || value == null)
+				return true;
+			return false;
+		}
+		
+		/** links  **/
+		
+		// x->y_mx,y
+		x.addEventListener('change',function(ev) {
+			$mdl.x = this.value;
+			$mdl.calc_line();
+			if ($mdl.y !== undefined) y.value = $mdl.y;
+		});
+		
+		// m->y_mx,y,x
+		m.addEventListener('change',function(ev) {
+			$mdl.m = this.value;
+			$mdl.line_or_reverse();
+			if ($mdl.y !== undefined) y.value = $mdl.y;
+			if ($mdl.x !== undefined) x.value = $mdl.x;
+			// y require m
+			y.disabled = $require($mdl.m);
+		});
+		
+		// y->x_ym,x
+		y.addEventListener('change',function(ev) {
+			$mdl.y = this.value;
+			$mdl.reverse_line();
+			if ($mdl.x !== undefined) x.value = $mdl.x;
+		});
+		
+		/** init **/
+		
+		// $mdl.x = null; x_upd(); 
+		$mdl.m = 1; $upd( m, $mdl.m );
+		// $mdl.y = null; y_upd();
+		
+	})();
 </script>
 
 

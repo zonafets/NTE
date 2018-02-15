@@ -5,15 +5,13 @@
 <p>Hello @name!</p>
 ```
 ```html
-<template name="bs-input">
-	<widget>
-		<div class="form-group">
-			<label class="form-label">
-				@label
-			</label>
-			<input bind="@bind" class=...>
-		</div>
-	</widget>
+<template name="inputBox">
+	<div class="form-group">
+		<label class="form-label">
+			@label
+		</label>
+		<input bind="@bind" class=...>
+	</div>
 </template>
 
 <inputBox bind="name" label="Name"></inputBox>
@@ -21,12 +19,6 @@
 <script>
 	var app = {
 		name: ""
-	}
-
-	function $inputBox( node, bind, label ) {
-		...
-		$$inputBox( node, bind, label );
-		...
 	}
 </script>
 
@@ -184,7 +176,7 @@ So what I would like is think to a template engine that at least keep the nature
 
 ```htlm
 <app>
-	Name:<input me="name" value="World">
+	Name:<input me="name" default="World">
 	Hello <span>@name</span>!
 </app>
 ```
@@ -199,6 +191,7 @@ var app = {
 	name$change, $name$change, name$update, ...
 }
 ```
+---------------------
 ## Goals ##
 **Recycle** basic knowledge and tools:
 
@@ -237,7 +230,7 @@ function app.message$change()
 
 	<script>
 	
-		function $inputBox(me,value,update,caption)
+		function $$inputBox(me,value,update,caption)
 		{
 			// generate code
 		}
@@ -314,78 +307,132 @@ function app.$inputBox(element,value,update,caption)
 ###Expression case study with NT
 
 ```html
+<h2> NTE ymx expression test </h2>
+
+x: <input bind="x" link="calc_line,y"><br>
+m: <input bind="m" link="line_or_reverse,y,x" default="1"><br>
+y: <input bind="y" link="reverse_line,x" require="m" _debug="link"><br>
+
 <script>
-	var app = {
-	
-		x: null,
-		m: 1,
-		y: null,
+
+	var app = function() {
 		
-		nan: function() {
+		var me = this;
+		
+		/** public members **/
+		/*
+		me.x = null;
+		me.m = 1;
+		me.y = null;
+		*/	
+		/** private methods **/
+		
+		function checkNaN() {
 			return {
-				x:isNaN(this.x||'a',
-				m:isNaN(this.m||'a',
-				y:isNaN(this.y||'a',
-				x_infinite:!isFinite(this.x) 
-				}
-			},
-			
-		y_mx: function() {
-			var nan = this.nan();
-			if (nan.x && !nan.y)
-				this.y_mx();
-			else
-				this.y = this.x * this.m; 
-			},
-			
-		x_ym: function() {
-			var nan = this.nan();
-			if (nan.x || nan.x_infinite)) 
-				return;
-			this.x = this.y / this.m;
-			},
+				x:isNaN( me.x||'a'),
+				m:isNaN( me.m||'a'),
+				y:isNaN( me.y||'a'),
+				x_infinite:!isFinite(me.x) 
+			}
 		}
+		
+		/** public methods **/
+		
+		me.calc_line = function() {
+			// y = m*x
+			var nan = checkNaN();
+			if (!nan.x && !nan.m)
+				me.y = me.x * me.m; 
+		}
+		
+		me.line_or_reverse = function() {
+			// y = m*x or x = y/m
+			var nan = checkNaN();
+			if (!nan.x) me.y = me.m * me.x;
+			if (!nan.y) me.x = me.y / me.m;
+		}
+			
+		me.reverse_line = function() {
+			// x = y/m
+			var nan = checkNaN();
+			if (!nan.y && !nan.m)
+				me.x = me.y / me.m;
+		}
+
+	}
+	
 </script>
-x: <input bind="x" link="y_mx,y">
-m: <input bind="m" link="y_mx,y,x">
-y: <input bind="y" link="x_ym,x" require="m">
 ```
 
 ###Expression case study in Knockout
-See [test code](./src/ko_ymx_expression_test.html).
+See [test code](./src/ko_ymx_expression_test.html) in [action](https://rawgit.com/zonafets/NTE/master/src/ko_ymx_expression_test.html).
 
 ```html
+<h2> KO ymx expression test </h2>
+
 x:<input data-bind="value:x"><br>
 m:<input data-bind="value:m"><br>
-y:<input data-bind="value:y, enable: !isNaN(vm.m()||'a')"><br>
+y:<input data-bind="value:y, enable: !mNaN()"><br>
+
+<p>Initial value of viewmodel updates inputs.</p>
+<p>Un update with same value of "m", do not cause updates of "x" or "y", even with notify:always.</p> 
 
 <script>
-	var vm = {
-		x: ko.observable(),
-		m: ko.observable(),
-		y: ko.observable(),
-		line: function(val) { 
-			var m = vm.m()||'a';
-			var x = vm.x()||'a';
-			var y = vm.y()||'a';
-			if (isNaN(m)) return;
-			if (isNaN(x) && !isNaN(y)) vm.reverse();
-			else vm.y( m * x ) 
-		},
-		reverse: function(val) {
-			var m = vm.m()||'a';
-			if (isNaN(m) || m==0) return;
-			var y = vm.y()||'a';
-			var x = y / m;
-			if (isNaN(x) || !isFinite(x)) x = null;
-			vm.x( x ) 
-		}
-	}
+	$("#name").change(function() {
+		$("#msg").text($(this).val());
+		if (typeof mychange!=="undefined") mychange();
+	});
 
-	vm.x.subscribe( vm.line )
-	vm.m.subscribe( vm.line )
-	vm.y.subscribe( vm.reverse );
-	ko.applyBindings(vm);	
+	var vm = function() {
+		var me = this;
+		me.x = ko.observable();
+		me.m = ko.observable().extend({ notify: 'always' });	// init here do not call the subscribe
+		me.y = ko.observable();
+		
+		var x = me.x;
+		var y = me.y;
+		var m = me.m;
+		
+		function checkNaN() {
+			return {
+				x:isNaN( x()||'a' ),
+				m:isNaN( m()||'a' ),
+				y:isNaN( y()||'a' ),
+				x_infinite:!isFinite( x() ) 
+			}
+		}
+		
+		me.mNaN = function() {
+			return isNaN( m()||'a' );
+		}
+		
+		x.subscribe( function() {
+			// y = m*x
+			var nan = checkNaN();
+			if (!nan.x && !nan.m) 
+				y( m() * x() );
+		})
+		
+		m.subscribe( function() {
+			// y = m*x or x = y/m
+			var nan = checkNaN();
+			if (!nan.x) me.y( m() * x() );
+			if (!nan.y) me.x( y() / m() );
+		})
+		
+		y.subscribe( function() {
+			// x = y/m
+			var nan = checkNaN();
+			if (!nan.y && !nan.m) 
+				x( y() / m() );
+		})
+		
+		m(1);
+		
+	} // vm
+	
+	ko.applyBindings(new vm());	
+
 </script>
 ```
 
