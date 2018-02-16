@@ -14,11 +14,14 @@
 	</div>
 </template>
 
-<inputBox bind="name" label="Name"></inputBox>
+<app>
+	<inputBox label="First Name" link="log">fname</inputBox>
+	<inputBox label="Last Name"  link="log">lname</inputBox>
+</app>
 
 <script>
-	var app = {
-		name: ""
+	app.log() {
+		console.log("Full name:"+fname+" "+lname);
 	}
 </script>
 
@@ -39,7 +42,7 @@ All this claims the usual aspects: self organization, scalability, less mistakes
 
 But when a framework or a programming language wrapper(coffee/typescript) define a new scope paradigm, this take down 30'years of experience at same level of a beginner.
 
-I think that 10 programmer monkeys can make more than one expert, even if they do more logic errors. But ten small logic errors are less than one big analytic error.
+As the task of to writes adaptable page for device can require more time than write one page for each small, medium, large device, I think that 10 programmer monkeys can make more than one expert, even if they do more logic errors. But ten small logic errors are less than one big analytic error, as in the learning of something of different to make same things.
 
 **So, this is my brainstorming about something to KISS and RKB (Keep It Simple and Stupid and Recycle Knowledge Base).**
 
@@ -173,24 +176,6 @@ var WithLink = createReactClass({
 
 So what I would like is think to a template engine that at least keep the nature of the language, hiding the complex parts, generating hidden code.
 
-
-```htlm
-<app>
-	Name:<input me="name" default="World">
-	Hello <span>@name</span>!
-</app>
-```
-
-that automatically define (or check matches if defined before):
-
-```javascript
-var app = {
-	name: "World",
-	// generated code
-	$name: document.getElementById("app.name"),
-	name$change, $name$change, name$update, ...
-}
-```
 ---------------------
 ## Goals ##
 **Recycle** basic knowledge and tools:
@@ -198,16 +183,162 @@ var app = {
 - common (and free) editors with basic features about auto completition, syntax check and highlight
 - simple and common xml/html parsers
 - make simple build a plugin for auto completition
+- make simple double bind IDE with code 
 - two side rendering (client and/or server side)
+  e.g.: from C# to Javascript or from Javascript to C# 
 - two way editing (from/to client/server)
+  e.g.: &lt;script type = "text/c#" ... &gt;
 
-### Example of ~~event~~ data listener
 
-```javascript
-function app.message$change()
-{
-	this.message = this.message.toUpperCase();
-}
+
+###Expression case study in Knockout
+See [complete code](./src/ko_ymx_expression_test.html) in [action](https://rawgit.com/zonafets/NTE/master/src/ko_ymx_expression_test.html).
+
+```html
+<h2> KO ymx expression test </h2>
+
+<p>
+x:<input data-bind="value:x"><br>
+m:<input data-bind="value:m, event:{blur:updatem}"><br>
+y:<input data-bind="value:y, enable: !mNaN()"><br>
+</p>
+
+<p>
+first name:<input data-bind="value:fname"><br>
+last name:<input data-bind="value:lname"><br>
+full name:<input data-bind="value:fullname"><br>
+</p>
+
+<p>Initial value of viewmodel updates inputs, but must be done after subscription.</p>
+<p>Note the use of blur event to force updates and recalc.</p>
+
+<p>The code shows as the MVVM pattern link members without force to give a name to the actions.
+When X is modified, y is calculated. But the calculus has a name: "line".
+Is this part of lost controller?
+</p>
+
+<script>
+	// I forgot this piece of code that do not give any error
+	$("#name").change(function() { $("#msg").text($(this).val()) });
+
+	var vm = new function() {
+
+		var me = this
+
+		/** properties **/
+				
+		me.x = ko.observable()
+		me.m = ko.observable().extend({ notify: 'always' });
+		me.y = ko.observable()
+		
+		me.fname = ko.observable()
+		me.lname = ko.observable()
+		me.fullname = ko.computed(function(){ return me.fname()+" "+me.lname() })
+		
+		/** private **/
+		
+		var x = me.x
+		var y = me.y
+		var m = me.m
+		
+		function xNaN() { return isNaN( x() || 'a' ) }
+		function yNaN() { return isNaN( y() || 'a' ) }
+		function mNaN() { return isNaN( m() || 'a' ) }
+		
+		/** public **/
+				
+		me.mNaN = mNaN;
+		
+		me.updatem = function() { m(m()) }
+		
+		x.subscribe( function() {
+			if (!xNaN() && !mNaN()) 
+				y( m() * x() );
+		})
+		
+		m.subscribe( function() {
+			if (!xNaN()) y( m() * x() );
+			if (!yNaN()) x( y() / m() );
+		})
+		
+		y.subscribe( function() {
+			if (!yNaN() && !mNaN()) 
+				x( y() / m() );
+		})
+		
+		/** init here ensure call of subscribers **/
+		
+		x(3);
+		m(1);
+		
+	} // vm
+	
+	ko.applyBindings(vm);	
+
+</script>
+```
+
+###Expression case study with NTE
+See [complete code](./src/nte_ymx_expression_test_l1.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l1.html) layer 1.
+See [complete code](./src/nte_ymx_expression_test_l2.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l2.html) layer 2.
+```html
+<h2>NTE ymx expression test</h2>
+<h4>layer 1</h4>
+
+x: <input bind="x" link="line,y" require="#x,#m"><br>
+m: <input bind="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"><br>
+y: <input bind="y" link="reverse_line,x" require="#y,#m" enableIf="m" _debug="link"><br>
+
+<p>Even KO can be expanded with extra binders. 
+What I will like to do is split, reduce and concentrate to write more simple code.
+Inline complex expressions are not allowed. </p>
+
+<script>
+
+	var app = new function() {
+		
+		var me = this;
+				
+		/** properties **/
+		
+		me.x = 3
+		
+		/** private **/
+		
+		function xNaN() { return isNaN( me.x || 'a' ) }
+		function yNaN() { return isNaN( me.y || 'a' ) }
+		
+		/** public **/
+	
+		me.line = function () { me.y = me.x * me.m }
+	
+		me.line_or_reverse = function() {
+			if (!xNaN()) 
+				me.y = me.m * me.x;
+			else {
+				if (!yNaN()) me.x = me.y / me.m;
+			}
+		}
+		
+		me.reverse_line = function() { me.x = me.y / me.m }
+		
+	}
+	
+</script>
+```
+
+### Another scenario
+
+```html
+meters: <input me="meters" value="10m">
+
+<script>
+
+	app.meters$change = function() {
+		app.meters += app.meters.subst(-1)!="m"?"m":"";
+		}
+
+</script>
 ```
 
 ### Example of widget template and use
@@ -304,151 +435,6 @@ function app.$inputBox(element,value,update,caption)
 
 </app>
 ```
-###Expression case study with NT
-
-```html
-<h2> NTE ymx expression test </h2>
-
-x: <input bind="x" link="calc_line,y"><br>
-m: <input bind="m" link="line_or_reverse,y,x" default="1"><br>
-y: <input bind="y" link="reverse_line,x" require="m" _debug="link"><br>
-
-<script>
-
-	var app = function() {
-		
-		var me = this;
-		
-		/** public members **/
-		/*
-		me.x = null;
-		me.m = 1;
-		me.y = null;
-		*/	
-		/** private methods **/
-		
-		function checkNaN() {
-			return {
-				x:isNaN( me.x||'a'),
-				m:isNaN( me.m||'a'),
-				y:isNaN( me.y||'a'),
-				x_infinite:!isFinite(me.x) 
-			}
-		}
-		
-		/** public methods **/
-		
-		me.calc_line = function() {
-			// y = m*x
-			var nan = checkNaN();
-			if (!nan.x && !nan.m)
-				me.y = me.x * me.m; 
-		}
-		
-		me.line_or_reverse = function() {
-			// y = m*x or x = y/m
-			var nan = checkNaN();
-			if (!nan.x) me.y = me.m * me.x;
-			if (!nan.y) me.x = me.y / me.m;
-		}
-			
-		me.reverse_line = function() {
-			// x = y/m
-			var nan = checkNaN();
-			if (!nan.y && !nan.m)
-				me.x = me.y / me.m;
-		}
-
-	}
-	
-</script>
-```
-
-###Expression case study in Knockout
-See [test code](./src/ko_ymx_expression_test.html) in [action](https://rawgit.com/zonafets/NTE/master/src/ko_ymx_expression_test.html).
-
-```html
-<h2> KO ymx expression test </h2>
-
-x:<input data-bind="value:x"><br>
-m:<input data-bind="value:m"><br>
-y:<input data-bind="value:y, enable: !mNaN()"><br>
-
-<p>Initial value of viewmodel updates inputs.</p>
-<p>Un update with same value of "m", do not cause updates of "x" or "y", even with notify:always.</p> 
-
-<script>
-	$("#name").change(function() {
-		$("#msg").text($(this).val());
-		if (typeof mychange!=="undefined") mychange();
-	});
-
-	var vm = function() {
-		var me = this;
-		me.x = ko.observable();
-		me.m = ko.observable().extend({ notify: 'always' });	// init here do not call the subscribe
-		me.y = ko.observable();
-		
-		var x = me.x;
-		var y = me.y;
-		var m = me.m;
-		
-		function checkNaN() {
-			return {
-				x:isNaN( x()||'a' ),
-				m:isNaN( m()||'a' ),
-				y:isNaN( y()||'a' ),
-				x_infinite:!isFinite( x() ) 
-			}
-		}
-		
-		me.mNaN = function() {
-			return isNaN( m()||'a' );
-		}
-		
-		x.subscribe( function() {
-			// y = m*x
-			var nan = checkNaN();
-			if (!nan.x && !nan.m) 
-				y( m() * x() );
-		})
-		
-		m.subscribe( function() {
-			// y = m*x or x = y/m
-			var nan = checkNaN();
-			if (!nan.x) me.y( m() * x() );
-			if (!nan.y) me.x( y() / m() );
-		})
-		
-		y.subscribe( function() {
-			// x = y/m
-			var nan = checkNaN();
-			if (!nan.y && !nan.m) 
-				x( y() / m() );
-		})
-		
-		m(1);
-		
-	} // vm
-	
-	ko.applyBindings(new vm());	
-
-</script>
-```
-
-### Another scenario
-
-```html
-meters: <input me="meters" value="10m">
-
-<script>
-
-	app.meters$change = function() {
-		app.meters += app.meters.subst(-1)!="m"?"m":"";
-		}
-
-</script>
-```
 
 ### Es. client/server mixed rendering with complex management
 **Rules**
@@ -524,7 +510,7 @@ meters: <input me="meters" value="10m">
 
 ```
 
-### Tree view
+### Tree view case
 ```html
 <script>
 	function Node(id,name,children) 
@@ -577,6 +563,8 @@ meters: <input me="meters" value="10m">
 
 ## Performance
 Difficult to think of performance in a system that is divided into 2 processes (client and server) which in turn are divided into 2 or 3 processes (web server, service, database engine, javascript, jquery, framework).
+
+The server can do more to make the client faster. But this grows traffic. And today's optimized browser can create DOM elements faster than yesterday. So as as ORM is simpler than SQL and more similar to older DBF, it is slower than SQL because wraps it. But SQL is slower than DBF (we see compilation of SELECT x+y for the first time only in the 2018) but was considered simpler than DBF. Anyway noSQL borns because speed depend on how data is joined and not how stored. But even this increase the traffic. It is the uncertainty principle of Heisemberg.
 
 Certainly being able to distribute and simplify if part of the surrender can be the responsibility of the client or server, is useful.
 

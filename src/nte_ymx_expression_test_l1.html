@@ -1,0 +1,148 @@
+<h2> NTE ymx expression test</h2>
+<h4>layer 1</h4>
+
+x: <input bind="x" link="line,y" require="#x,#m"><br>
+m: <input bind="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"><br>
+y: <input bind="y" link="reverse_line,x" require="#y,#m" enableIf="m" _debug="link"><br>
+
+<p>Even KO can be expanded with extra binders. What I will like to do is split, reduce and concentrate to write more simple code.
+Inline complex expressions are not allowed. </p>
+
+<script>
+
+	var app = new function() {
+		
+		var me = this;
+				
+		/** properties **/
+		
+		me.x = 3
+		
+		/** private **/
+		
+		function xNaN() { return isNaN( me.x || 'a' ) }
+		function yNaN() { return isNaN( me.y || 'a' ) }
+		
+		/** public **/
+	
+		me.line = function () { me.y = me.x * me.m }
+	
+		me.line_or_reverse = function() {
+			if (!xNaN()) 
+				me.y = me.m * me.x;
+			else {
+				if (!yNaN()) me.x = me.y / me.m;
+			}
+		}
+		
+		me.reverse_line = function() { me.x = me.y / me.m }
+		
+	}
+	
+</script>
+
+<!-- expected generated code -->
+<script id="nte.main">
+
+	(function() {
+
+			var $mdl = app;
+		
+			/** binds **/
+		
+			var x = document.querySelector("input[bind='x']");
+			var m = document.querySelector("input[bind='m']");		
+			var y = document.querySelector("input[bind='y']");
+
+			/** utils **/
+		
+			function $set(element,value) {
+				if (value !== undefined) element.value = value;
+			}
+				
+			function $upd( input, value ) {
+				if (value !== undefined && input.value != value) {
+					input.value = value;
+					input.dispatchEvent(new Event('change'))
+				}
+			}
+		
+			function $disableIf( ) {
+				for (var i=0;i<arguments.length;i++) {
+					value = arguments[i];
+					if (value === undefined || value == 0 || value == "" || value == null)
+						return true;
+				}
+				return false;
+			}
+		
+			/** requires **/
+		
+			function $requires_for_x() {
+				var b = !isNaN( x.value||'a' ) && !isNaN( m.value||'a' ) 
+				return b;
+			}
+		
+			function $requires_for_m() {
+				var b = !isNaN( m.value||'a' ) && ( !isNaN( x.value||'a' ) || !isNaN( y.value||'a' ) )
+				return b;
+			}
+		
+			function $requires_for_y() {
+				var b = !isNaN( y.value||'a' ) && !isNaN( m.value||'a' ) 
+				return b;
+			}
+		
+			/** enableIf **/
+			
+			function $disables_for_m() {
+				y.disabled = $disableIf($mdl.m);
+			}
+		
+			/** links  **/
+		
+			function $links_for_x( ev ) {
+				$mdl.x = this.value;
+				if (!$requires_for_x()) return;
+				$mdl.line();
+				$set( y, $mdl.y );
+			}
+		
+			function $links_for_m( ev ) {
+				$mdl.m = this.value;
+				if (!$requires_for_m()) return;
+				$mdl.line_or_reverse();
+				$set( y, $mdl.y );
+				$set( x, $mdl.x );
+				$disables_for_m();
+			}
+		
+			function $links_for_y( ev ) {
+				$mdl.y = this.value;
+				if (!$requires_for_y()) return;
+				$mdl.reverse_line();
+				$set(x,$mdl.x);
+			}
+		
+			/** defaults **/
+
+			$mdl.m = 1; 
+
+			/** events **/
+
+			x.addEventListener('change', $links_for_x )
+			m.addEventListener('change', $links_for_m )
+			m.addEventListener('blur', $links_for_m )
+			y.addEventListener('change', $links_for_y )
+
+			/** init **/		
+		
+			$upd( x, $mdl.x );
+			$upd( m, $mdl.m );
+			$upd( y, $mdl.y );
+		
+	})();
+</script>
+
+
+
