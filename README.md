@@ -1,16 +1,24 @@
 # Natural template engine
-###### (Under construction)
+###### (Under brain storming)
 ```html
-<input bind="name" label="Name:">
+<input id="name" label="Name:">
 <p>Hello @name!</p>
+
+... somewhere the function $$input(node) will replace the node with:
+<label for="name">Name:</label>
+<input id="name">
+<script> ... </script>
 ```
 ```html
 <template name="inputBox">
+	<!-- bootstrap wrapper -->
 	<div class="form-group">
-		<label class="form-label">
+		<label class="control-label @@Cols.Label">
 			@label
 		</label>
-		<input bind="@bind" class=...>
+		<div class="@@Cols.Input">
+			<input id="@bind" link="@link" class=...>
+		</div>
 	</div>
 </template>
 
@@ -20,7 +28,7 @@
 </app>
 
 <script>
-	app.log() {
+	app.log = function() {
 		console.log("Full name:"+fname+" "+lname);
 	}
 </script>
@@ -191,7 +199,7 @@ So what I would like is think to a template engine that at least keep the nature
 
 
 
-###Expression case study in Knockout
+### Expression case study in Knockout
 See [complete code](./src/ko_ymx_expression_test.html) in [action](https://rawgit.com/zonafets/NTE/master/src/ko_ymx_expression_test.html).
 
 ```html
@@ -278,20 +286,29 @@ Is this part of lost controller?
 </script>
 ```
 
-###Expression case study with NTE
-See [complete code](./src/nte_ymx_expression_test_l1.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l1.html) layer 1.
-See [complete code](./src/nte_ymx_expression_test_l2.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l2.html) layer 2.
+### Expression case study with NTE
+See [complete code](./src/nte_ymx_expression_test_l1.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l1.html) and [transpiled](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test.js) (layer 1)
+See [complete code](./src/nte_ymx_expression_test_l2.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l2.html) and [transpiled](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test.js) (layer 2).
 ```html
-<h2>NTE ymx expression test</h2>
+<h2> NTE ymx expression test</h2>
 <h4>layer 1</h4>
 
-x: <input bind="x" link="line,y" require="#x,#m"><br>
-m: <input bind="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"><br>
-y: <input bind="y" link="reverse_line,x" require="#y,#m" enableIf="m" _debug="link"><br>
+x: <input id="x" link="line,y" require="#x,#m"><br>
+m: <input id="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"><br>
+y: <input id="y" link="reverse_line,x" require="#y,#m" enableIf="m" _debug="link"><br>
+
+<p>first name: <input id="fName" link="fullName"><br></p>
+<p>last name: <input id="lName" link="fullName"><br></p>
+<p>full name: <input id="fullName" enableIf="fname,lname" readonly></p>
+
+<test x="3" m="4"><y>12</y></test>
+<test fName="Mario" lName="Rossi"><fullName>Mario Rossi</fullName></test>
 
 <p>Even KO can be expanded with extra binders. 
-What I will like to do is split, reduce and concentrate to write more simple code.
-Inline complex expressions are not allowed. </p>
+What I will like to do is split, reduce and concentrate to write more simple code (typical macro/script).
+Inline complex expressions are not allowed. 
+The use of TAGs to connect functions of the model, allow the transpiler to check 
+</p>
 
 <script>
 
@@ -321,6 +338,8 @@ Inline complex expressions are not allowed. </p>
 		}
 		
 		me.reverse_line = function() { me.x = me.y / me.m }
+		
+		me.fullName = function() { return me.fName + " " + me.lName }
 		
 	}
 	
@@ -361,9 +380,10 @@ meters: <input me="meters" value="10m">
 
 	<script>
 	
-		function $$inputBox(me,value,update,caption)
+		function $$inputBox(node)
 		{
-			// generate code
+			var link = node.attributes.link;
+			...
 		}
 
 	</script>
@@ -374,23 +394,7 @@ meters: <input me="meters" value="10m">
 	<inputBox me="name" caption="Name" update="keyup" value="World"></inputBox>
 </app>
 
-<!-- possible generated code -->
-<script>
-	var app= {
-		name:"World",
-		$name:document.getElementById("app.name"),
-		name$update:()=>{
-			app.name = app.$name.value;
-			if (typeof app.name$change!=="undefined") app.name$change();
-			app.$name$update();
-			},
-		$name$update:()=>{ app.$name.value = app.name; },
-		$name$change:()=>{ app.name$update() }
-		}
-	app.$name.addEventListener("keyup",app.name$update);
-	app.$name.addEventListener("change",app.name$change);
-	app.name$update();
-</script>
+
 ```
 
 ### Possible widget init

@@ -9,8 +9,13 @@ y: <input bind="y" link="reverse_line,x" require="#y,#m" enableIf="m" _debug="li
 <p>last name: <input bind="lName" link="fullName"><br></p>
 <p>full name: <input bind="fullName" enableIf="fname,lname" readonly></p>
 
-<p>Even KO can be expanded with extra binders. What I will like to do is split, reduce and concentrate to write more simple code.
-Inline complex expressions are not allowed. </p>
+<test fName="Mario" lName="Rossi"><fullName>Mario Rossi</fullName></test>
+
+<p>Even KO can be expanded with extra binders. 
+What I will like to do is split, reduce and concentrate to write more simple code (typical macro/script).
+Inline complex expressions are not allowed. 
+The use of TAGs to connect functions of the model, allow the transpiler to check 
+</p>
 
 <script>
 
@@ -48,132 +53,12 @@ Inline complex expressions are not allowed. </p>
 </script>
 
 <!-- expected generated code -->
-<script> 
-
-	(function() {
-
-			var $mdl = app;
-		
-			/** binds **/
-		
-			var x = document.querySelector("input[bind='x']");
-			var m = document.querySelector("input[bind='m']");		
-			var y = document.querySelector("input[bind='y']");
-
-			var fName = document.querySelector("input[bind='fName']");
-			var lName = document.querySelector("input[bind='lName']");
-			var fullName = document.querySelector("input[bind='fullName']");
-						
-			/** utils **/
-		
-			function $set(element,value) {
-				if (value !== undefined) element.value = value;
-			}
-				
-			function $upd( input, value ) {
-				if (value !== undefined && input.value != value) {
-					input.value = value;
-					input.dispatchEvent(new Event('change'))
-				}
-			}
-		
-			function $disableIf( ) {
-				for (var i=0;i<arguments.length;i++) {
-					value = arguments[i];
-					if (value === undefined || value == 0 || value == "" || value == null)
-						return true;
-				}
-				return false;
-			}
-		
-			/** requires **/
-		
-			function $requires_for_x() {
-				var b = !isNaN( x.value||'a' ) && !isNaN( m.value||'a' ) 
-				return b;
-			}
-		
-			function $requires_for_m() {
-				var b = !isNaN( m.value||'a' ) && ( !isNaN( x.value||'a' ) || !isNaN( y.value||'a' ) )
-				return b;
-			}
-		
-			function $requires_for_y() {
-				var b = !isNaN( y.value||'a' ) && !isNaN( m.value||'a' ) 
-				return b;
-			}
-		
-			/** enableIf **/
-			
-			function $disables_for_m() {
-				y.disabled = $disableIf($mdl.m);
-			}
-			
-			function $disables_for_fullName() {
-				fullName.disabled = $disableIf($mdl.fName, $mdl.lName);
-			}
-		
-			/** links  **/
-		
-			function $links_for_x( ev ) {
-				$mdl.x = this.value;
-				if (!$requires_for_x()) return;
-				$mdl.line();
-				$set( y, $mdl.y );
-			}
-		
-			function $links_for_m( ev ) {
-				$mdl.m = this.value;
-				if (!$requires_for_m()) return;
-				$mdl.line_or_reverse();
-				$set( y, $mdl.y );
-				$set( x, $mdl.x );
-				$disables_for_m();
-			}
-		
-			function $links_for_y( ev ) {
-				$mdl.y = this.value;
-				if (!$requires_for_y()) return;
-				$mdl.reverse_line();
-				$set(x,$mdl.x);
-			}
-			
-			function $links_for_fName( ev ) {
-				$mdl.fName = this.value;
-				fullName.value = $mdl.fullName()
-			}
-
-			function $links_for_lName( ev ) {
-				$mdl.lName = this.value;
-				fullName.value = $mdl.fullName()
-			}
-					
-			/** defaults **/
-
-			$mdl.m = 1; 
-
-			/** events **/
-
-			x.addEventListener('change', $links_for_x )
-			m.addEventListener('change', $links_for_m )
-			m.addEventListener('blur', $links_for_m )
-			y.addEventListener('change', $links_for_y )
-			fName.addEventListener('change', $links_for_fName )
-			lName.addEventListener('change', $links_for_lName )
-						
-			/** init **/		
-		
-			$upd( x, $mdl.x );
-			$upd( m, $mdl.m );
-			$upd( y, $mdl.y );
-			
-			$upd( fName, $mdl.fName );
-			$upd( lName, $mdl.lName );
-			$upd( fullName, $mdl.fullName() );
-			
-	})();
-</script>
+<script src = "nte_ymx_expression_test.js"></script>
 	
+<!-- ######################################################################## -->
+<!-- #                                                                      # -->
+<!-- #  example of possible code generator                                  # -->
+<!-- #                                                                      # -->
 <!-- ######################################################################## -->
 
 <template id="nte.models">
@@ -290,8 +175,8 @@ Inline complex expressions are not allowed. </p>
 			var node = tags[i];
 			
 			if (node.attributes.bind !== undefined) {
-				binds += bind.replace( /@name/g, node.attributes.bind.value )
-				inits += init.replace( /@name/g, node.attributes.bind.value )
+				binds += bind.replace( /@name/g, node.attributes.id.value )
+				inits += init.replace( /@name/g, node.attributes.id.value )
 			}
 			
 		}
@@ -303,7 +188,7 @@ Inline complex expressions are not allowed. </p>
 		var script = document.createElement("SCRIPT");
 		script.innerText = main;
 		
-		document.append( script );
+		document.body.appendChild( script );
 		
 	})()
 	
