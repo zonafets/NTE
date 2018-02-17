@@ -1,20 +1,21 @@
 <h2> NTE ymx expression test</h2>
 <h4>layer 2</h4>
 
-x: <input bind="x" link="line,y" require="#x,#m"><br>
-m: <input bind="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"><br>
-y: <input bind="y" link="reverse_line,x" require="#y,#m" enableIf="m" _debug="link"><br>
+<!-- sample 1 -->
+first name: <input id="fName" link="fullName"> <br>
+last name: <input id="lName" link="fullName"> <br>
+full name: <input id="fullName" enableIf="fname,lname" readonly> <br> <br>
 
-<p>first name: <input bind="fName" link="fullName"><br></p>
-<p>last name: <input bind="lName" link="fullName"><br></p>
-<p>full name: <input bind="fullName" enableIf="fname,lname" readonly></p>
+<!-- sample 2 -->
+x: <input id="x" link="line,y" require="#x,#m"> <br>
+m: <input id="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"> <br>
+y: <input id="y" link="reverse_line,x" require="#y,#m" enableIf="m" debug="link"> <br> <br>
 
-<test fName="Mario" lName="Rossi"><fullName>Mario Rossi</fullName></test>
-
+<!-- some thought -->
 <p>Even KO can be expanded with extra binders. 
 What I will like to do is split, reduce and concentrate to write more simple code (typical macro/script).
 Inline complex expressions are not allowed. 
-The use of TAGs to connect functions of the model, allow the transpiler to check 
+The use of TAGs to connect functions of the model, allow the transpiler to do some check at 1st transpile time 
 </p>
 
 <script>
@@ -25,7 +26,7 @@ The use of TAGs to connect functions of the model, allow the transpiler to check
 				
 		/** properties **/
 		
-		me.x = 3
+		me.x = 3	// this force the parse type
 		
 		/** private **/
 		

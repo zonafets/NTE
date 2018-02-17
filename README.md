@@ -188,14 +188,16 @@ So what I would like is think to a template engine that at least keep the nature
 ## Goals ##
 **Recycle** basic knowledge and tools:
 
-- common (and free) editors with basic features about auto completition, syntax check and highlight
-- simple and common xml/html parsers
-- make simple build a plugin for auto completition
-- make simple double bind IDE with code 
-- two side rendering (client and/or server side)
+* common (and free) editors with basic features about auto completition, syntax check and highlight
+* simple and common xml/html parsers
+* make simple build a plugin for auto completition
+* make simple double bind IDE and code 
+* two side rendering (client and/or server side)
   e.g.: from C# to Javascript or from Javascript to C# 
-- two way editing (from/to client/server)
-  e.g.: &lt;script type = "text/c#" ... &gt;
+* two way editing (from/to client/server)
+  e.g.: 
+  	&lt;script side="both" type="text/c#" ... &gt;
+        &lt;script side="server" type="text/sql" ... &gt;
 
 
 
@@ -287,27 +289,27 @@ Is this part of lost controller?
 ```
 
 ### Expression case study with NTE
-See [complete code](./src/nte_ymx_expression_test_l1.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l1.html) and [transpiled](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test.js) (layer 1)
-See [complete code](./src/nte_ymx_expression_test_l2.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l2.html) and [transpiled](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test.js) (layer 2).
+* See [complete code](./src/nte_ymx_expression_test_l1.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l1.html) and [transpiled](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test.js) (layer 1)
+
+* See [complete code](./src/nte_ymx_expression_test_l2.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l2.html) and [transpiled](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test.js) (layer 2).
 ```html
 <h2> NTE ymx expression test</h2>
-<h4>layer 1</h4>
 
-x: <input id="x" link="line,y" require="#x,#m"><br>
-m: <input id="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"><br>
-y: <input id="y" link="reverse_line,x" require="#y,#m" enableIf="m" _debug="link"><br>
+<!-- sample 1 -->
+first name: <input id="fName" link="fullName"> <br>
+last name: <input id="lName" link="fullName"> <br>
+full name: <input id="fullName" enableIf="fname,lname" readonly> <br> <br>
 
-<p>first name: <input id="fName" link="fullName"><br></p>
-<p>last name: <input id="lName" link="fullName"><br></p>
-<p>full name: <input id="fullName" enableIf="fname,lname" readonly></p>
+<!-- sample 2 -->
+x: <input id="x" link="line,y" require="#x,#m"> <br>
+m: <input id="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"> <br>
+y: <input id="y" link="reverse_line,x" require="#y,#m" enableIf="m" debug="link"> <br> <br>
 
-<test x="3" m="4"><y>12</y></test>
-<test fName="Mario" lName="Rossi"><fullName>Mario Rossi</fullName></test>
-
+<!-- some thought -->
 <p>Even KO can be expanded with extra binders. 
 What I will like to do is split, reduce and concentrate to write more simple code (typical macro/script).
 Inline complex expressions are not allowed. 
-The use of TAGs to connect functions of the model, allow the transpiler to check 
+The use of TAGs to connect functions of the model, allow the transpiler to do some check at 1st transpile time 
 </p>
 
 <script>
