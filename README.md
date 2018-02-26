@@ -4,9 +4,12 @@
 <input id="name" label="Name:">
 <p>Hello @name!</p>
 
-... somewhere the function $$input(node) will replace the node with:
+... somewhere on client or server, the function $$input(node) will replace it with:
+
 <label for="name">Name:</label>
 <input id="name">
+<p>Hello <span name="@name"></span>!</p>
+
 <script> ... </script>
 ```
 ```html
@@ -190,6 +193,7 @@ So what I would like is think to a template engine that at least keep the nature
 
 * common (and free) editors with basic features about auto completition, syntax check and highlight
 * simple and common xml/html parsers
+* or use browser's parse as lib/helper for server
 * make simple build a plugin for auto completition
 * make simple double bind IDE and code 
 * two side rendering (client and/or server side)
@@ -348,18 +352,103 @@ The use of TAGs to connect functions of the model, allow the transpiler to do so
 </script>
 ```
 
-### Another scenario
+## Performance
+**Difficult to think of performance in a variable context** where the client can be more powerfull than server or the connections can be slow or too much number.
 
+The server can do more to make the client faster. But this grows traffic. And today's optimized browser can create DOM elements faster than yesterday. So as as ORM is simpler than SQL and more similar to older DBF, it is slower than SQL because wraps it. But SQL is slower than DBF (we see compilation of SELECT x+y for the first time only in the 2018) but was considered simpler than DBF. Anyway noSQL borns because speed depend on how data is joined and not how stored. But even the distribution/replication/caching of data increase the traffic outside and inside. **Is it the uncertainty principle of Heisemberg?**
+
+Certainly being able to distribute and simplify if part of the surrender can be the responsibility of the client or server, is useful.
+
+** And we can not know if webASM or binaryDOM will become more and more necessary** and up-to-date. The performance superiority of simplified VMs has already been demonstrated, even though they are emulated by Javascript VM, potentially accelerated by specific binary code (Emscripten).
+
+Unless you use getter and setter or Observables as in Knockout, it will be heavy to identify the state change of an array and update the elements accordingly.
+**For now the hypothetical solution is to precode the actions.**
+
+### Common Element Definition
+Looking at https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox, I try to define a base structure that act as base template to model the code to generate.
+```javascript
+	checkbox: {
+		defaultValue: false,	// data type
+		events:["change","input"],
+		commonAttributes:["checked"],
+		IDLAttributes:["checked","value"]
+		methods:["select"]
+	},
+	radio: {
+		inherits: "checkbox"
+	}
+```
+
+### Todolist case
 ```html
-meters: <input me="meters" value="10m">
+Todo:<input id="new" link="add,todos">
+<table>
+<tbody>
+	<tr items="todos" as="item">
+		<td><span style="item.style">@item.todo</span></td>
+		<td><input value="item.done" type="checkbox"></td>
+		<td><button id="delete">delete</button></td>
+	</tr>
+	</each>
+</tbody>
+</table>
 
 <script>
+	var todos = []
 
-	app.meters$change = function() {
-		app.meters += app.meters.subst(-1)!="m"?"m":"";
+	function TodoItem(todo,done) {
+		return {
+			todo:todo,
+			done:done||false,
+			style:function() {
+				if (this.done) 
+					return "text-decoration-line: line-through"
+			}
 		}
+	}
+	
+	function add() {
+		todos.push(new TodoItem(this.value))
+	}
 
 </script>
+```
+
+#### A possible shortest way for a TotoList(?)
+```html
+Todo:<input id="todos.todo">
+<table id="todos"></table>
+
+<script>
+var todos = [];
+var todosTemplate = {
+
+	dataModel: {
+		id: -1,
+		todo: "",
+		done: false,
+		remove: function() {...},
+		},
+		
+	css: "todolist-table",
+	
+	viewModel: {
+		thead: { ... },
+		todo: "",
+		done: "checkbox",
+		remove: "button",
+		},
+		
+	onUpdate:function(item) {
+		...
+		var todoTD = item.$tr.children(0)[0];
+		$( todoTD ).toggleClass("strike",item.done)
+
+	};
+
+}
+</script>
+
 ```
 
 ### Example of widget template and use
@@ -399,7 +488,7 @@ meters: <input me="meters" value="10m">
 
 ```
 
-### Possible widget init
+### Possible widget init/update (?)
 
 
 ```javascript
@@ -567,14 +656,3 @@ function app.$inputBox(element,value,update,caption)
 </app>
 ```
 
-## Performance
-Difficult to think of performance in a system that is divided into 2 processes (client and server) which in turn are divided into 2 or 3 processes (web server, service, database engine, javascript, jquery, framework).
-
-The server can do more to make the client faster. But this grows traffic. And today's optimized browser can create DOM elements faster than yesterday. So as as ORM is simpler than SQL and more similar to older DBF, it is slower than SQL because wraps it. But SQL is slower than DBF (we see compilation of SELECT x+y for the first time only in the 2018) but was considered simpler than DBF. Anyway noSQL borns because speed depend on how data is joined and not how stored. But even this increase the traffic. It is the uncertainty principle of Heisemberg.
-
-Certainly being able to distribute and simplify if part of the surrender can be the responsibility of the client or server, is useful.
-
-We can not know if webASM or binaryDOM will become more and more necessary and up-to-date. The performance superiority of simplified VMs has already been demonstrated, even though they are emulated by Javascript VM, potentially accelerated by specific binary code (Emscripten).
-
-Unless you use getter and setter or Observables as in Knockout, it will be heavy to identify the state change of an array and update the elements accordingly.
-For now the hypothetical solution is to precode the actions.
