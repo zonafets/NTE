@@ -55,6 +55,8 @@ But when a framework or a programming language wrapper(coffee/typescript) define
 
 As the task of to writes adaptable page for device can require more time than write one page for each small, medium, large device, I think that 10 programmer monkeys can make more than one expert, even if they do more logic errors. But ten small logic errors are less than one big analytic error, as in the learning of something of different to make same things.
 
+So I started thinking about a way to define a middleware between Knockout and Vue, ColdFusion and Razor.
+
 **So, this is my brainstorming about something to KISS and RKB (Keep It Simple and Stupid and Recycle Knowledge Base).**
 
 ## Examples of frameworks different templates
