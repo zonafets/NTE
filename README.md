@@ -311,6 +311,16 @@ x: <input id="x" link="line,y" require="#x,#m"> <br>
 m: <input id="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"> <br>
 y: <input id="y" link="reverse_line,x" require="#y,#m" enableIf="m" debug="link"> <br> <br>
 
+<!-- sample 1: alternative -->
+first name: <input id="fName"> <br>
+last name: <input id="lName"> <br>
+full name: <input id="fullName" require="fName,lName" linked="fName,lName" readonly> <br> <br>
+
+<!-- sample 2: alternative -->
+x: <input id="x" link="calc" require="#x,#m"> <br>
+m: <input id="m" link="calc" require="#m,(#y|#x)" update="change,blur" default="1"> <br>
+y: <input id="y" link="calc" require="#y,#m" enableIf="m" debug="link"> <br> <br>
+
 <!-- some thought -->
 <p>Even KO can be expanded with extra binders. 
 What I will like to do is split, reduce and concentrate to write more simple code (typical macro/script).
@@ -334,6 +344,25 @@ The use of TAGs to connect functions of the model, allow the transpiler to do so
 		function yNaN() { return isNaN( me.y || 'a' ) }
 		
 		/** public **/
+		
+		me.calc = function () {
+			var line = true;
+			var reverse = false;
+			switch (this.id) {
+			case "m":
+				if (xNaN() && !yNaN()) {
+					line = false
+					reverse = true
+					}
+				break;
+			case "y":
+				line = false;
+				reverse = true;
+				break;
+			}
+			if (line) me.y = me.m * me.x;
+			if (reverse) me.x = me.y / me.m;
+		}
 	
 		me.line = function () { me.y = me.x * me.m }
 	
@@ -379,6 +408,34 @@ Looking at https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/check
 	radio: {
 		inherits: "checkbox"
 	}
+```
+
+### Alternative
+```html
+<input id="x" label="X:" link="changes">
+<input id="m" label="M:" link="changes">
+<input id="y" label="Y:" link="changes">
+
+<script>
+// listener was added to x,y,m
+
+function changes(ev)
+{
+	var sended=this;
+	if (sender.id=="x") y = m * x;
+	if (sender.id=="y") x = y / m;
+	if (sender.id=="m") {
+		if (x!=null) 
+			y = m * x;
+		else {
+			if (y!=null) 
+				x = y / m; 
+		}
+	}
+}
+
+</script>
+
 ```
 
 ### Todolist case
