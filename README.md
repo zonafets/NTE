@@ -4,7 +4,7 @@
 <input id="name" label="Name:">
 <p>Hello @name!</p>
 
-... somewhere on client or server, the function $$input(node) will replace it with:
+... somewhere on client or server, the function $$input(node) and $$p(node) will replace the above with:
 
 <label for="name">Name:</label>
 <input id="name">
@@ -51,15 +51,17 @@ _What I found in everyone is a loss of naturalness of the basic html and javascr
 
 All this claims the usual aspects: self organization, scalability, less mistakes, smart/fast learning.
 
-But when a framework or a programming language wrapper(coffee/typescript) define a new scope paradigm, this take down 30'years of experience at same level of a beginner.
+The recent React claim to be more scalable than any MVC framework. And what about MVVC as koJS?
 
-As the task of to writes adaptable page for device can require more time than write one page for each small, medium, large device, I think that 10 programmer monkeys can make more than one expert, even if they do more logic errors. But ten small logic errors are less than one big analytic error, as in the learning of something of different to make same things.
+Somebody say that create DOM with code is faster than to download and parse HTML. Is it always true?
+
+But when the paradigm change, 30 years of experience go down to the same level of a beginner. What will be worst? A single big logic mistake or many small bugs?
 
 So I started thinking about a way to define a middleware between Knockout and Vue, ColdFusion and Razor.
 
-**So, this is my brainstorming about something to KISS and RKB (Keep It Simple and Stupid and Recycle Knowledge Base).**
+**This is my brainstorming about something to KISS and RKB (Keep It Simple and Stupid and Recycle Knowledge Base).**
 
-## Examples of frameworks different templates
+## Examples of different templates of the frameworks
 
 ### Knockout template
 ```html
@@ -190,20 +192,18 @@ var WithLink = createReactClass({
 So what I would like is think to a template engine that at least keep the nature of the language, hiding the complex parts, generating hidden code.
 
 ---------------------
-## Goals ##
-**Recycle** basic knowledge and tools:
-
-* common (and free) editors with basic features about auto completition, syntax check and highlight
-* simple and common xml/html parsers
-* or use browser's parse as lib/helper for server
+## Goals
+* **recycle** common (and free) editors with basic features about auto completition, syntax check and highlight
+* **recycle** simple and common xml/html parsers
+* **or** use browser's parse as lib/helper for server
 * make simple build a plugin for auto completition
 * make simple double bind IDE and code 
 * two side rendering (client and/or server side)
   e.g.: from C# to Javascript or from Javascript to C# 
-* two way editing (from/to client/server)
+* **two way rendering**
   e.g.: 
   	&lt;script side="both" type="text/c#" ... &gt;
-        &lt;script side="server" type="text/sql" ... &gt;
+        &lt;input side="server" link = ... &gt;
 
 
 
@@ -263,7 +263,7 @@ Is this part of lost controller?
 		
 		/** public **/
 				
-		me.mNaN = mNaN;
+		me.mNaN = mNaN; // required by <input> of y 
 		
 		me.updatem = function() { m(m()) }
 		
@@ -302,24 +302,25 @@ Is this part of lost controller?
 <h2> NTE ymx expression test</h2>
 
 <!-- sample 1 -->
-first name: <input id="fName" link="fullName"> <br>
-last name: <input id="lName" link="fullName"> <br>
-full name: <input id="fullName" enableIf="fname,lname" readonly> <br> <br>
+x: <input id="x" link="calc" require="#x,#m"> <br>
+m: <input id="m" link="calc" require="#m,(#y|#x)" update="change,blur" default="1"> <br>
+y: <input id="y" link="calc" require="#y,#m" enableIf="m" debug="link"> <br> <br>
 
-<!-- sample 2 -->
+<!-- sample 1: scaled -->
 x: <input id="x" link="line,y" require="#x,#m"> <br>
 m: <input id="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"> <br>
 y: <input id="y" link="reverse_line,x" require="#y,#m" enableIf="m" debug="link"> <br> <br>
 
-<!-- sample 1: alternative -->
+<!-- sample 2 -->
+first name: <input id="fName" link="fullName"> <br>
+last name: <input id="lName" link="fullName"> <br>
+full name: <input id="fullName" enableIf="fname,lname" readonly> <br> <br>
+
+<!-- sample 2: alternative -->
 first name: <input id="fName"> <br>
 last name: <input id="lName"> <br>
 full name: <input id="fullName" require="fName,lName" linked="fName,lName" readonly> <br> <br>
 
-<!-- sample 2: alternative -->
-x: <input id="x" link="calc" require="#x,#m"> <br>
-m: <input id="m" link="calc" require="#m,(#y|#x)" update="change,blur" default="1"> <br>
-y: <input id="y" link="calc" require="#y,#m" enableIf="m" debug="link"> <br> <br>
 
 <!-- some thought -->
 <p>Even KO can be expanded with extra binders. 
@@ -363,6 +364,8 @@ The use of TAGs to connect functions of the model, allow the transpiler to do so
 			if (line) me.y = me.m * me.x;
 			if (reverse) me.x = me.y / me.m;
 		}
+
+		/** scaled version **/
 	
 		me.line = function () { me.y = me.x * me.m }
 	
@@ -384,16 +387,15 @@ The use of TAGs to connect functions of the model, allow the transpiler to do so
 ```
 
 ## Performance
-**Difficult to think of performance in a variable context** where the client can be more powerfull than server or the connections can be slow or too much number.
+**Difficult to think of performance in a variable context** where the client can be more powerfull than server or the connections can be slow or too much.
 
-The server can do more to make the client faster. But this grows traffic. And today's optimized browser can create DOM elements faster than yesterday. So as as ORM is simpler than SQL and more similar to older DBF, it is slower than SQL because wraps it. But SQL is slower than DBF (we see compilation of SELECT x+y for the first time only in the 2018) but was considered simpler than DBF. Anyway noSQL borns because speed depend on how data is joined and not how stored. But even the distribution/replication/caching of data increase the traffic outside and inside. **Is it the uncertainty principle of Heisemberg?**
+The server can do more to make the client faster. But this grows traffic. And today's optimized browser can create DOM elements faster than yesterday. But today binary DOM can be transmitted faster. So as ORM is simpler than SQL even if more similar to older DBF, it is slower than SQL because wraps it. But SQL is slower than DBF (we see compilation of SELECT x+y for the first time only in the 2018). Anyway noSQL borns because speed depend on how data is joined and not how is stored. But, again, even the distribution/replication/caching of data increase the traffic outside and inside. **Is it the uncertainty principle of Heisemberg?**
 
-Certainly being able to distribute and simplify if part of the surrender can be the responsibility of the client or server, is useful.
+Certainly being able to distribute is useful. I've seen this 1st time in the 1997 between Oracle and Personal Oracle.
 
-** And we can not know if webASM or binaryDOM will become more and more necessary** and up-to-date. The performance superiority of simplified VMs has already been demonstrated, even though they are emulated by Javascript VM, potentially accelerated by specific binary code (Emscripten).
+** And what about webASM?**. The performance superiority of simplified VMs has already been demonstrated with Emscripten. A simulated VM under js VM is faster and produces less bugs than javascript code.
 
-Unless you use getter and setter or Observables as in Knockout, it will be heavy to identify the state change of an array and update the elements accordingly.
-**For now the hypothetical solution is to precode the actions.**
+The last is amazin and terrificant at same time.
 
 ### Common Element Definition
 Looking at https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox, I try to define a base structure that act as base template to model the code to generate.
