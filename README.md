@@ -4,7 +4,7 @@
 <input id="name" label="Name:">
 <p>Hello @name!</p>
 
-... somewhere on client or server, the function $$input(node) and $$p(node) will replace the above with:
+... in the client or from server, the functions $$input(node) and $$p will replace the above with:
 
 <label for="name">Name:</label>
 <input id="name">
@@ -395,7 +395,7 @@ Certainly being able to distribute is useful. I've seen this 1st time in the 199
 
 ** And what about webASM?**. The performance superiority of simplified VMs has already been demonstrated with Emscripten. A simulated VM under js VM is faster and produces less bugs than javascript code.
 
-The last is amazin and terrificant at same time.
+The last is amazing and terrificant at same time.
 
 ### Common Element Definition
 Looking at https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox, I try to define a base structure that act as base template to model the code to generate.
