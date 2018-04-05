@@ -1,11 +1,23 @@
 # Natural template engine
 ###### (Under brain storming)
+I asked to myself:
+
+* if javascript doesn't to have to change the HTML, but have only to change references to the CSS
+
+it would be better to compile an application starting from:
+
+* a JSON definition that generates HTML and Javascript code or
+* a complex HTML definition that generates simple HTML and Javascript?
+
+JSON allows us to write deviant code. HTML force us to follow a predefined flow.  
+
+
 ```html
 <input id="name" label="Name:">
 <p>Hello @name!</p>
-
-... in the client or from server, the functions $$input(node) and $$p will replace the above with:
-
+```
+In the client or from server, the functions **input(node,attributes)** and **p(...)** will replace the above with:
+```html
 <label for="name">Name:</label>
 <input id="name">
 <p>Hello <span name="@name"></span>!</p>
@@ -13,35 +25,38 @@
 <script> ... </script>
 ```
 ```html
-<template name="inputBox">
+<template name="input">
 	<!-- bootstrap wrapper -->
 	<div class="form-group">
 		<label class="control-label @@Cols.Label">
 			@label
 		</label>
 		<div class="@@Cols.Input">
-			<input id="@bind" link="@link" class=...>
+			<input id="@id" link="@link" class=...>
 		</div>
 	</div>
 </template>
 
 <app>
-	<inputBox label="First Name" link="log">fname</inputBox>
-	<inputBox label="Last Name"  link="log">lname</inputBox>
+	<input label="First Name" id="fname" link="log,fullname">
+	<input label="Last Name" id="lname" link="log,fullname">
+	<p>Hello @fullname!</p>
 </app>
 
 <script>
-	app.log = function() {
-		console.log("Full name:"+fname+" "+lname);
+	var app = {
+		log: function(ev) {
+			...
+		}
 	}
 </script>
-
-<script type="text/C#">
-
-	<!-- convert javascript to C# or C# to javascript? -->
-	
-</script>
 ```
+More related to webasm or other.
+```html
+<script type="text/C#">...</script>
+<script type="text/SQL">...</script>
+```
+
 
 After more than thirty years developing application with various languages on different platforms, I came to the web applications.
 
