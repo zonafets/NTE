@@ -2,12 +2,14 @@
 ###### (Under brain storming)
 I asked to myself:
 
-* if javascript doesn't to have to change the HTML, but have only to change references to the CSS
+* if javascript doesn't to have to change the HTML, but  only to change references to the CSS
+* if Razor mix C# into HTML
+* if React mix HTML into Javascript
 
-it would be better to compile an application starting from:
+it would be better to define an application starting:
 
-* a JSON definition that generates HTML and Javascript code or
-* a complex HTML definition that generates simple HTML and Javascript?
+* from a JSON definition that generates HTML and Javascript code
+* or from a complex HTML definition that generates simple HTML and Javascript?
 
 JSON allows us to write deviant code. HTML force us to follow a predefined flow.  
 
