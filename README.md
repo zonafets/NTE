@@ -26,6 +26,9 @@ In the client or from server, the functions **input(node,attributes)** and **p(.
 
 <script> ... </script>
 ```
+
+##### A more complex example with _code_ interaction.
+
 ```html
 <template name="input">
 	<!-- bootstrap wrapper -->
@@ -53,14 +56,16 @@ In the client or from server, the functions **input(node,attributes)** and **p(.
 	}
 </script>
 ```
-More related to webasm or other.
+##### And related to webasm or other.
 ```html
 <script type="text/C#">...</script>
 <script type="text/SQL">...</script>
 ```
 
+##### I'll examine the briefest way to render a pad, similar to smartphone keyboard.
+![PAD](imgs/pad.png)
 
-After more than thirty years developing application with various languages on different platforms, I came to the web applications.
+After more than fifteen years developing application with various languages on different platforms, I came to the web applications.
 
 My real experience was with html, javascript, jquery, bootstrap and knockout but I took a look to Angular, Vue, React, beb components in the war of frameworks.
 
@@ -222,6 +227,34 @@ So what I would like is think to a template engine that at least keep the nature
   	&lt;script side="both" type="text/c#" ... &gt;
         &lt;input side="server" link = ... &gt;
 
+### Expression case
+(without validation/Error management)
+```html
+<input id="x" label="X:" link="changes">
+<input id="m" label="M:" link="changes">
+<input id="y" label="Y:" link="changes">
+
+<script>
+// listeners will be automatically added to x, y, z
+
+function changes(ev)
+{
+	var sended=this;
+	if (sender.id=="x") y = m * x;
+	if (sender.id=="y") x = y / m;
+	if (sender.id=="m") {
+		if (x!=null) 
+			y = m * x;
+		else {
+			if (y!=null) 
+				x = y / m; 
+		}
+	}
+}
+
+</script>
+
+```
 
 
 ### Expression case study in Knockout
@@ -414,6 +447,107 @@ Certainly being able to distribute is useful. I've seen this 1st time in the 199
 
 The last is amazing and terrificant at same time.
 
+### Pad 
+![PAD](imgs/pad.png)
+
+- F1, F2, F3: have fixed content
+- F1,F2: are mutually exclusive
+- B1-B8: are mutually exclusive
+- F3: change view of B1-B8
+- F4: enable/disable filter selected with F3
+
+After two or three revisions, this code split functionality between KO inline data-bind, subscriptions and some trick old style and JQuery magic.
+
+** What I'll like is(utopically) keep all into HTML **.
+
+#### Initial code 
+```html
+<!-- ko with:PadFilter -->
+<div class="row students-filter" data-bind="click: EventHandler">
+    <div class="col-xs-3">
+    	<div class="col-sm-4" id="Primary" title="filter by primary school">
+    		<i class="fa fa-cubes"></i>
+    		<span class="badge" data-bind="text:NumOfPS"></span>
+    	</div>
+    	<div class="col-sm-4" id="Secondary" title="filter by secondary school">
+    		<i class="fa fa-graduation-cap"></i>
+    		<span class="badge" data-bind="text:NumOfSS"></span>
+    	</div>
+    	<div class="col-sm-4" title="filter by attendance type" id="Type">
+    		<i class="fa fa-filter"></i>
+    	</div>
+    </div>
+
+    <div class="col-xs-3">
+    	<div class="col-sm-4" id="ABC">ABC</div>
+    	<div class="col-sm-4" id="DEF">DEF</div>
+    	<div class="col-sm-4" id="GHI">GHI</div>
+    </div>
+    <div class="col-xs-3">
+    	<div class="col-sm-4" id="JKL">JKL</div>
+    	<div class="col-sm-4" id="MNO">MNO</div>
+    	<div class="col-sm-4" id="PQRS">PQRS</div>
+    </div>
+    <div class="col-xs-3">
+    	<div class="col-sm-4" id="TUV">TUV</div>
+    	<div class="col-sm-4" id="WXYZ">WXYZ</div>
+    	<div id="AttendanceType" class="col-sm-4" style="background:#ffffb0" title="select attendance type">
+            &nbsp;
+    	</div>
+    </div>
+</div>
+<!-- /ko -->
+
+<script>
+...
+
+    vm.PadFilter.Level.subscribe( (value)=> {
+        if (value == SchoolInfoType.Primary) {
+            vm.PadFilter.Primary(true)
+            vm.PadFilter.Secondary(false)
+        } else
+        if (value == SchoolInfoType.Secondary) {
+            vm.PadFilter.Primary(false)
+            vm.PadFilter.Secondary(true)
+        }
+        vm.PadFilter.update()
+    })
+
+    vm.PadFilter.Primary.subscribe( (value)=> {
+        $("#Primary").toggleClass("filter-selected",value)
+    })
+
+...
+
+   vm.PadFilter.EventHandler = function (data,ev) {
+        
+    	var ff = this;
+        var node = ev.target;
+    	
+    	if (node.id == "")
+            node = ev.target.parentElement
+
+        var id = node.id
+
+        switch (id) {
+        case 'Primary':
+            ff.Level(SchoolInfoType.Primary)
+            return
+        case 'Secondary':
+            ff.Level(SchoolInfoType.Secondary)
+            return
+        case 'Type':
+        case 'AttendanceType':
+            return
+        default:
+            ff.T9(id)
+        }
+    }
+    
+...
+</script>
+```
+
 ### Common Element Definition
 Looking at https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox, I try to define a base structure that act as base template to model the code to generate.
 ```javascript
@@ -427,34 +561,6 @@ Looking at https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/check
 	radio: {
 		inherits: "checkbox"
 	}
-```
-
-### Alternative
-```html
-<input id="x" label="X:" link="changes">
-<input id="m" label="M:" link="changes">
-<input id="y" label="Y:" link="changes">
-
-<script>
-// listener was added to x,y,m
-
-function changes(ev)
-{
-	var sended=this;
-	if (sender.id=="x") y = m * x;
-	if (sender.id=="y") x = y / m;
-	if (sender.id=="m") {
-		if (x!=null) 
-			y = m * x;
-		else {
-			if (y!=null) 
-				x = y / m; 
-		}
-	}
-}
-
-</script>
-
 ```
 
 ### Todolist case
