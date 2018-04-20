@@ -501,11 +501,13 @@ After two or three revisions, this code split functionality between KO inline da
 <!-- ko with:PadFilter -->
 <div class="row students-filter" data-bind="click: EventHandler, visible:Alpha">
     <div class="col-xs-3">
-    	<div class="col-sm-4" id="Primary" title="filter by primary school">
+    	<div class="col-sm-4" id="Primary" title="filter by primary school"
+             data-bind="css:{'filter-selected':Level() == SchoolInfoType.Primary}">
     		<i class="fa fa-cubes"></i>
     		<span class="badge" data-bind="text:NumOfPS"></span>
     	</div>
-    	<div class="col-sm-4" id="Secondary" title="filter by secondary school">
+    	<div class="col-sm-4" id="Secondary" title="filter by secondary school"
+             data-bind="css:{'filter-selected':Level() == SchoolInfoType.Secondary}">
     		<i class="fa fa-graduation-cap"></i>
     		<span class="badge" data-bind="text:NumOfSS"></span>
     	</div>
@@ -530,17 +532,17 @@ After two or three revisions, this code split functionality between KO inline da
             <i class="fa fa-cutlery"></i>
             <!-- /ko -->            
         </div>
-    	<div class="col-sm-4" data-t9="DEF">DEF</div>
-    	<div class="col-sm-4" data-t9="GHI">GHI</div>
+    	<div class="col-sm-4" id="T2" data-t9="DEF" data-flt="2">DEF</div>
+    	<div class="col-sm-4" id="T3" data-t9="GHI" data-flt="3">GHI</div>
     </div>
     <div class="col-xs-3">
-    	<div class="col-sm-4" data-t9="JKL">JKL</div>
-    	<div class="col-sm-4" data-t9="MNO">MNO</div>
-    	<div class="col-sm-4" data-t9="PQRS">PQRS</div>
+    	<div class="col-sm-4" id="T4" data-t9="JKL" data-flt="4">JKL</div>
+    	<div class="col-sm-4" id="T5" data-t9="MNO" data-flt="5">MNO</div>
+    	<div class="col-sm-4" id="T6" data-t9="PQRS" data-flt="6">PQRS</div>
     </div>
     <div class="col-xs-3">
-    	<div class="col-sm-4" data-t9="TUV">TUV</div>
-    	<div class="col-sm-4" data-t9="WXYZ">WXYZ</div>
+    	<div class="col-sm-4" id="T7" data-t9="TUV" data-flt="7">TUV</div>
+    	<div class="col-sm-4" id="T8" data-t9="WXYZ" data-flt="8">WXYZ</div>
     	<div id="AttendanceType" class="col-sm-4" style="background:#ffffb0" title="select attendance type">
             &nbsp;
     	</div>
@@ -552,26 +554,14 @@ After two or three revisions, this code split functionality between KO inline da
 <!-- /ko -->
 
 <script>
-...
+    ...
 
-    vm.PadFilter.Level.subscribe( (value)=> {
-        if (value == SchoolInfoType.Primary) {
-            vm.PadFilter.Primary(true)
-            vm.PadFilter.Secondary(false)
-        }
-        else if (value == SchoolInfoType.Secondary) {
-            vm.PadFilter.Primary(false)
-            vm.PadFilter.Secondary(true)
-        }
-        vm.PadFilter.update()
-    })
+    vm.PadFilter.T9.subscribe( ()=>{vm.filterStudents()} )
+    vm.PadFilter.Level.subscribe( ()=>{vm.filterStudents()} )
+    
+    @* -------------------------------------------------------------------------- *@
 
-    vm.PadFilter.Primary.subscribe( (value)=> {
-        $("#Primary").toggleClass("filter-selected",value)
-    })
-
-...
-
+    /// called on press of a button of filter pad 
     vm.PadFilter.EventHandler = function (data,ev)
     {
     	var ff = this;
@@ -596,13 +586,22 @@ After two or three revisions, this code split functionality between KO inline da
             return
         default:
             if (id == "") return
-            debugger
-            if (ff.Alpha())
+            if (ff.Alpha()) {
+                var fndBtn = (val) => {return $("[data-t9='"+val+"'")}
+                var oldBtn = fndBtn(ff.T9())
+                var newBtn = fndBtn(node.dataset["t9"])
+                oldBtn.toggleClass('filter-selected')
+                if (oldBtn.is(newBtn)) {
+                    ff.T9("")
+                    return
+                }
+                newBtn.toggleClass('filter-selected')
                 ff.T9(node.dataset["t9"])
+            }
         }
     }
     
-...
+    ...
 </script>
 ```
 
