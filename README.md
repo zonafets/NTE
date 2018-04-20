@@ -227,7 +227,7 @@ So what I would like is think to a template engine that at least keep the nature
   	&lt;script side="both" type="text/c#" ... &gt;
         &lt;input side="server" link = ... &gt;
 
-### Expression case
+### Expression case (simplified)
 (without validation/Error management)
 ```html
 <input id="x" label="X:" link="changes">
@@ -235,7 +235,7 @@ So what I would like is think to a template engine that at least keep the nature
 <input id="y" label="Y:" link="changes">
 
 <script>
-// listeners will be automatically added to x, y, z
+// "change" listeners will be automatically added to x, m, y
 
 function changes(ev)
 {
@@ -348,6 +348,9 @@ Is this part of lost controller?
 * See [complete code](./src/nte_ymx_expression_test_l1.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l1.html) and [transpiled](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test.js) (layer 1)
 
 * See [complete code](./src/nte_ymx_expression_test_l2.html) in [action](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test_l2.html) and [transpiled](https://rawgit.com/zonafets/NTE/master/src/nte_ymx_expression_test.js) (layer 2).
+
+##### Sample 1
+
 ```html
 <h2> NTE ymx expression test</h2>
 
@@ -355,29 +358,6 @@ Is this part of lost controller?
 x: <input id="x" link="calc" require="#x,#m"> <br>
 m: <input id="m" link="calc" require="#m,(#y|#x)" update="change,blur" default="1"> <br>
 y: <input id="y" link="calc" require="#y,#m" enableIf="m" debug="link"> <br> <br>
-
-<!-- sample 1: scaled -->
-x: <input id="x" link="line,y" require="#x,#m"> <br>
-m: <input id="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"> <br>
-y: <input id="y" link="reverse_line,x" require="#y,#m" enableIf="m" debug="link"> <br> <br>
-
-<!-- sample 2 -->
-first name: <input id="fName" link="fullName"> <br>
-last name: <input id="lName" link="fullName"> <br>
-full name: <input id="fullName" enableIf="fname,lname" readonly> <br> <br>
-
-<!-- sample 2: alternative -->
-first name: <input id="fName"> <br>
-last name: <input id="lName"> <br>
-full name: <input id="fullName" require="fName,lName" linked="fName,lName" readonly> <br> <br>
-
-
-<!-- some thought -->
-<p>Even KO can be expanded with extra binders. 
-What I will like to do is split, reduce and concentrate to write more simple code (typical macro/script).
-Inline complex expressions are not allowed. 
-The use of TAGs to connect functions of the model, allow the transpiler to do some check at 1st transpile time 
-</p>
 
 <script>
 
@@ -414,8 +394,38 @@ The use of TAGs to connect functions of the model, allow the transpiler to do so
 			if (line) me.y = me.m * me.x;
 			if (reverse) me.x = me.y / me.m;
 		}
+		
+	}
+	
+</script>
+```
 
-		/** scaled version **/
+##### Sample 1: ready to scale
+
+```html
+<h2> NTE ymx expression test</h2>
+
+<!-- sample 1: scaled -->
+x: <input id="x" link="line,y" require="#x,#m"> <br>
+m: <input id="m" link="line_or_reverse,y,x" require="#m,(#y|#x)" update="change,blur" default="1"> <br>
+y: <input id="y" link="reverse_line,x" require="#y,#m" enableIf="m" debug="link"> <br> <br>
+
+<script>
+
+	var app = new function() {
+		
+		var me = this;
+				
+		/** properties **/
+		
+		me.x = 3
+		
+		/** private **/
+		
+		function xNaN() { return isNaN( me.x || 'a' ) }
+		function yNaN() { return isNaN( me.y || 'a' ) }
+		
+		/** public **/
 	
 		me.line = function () { me.y = me.x * me.m }
 	
@@ -428,6 +438,32 @@ The use of TAGs to connect functions of the model, allow the transpiler to do so
 		}
 		
 		me.reverse_line = function() { me.x = me.y / me.m }
+				
+	}
+	
+</script>
+```
+
+##### Sample 2
+
+```html
+<h2>NTE ymx expression test</h2>
+
+<!-- sample 2 -->
+first name: <input id="fName" link="fullName"> <br>
+last name: <input id="lName" link="fullName"> <br>
+full name: <input id="fullName" enableIf="fname,lname" readonly> <br> <br>
+
+<!-- sample 2: alternative -->
+first name: <input id="fName"> <br>
+last name: <input id="lName"> <br>
+full name: <input id="fullName" required="fName,lName" readonly> <br> <br>
+
+<script>
+
+	var app = new function() {
+		
+		var me = this;
 		
 		me.fullName = function() { return me.fName + " " + me.lName }
 		
@@ -463,7 +499,7 @@ After two or three revisions, this code split functionality between KO inline da
 #### Initial code 
 ```html
 <!-- ko with:PadFilter -->
-<div class="row students-filter" data-bind="click: EventHandler">
+<div class="row students-filter" data-bind="click: EventHandler, visible:Alpha">
     <div class="col-xs-3">
     	<div class="col-sm-4" id="Primary" title="filter by primary school">
     		<i class="fa fa-cubes"></i>
@@ -473,28 +509,45 @@ After two or three revisions, this code split functionality between KO inline da
     		<i class="fa fa-graduation-cap"></i>
     		<span class="badge" data-bind="text:NumOfSS"></span>
     	</div>
+        <!-- ko if: FilterByAttendanceEnabled -->
     	<div class="col-sm-4" title="filter by attendance type" id="Type">
     		<i class="fa fa-filter"></i>
     	</div>
+        <!-- /ko -->
+        <!-- ko ifnot: FilterByAttendanceEnabled -->
+        <div class="col-sm-4">
+            &nbsp;
+        </div>
+        <!-- /ko -->
     </div>
-
+    
     <div class="col-xs-3">
-    	<div class="col-sm-4" id="ABC">ABC</div>
-    	<div class="col-sm-4" id="DEF">DEF</div>
-    	<div class="col-sm-4" id="GHI">GHI</div>
+    	<div class="col-sm-4" id="T1" data-t9="ABC" data-flt="1">
+            <!-- ko if: Alpha -->
+            ABC
+            <!-- /ko -->
+            <!-- ko ifnot: Alpha -->
+            <i class="fa fa-cutlery"></i>
+            <!-- /ko -->            
+        </div>
+    	<div class="col-sm-4" data-t9="DEF">DEF</div>
+    	<div class="col-sm-4" data-t9="GHI">GHI</div>
     </div>
     <div class="col-xs-3">
-    	<div class="col-sm-4" id="JKL">JKL</div>
-    	<div class="col-sm-4" id="MNO">MNO</div>
-    	<div class="col-sm-4" id="PQRS">PQRS</div>
+    	<div class="col-sm-4" data-t9="JKL">JKL</div>
+    	<div class="col-sm-4" data-t9="MNO">MNO</div>
+    	<div class="col-sm-4" data-t9="PQRS">PQRS</div>
     </div>
     <div class="col-xs-3">
-    	<div class="col-sm-4" id="TUV">TUV</div>
-    	<div class="col-sm-4" id="WXYZ">WXYZ</div>
+    	<div class="col-sm-4" data-t9="TUV">TUV</div>
+    	<div class="col-sm-4" data-t9="WXYZ">WXYZ</div>
     	<div id="AttendanceType" class="col-sm-4" style="background:#ffffb0" title="select attendance type">
             &nbsp;
     	</div>
     </div>
+</div>
+<div class="row students-filter" data-bind="click: EventHandler, visible:!Alpha">
+    TODO: Service filters
 </div>
 <!-- /ko -->
 
@@ -505,8 +558,8 @@ After two or three revisions, this code split functionality between KO inline da
         if (value == SchoolInfoType.Primary) {
             vm.PadFilter.Primary(true)
             vm.PadFilter.Secondary(false)
-        } else
-        if (value == SchoolInfoType.Secondary) {
+        }
+        else if (value == SchoolInfoType.Secondary) {
             vm.PadFilter.Primary(false)
             vm.PadFilter.Secondary(true)
         }
@@ -519,8 +572,8 @@ After two or three revisions, this code split functionality between KO inline da
 
 ...
 
-   vm.PadFilter.EventHandler = function (data,ev) {
-        
+    vm.PadFilter.EventHandler = function (data,ev)
+    {
     	var ff = this;
         var node = ev.target;
     	
@@ -537,10 +590,15 @@ After two or three revisions, this code split functionality between KO inline da
             ff.Level(SchoolInfoType.Secondary)
             return
         case 'Type':
+            ff.Alpha(!ff.Alpha())
+            return
         case 'AttendanceType':
             return
         default:
-            ff.T9(id)
+            if (id == "") return
+            debugger
+            if (ff.Alpha())
+                ff.T9(node.dataset["t9"])
         }
     }
     
