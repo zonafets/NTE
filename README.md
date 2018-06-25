@@ -68,6 +68,9 @@ In the client or from server, the functions **input(node)** and **p(...)** will 
 <script type="text/SQL">...</script>
 ```
 
+##### An example of possible replacements with trans-formations
+![replaces](imgs/replaces.png)
+
 ##### I'll examine the briefest way to render a pad, similar to smartphone keyboard.
 ![PAD](imgs/pad.png)
 
