@@ -11,6 +11,12 @@ it would be better to define an application starting:
 * from a JSON definition that generates HTML and Javascript code
 * or from a complex HTML definition that generates simple HTML and Javascript?
 
+And:
+
+* when change from View to Add/Edit tab, I need to clean data
+* so the Edit ViewModel must know that the app enter into its tab or the app must know the Edit object
+* we call the App.Add(), it clean data and change tab
+
 JSON allows us to write deviant code. HTML force us to follow a predefined flow.  
 
 
@@ -18,10 +24,10 @@ JSON allows us to write deviant code. HTML force us to follow a predefined flow.
 <input id="name" label="Name:">
 <p>Hello @name!</p>
 ```
-In the client or from server, the functions **input(node,attributes)** and **p(...)** will replace the above with:
+In the client or from server, the functions **input(node)** and **p(...)** will replace the above with:
 ```html
 <label for="name">Name:</label>
-<input id="name">
+<input id="name" onchange="nameChange(this)">
 <p>Hello <span name="@name"></span>!</p>
 
 <script> ... </script>
@@ -194,7 +200,8 @@ Name:<input type='text' ng-model= "Name"><br>
 Message:<p>Hello {{Name}}!</p>
 ```
 
-### React
+### React 
+(one of many versions I found)
 ```javascript
 var createReactClass = require('create-react-class');
 
@@ -496,23 +503,29 @@ After two or three revisions, this code split functionality between KO inline da
 
 ** What I'll like is(utopically) keep all into HTML **.
 
-#### Initial code 
+#### Initial code
+This is a mixed solution. We can (or have trouble to) decide to move behaviour between inline html expressions or leave it in the code. The HTML cannot be splitted and optimized how javascript.
 ```html
 <!-- ko with:PadFilter -->
 <div class="row students-filter" data-bind="click: EventHandler, visible:Alpha">
+
     <div class="col-xs-3">
-    	<div class="col-sm-4" id="Primary" title="filter by primary school"
+
+    	<div class="col-sm-4" 
+    	     id="Primary" title="filter by primary school"
              data-bind="css:{'filter-selected':Level() == SchoolInfoType.Primary}">
     		<i class="fa fa-cubes"></i>
     		<span class="badge" data-bind="text:NumOfPS"></span>
     	</div>
-    	<div class="col-sm-4" id="Secondary" title="filter by secondary school"
+    	<div class="col-sm-4" 
+    	     id="Secondary" title="filter by secondary school"
              data-bind="css:{'filter-selected':Level() == SchoolInfoType.Secondary}">
     		<i class="fa fa-graduation-cap"></i>
     		<span class="badge" data-bind="text:NumOfSS"></span>
     	</div>
         <!-- ko if: FilterByAttendanceEnabled -->
-    	<div class="col-sm-4" title="filter by attendance type" id="Type">
+    	<div class="col-sm-4" 
+    	     id="Type" title="filter by attendance type">
     		<i class="fa fa-filter"></i>
     	</div>
         <!-- /ko -->
@@ -521,9 +534,11 @@ After two or three revisions, this code split functionality between KO inline da
             &nbsp;
         </div>
         <!-- /ko -->
+
     </div>
     
     <div class="col-xs-3">
+
     	<div class="col-sm-4" id="T1" data-t9="ABC" data-flt="1">
             <!-- ko if: Alpha -->
             ABC
@@ -534,20 +549,29 @@ After two or three revisions, this code split functionality between KO inline da
         </div>
     	<div class="col-sm-4" id="T2" data-t9="DEF" data-flt="2">DEF</div>
     	<div class="col-sm-4" id="T3" data-t9="GHI" data-flt="3">GHI</div>
+
     </div>
+
     <div class="col-xs-3">
+
     	<div class="col-sm-4" id="T4" data-t9="JKL" data-flt="4">JKL</div>
     	<div class="col-sm-4" id="T5" data-t9="MNO" data-flt="5">MNO</div>
     	<div class="col-sm-4" id="T6" data-t9="PQRS" data-flt="6">PQRS</div>
+
     </div>
+
     <div class="col-xs-3">
+
     	<div class="col-sm-4" id="T7" data-t9="TUV" data-flt="7">TUV</div>
     	<div class="col-sm-4" id="T8" data-t9="WXYZ" data-flt="8">WXYZ</div>
     	<div id="AttendanceType" class="col-sm-4" style="background:#ffffb0" title="select attendance type">
             &nbsp;
     	</div>
+
     </div>
-</div>
+
+</div> <!-- view of alpha keyb. layout -->
+
 <div class="row students-filter" data-bind="click: EventHandler, visible:!Alpha">
     TODO: Service filters
 </div>
@@ -603,6 +627,31 @@ After two or three revisions, this code split functionality between KO inline da
     
     ...
 </script>
+```
+
+#### Ideal solution (work in progress)
+
+```html
+<filter-pad>
+	<col>
+		<primary></primary>
+		<secondary></secondary>
+		<type></type>
+	</col>
+	<type-alpha>
+		<col>
+			<btn> ABC </btn>
+			<btn> DEF </btn>
+			<btn> GHI </btn>
+		</col>
+		<col>
+			...
+		</col>
+	</type-alpha>
+	<type-service>
+		...
+	</type-service>
+</filter-pad>
 ```
 
 ### Common Element Definition
