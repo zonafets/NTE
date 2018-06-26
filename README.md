@@ -1,23 +1,15 @@
 # Natural template engine
 ###### (Under brain storming)
-I asked to myself:
 
-* if javascript doesn't to have to change the HTML, but  only to change references to the CSS
-* if Razor mix C# into HTML
-* if React mix HTML into Javascript
+**Like** many of us, I asked myself these amletic questions:
 
-it would be better to define an application starting:
+- mix js with html or keep them separated?
+- JSON or HTML?
+- render server or client side?
 
-* from a JSON definition that generates HTML and Javascript code
-* or from a complex HTML definition that generates simple HTML and Javascript?
+I have and I am looking for a single answer, without inventing a new language or deviating excessively from the common syntax and semantics.
 
-And:
-
-* when change from View to Add/Edit tab, I need to clean data
-* so the Edit ViewModel must know that the app enter into its tab or the app must know the Edit object
-* we call the App.Add(), it clean data and change tab
-
-JSON allows us to write deviant code. HTML force us to follow a predefined flow.  
+For now I have produced the following.
 
 
 ```html
@@ -36,7 +28,7 @@ In the client or from server, the functions **input(node)** and **p(...)** will 
 ##### A more complex example with _code_ interaction.
 
 ```html
-<template name="input">
+<template id="input" if-parent="form">
 	<!-- bootstrap wrapper -->
 	<div class="form-group">
 		<label class="control-label @@Cols.Label">
@@ -48,17 +40,22 @@ In the client or from server, the functions **input(node)** and **p(...)** will 
 	</div>
 </template>
 
-<app>
-	<input label="First Name" id="fname" link="log,fullname">
-	<input label="Last Name" id="lname" link="log,fullname">
-	<p>Hello @fullname!</p>
-</app>
+<template id="birthday-age">...</template>
+
+<form vm="app">
+	<input label="First Name" id="fname">
+	<input label="Last Name" id="lname">
+	<p sync="fname,lname">Hello @fullname!</p>
+	<birthday-age></birthday-age>
+<form>
 
 <script>
 	var app = {
-		log: function(ev) {
+		fname:"", lname:"", birthday:"",
+		fullname: function() {
 			...
 		}
+		age: function() { ... }
 	}
 </script>
 ```
