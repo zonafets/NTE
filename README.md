@@ -4,12 +4,14 @@
 **Like** many of us, I asked myself these amletic questions:
 
 - mix js with html or keep them separated?
-- JSON or HTML?
-- render server or client side?
+- JSON or X(A)ML?
+- what, when where render in which side?
 
-I have and I am looking for a single answer, without inventing a new language or deviating excessively from the common syntax and semantics.
+I am looking for a single answer, without inventing in a new language or deviating excessively from the common way.
 
-For now I have produced the following.
+**Eventually avoid test code through generated code.**
+
+Here is the classic "hello world" sample.
 
 
 ```html
@@ -19,13 +21,55 @@ For now I have produced the following.
 In the client or from server, the functions **input(node)** and **p(...)** will replace the above with:
 ```html
 <label for="name">Name:</label>
-<input id="name" onchange="nameChange(this)">
+<input id="name" onchange="NTE.notify('@name',this)">
 <p>Hello <span name="@name"></span>!</p>
 
 <script> ... </script>
 ```
 
-##### A more complex example with _code_ interaction.
+** But what about somethin more complex? **
+```html
+<child></child>
+```
+
+the above must eventually result in:
+
+```html
+<label>Child name:
+	<input id="person.child.fname">
+	<input id="person.child.lname">
+</label>
+<label>father name:
+	<input id="person.father.fname">
+	<input id="person.father.lname">
+</label>
+<label>mother name:
+	<input id="person.mother.fname">
+	<input id="person.mother.lname">
+</label>
+<script>
+	// every event link and data check
+</script>
+```
+
+because previously we defined:
+```html
+<component id="person" data-source="person">
+	<label>@label
+		<input id="fname">
+		<input id="lname">
+	</label>
+</component>
+
+<component id="child" inherit="person" data-source="childs" label="Child name">
+	<person id="father" data-source="fathers" label="@id name"></person>
+	<person id="mother" data-source="mothers" label="@id name"></person>
+</component>
+```
+
+**This "middle" code is more complex than the preiovious** and write a new framework is hard. 
+
+##### A more chic example (I'm playing with imagination)
 
 ```html
 <template id="input" if-parent="form">
@@ -59,10 +103,10 @@ In the client or from server, the functions **input(node)** and **p(...)** will 
 	}
 </script>
 ```
-##### And related to webasm or other.
+##### And what about webasm.
 ```html
-<script type="text/C#">...</script>
-<script type="text/SQL">...</script>
+<script type="C#">...</script>
+<script type="SQL">...</script>
 ```
 
 ##### An example of possible replacements with trans-formations
@@ -73,21 +117,42 @@ In the client or from server, the functions **input(node)** and **p(...)** will 
 
 After more than fifteen years developing application with various languages on different platforms, I came to the web applications.
 
-My real experience was with html, javascript, jquery, bootstrap and knockout but I took a look to Angular, Vue, React, beb components in the war of frameworks.
+My real experience was with html, javascript, jquery, bootstrap and knockout but I took a look to Angular, Vue, React and web components.
+
+**Is the the war of frameworks and we are soldiers that die for the generals' foibles**
 
 _What I found in everyone is a loss of naturalness of the basic html and javascript languages._
 
-All this claims the usual aspects: self organization, scalability, less mistakes, smart/fast learning.
+What's interesting is that instead of hiring 10 javascript monkey programmers (I'm one of them), companies hire 10 expert (programmers?) in 10 different frameworks.
 
-The recent React claim to be more scalable than any MVC framework. And what about MVVC as koJS?
+I admit that MVVC is brilliant and convenient for testing logic. But even MVC was.
 
-Somebody say that create DOM with code is faster than to download and parse HTML. Is it always true?
+From N framework there were just as many for the tests. But do you test the code or the logic?
 
-But when the paradigm change, 30 years of experience go down to the same level of a beginner. What will be worst? A single big logic mistake or many small bugs?
+React claim to be better than others.
 
-So I started thinking about a way to define a middleware between Knockout and Vue, ColdFusion and Razor.
+After a few years each framework reaches its limit (or the limit of human experience?)
 
-**This is my brainstorming about something to KISS and RKB (Keep It Simple and Stupid and Recycle Knowledge Base).**
+**What's the middle way?**
+
+With MSAccess, we define a table and its relationships. With a click on one of the wizards, we generate his representation. Then we move the controls and complete with code attached to the events. 
+In one day we do the work of one week. The generated code is already tested at 80%.
+
+Each time we can improve quality of the structure and the design. 
+
+The BeforeUpdate trigger/event can split data into normalized tables. We can defer the operation to improve performance. 
+
+The AfterUpdate trigger/event can clone data into backup server.
+
+This triggers combined can transform MSAccess in a ORM for MongoDB without rewrite the whole application in Angular with RESTfull API.
+
+Unfortunatelly MS means Microsoft that means closed source that means closed mind.
+
+Unfortunately MS means Microsoft that means closed source that means closed mind. But open source not necessarily means open mind.
+
+Personally I used too a table from the same database to keep the change log. I could have exported it in the ticket system (if this "complete system" had admitted this function) or VCS.
+
+**This is my (work-in-progress) brainstorming about something to KISS and RKB (Keep It Simple and Stupid and Recycle Knowledge Base).**
 
 ## Examples of different templates of the frameworks
 
