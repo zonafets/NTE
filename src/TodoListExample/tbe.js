@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						member.splice(0,1)				// li[]
 						hiddenProperty(member,"$element",node)
 						$template.$element$style$display = node.style.display
-						// member.$element.style.display = "none"
+						member.$element.style.display = "none"
 						hiddenProperty(member,"$template",$template) 	// li.$template
 						hiddenProperty(parent,"$rowTemplate",$template) 	// todolist.$rowTemplate -> li.$template
 						member = $template 				// go inside template
