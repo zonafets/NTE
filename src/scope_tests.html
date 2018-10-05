@@ -1,0 +1,22 @@
+<html>
+<body>
+	<control>content:<hello></hello></control>
+	<script>
+		var html = {
+			control: function() {
+				debugger
+				var hello = this.select("hello")
+				hello.innerText="Test OK!"
+			}
+		}
+		for (var key in html) {
+			var ctrl = document.querySelector(key)
+			ctrl.select = tag => ctrl.querySelector(tag) 
+			var original = html[key]
+			html[key] = original.bind(ctrl)
+			html[key].__proto__.tag=key
+		}
+		html.control()
+	</script>
+</body>
+</html>

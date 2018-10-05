@@ -1,0 +1,784 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"replace",
+				"replaceNode"
+			],
+			[
+				"pidx",
+				"pidxitem"
+			],
+			[
+				"chi",
+				"childElementCount"
+			],
+			[
+				"text",
+				"textContent"
+			],
+			[
+				"first",
+				"firstElementChild\t(main.js)"
+			],
+			[
+				"member",
+				"memberNode"
+			],
+			[
+				"chil",
+				"children"
+			],
+			[
+				"scr",
+				"scripts"
+			],
+			[
+				"colle",
+				"collectTextNodes\t(nte.js)"
+			],
+			[
+				"emp",
+				"emptyNode"
+			],
+			[
+				"que",
+				"querySelector"
+			],
+			[
+				"collect",
+				"collectTextNodes"
+			],
+			[
+				"inner",
+				"innerText"
+			],
+			[
+				"prot",
+				"prototype"
+			],
+			[
+				"innert",
+				"innerHTML"
+			],
+			[
+				"line",
+				"line-height\tproperty"
+			],
+			[
+				"cha",
+				"changeView"
+			],
+			[
+				"has",
+				"hashes"
+			],
+			[
+				"quer",
+				"querySelectorAll"
+			],
+			[
+				"firs",
+				"firstElementChild"
+			],
+			[
+				"ind",
+				"indexOf\t(app.js)"
+			],
+			[
+				"get",
+				"getElementsByTagName"
+			],
+			[
+				"self",
+				"self-nomination"
+			],
+			[
+				"templa",
+				"templates"
+			],
+			[
+				"ist",
+				"instructions"
+			],
+			[
+				"style",
+				"styleSheets"
+			],
+			[
+				"le",
+				"length"
+			],
+			[
+				"fir",
+				"firstElementChild"
+			],
+			[
+				"repla",
+				"replaceWith"
+			],
+			[
+				"createT",
+				"createTextNode"
+			],
+			[
+				"ha",
+				"hasOwnProperty"
+			],
+			[
+				"inline",
+				"inline-block\tdisplay"
+			],
+			[
+				"vertical",
+				"vertical-align"
+			],
+			[
+				"swap",
+				"swapView"
+			],
+			[
+				"exp",
+				"experience_view"
+			],
+			[
+				"project",
+				"projects_view"
+			],
+			[
+				"compan",
+				"companyId"
+			],
+			[
+				"compe",
+				"competencies"
+			],
+			[
+				"ex",
+				"experiences"
+			],
+			[
+				"exper",
+				"experiences"
+			],
+			[
+				"competencies",
+				"competencies-idx"
+			],
+			[
+				"extra",
+				"extracurriculari"
+			],
+			[
+				"sis",
+				"sistemi"
+			],
+			[
+				"extr",
+				"extracurriculari"
+			],
+			[
+				"Att",
+				"Attività"
+			],
+			[
+				"preio",
+				"previous-kb"
+			],
+			[
+				"pre",
+				"previous-kb"
+			],
+			[
+				"inn",
+				"innerText"
+			],
+			[
+				"getE",
+				"getElementById"
+			],
+			[
+				"getElement",
+				"getElementsByTagName"
+			],
+			[
+				"append",
+				"appendChild"
+			],
+			[
+				"appen",
+				"appendChild"
+			],
+			[
+				"small",
+				"smaller\tfont-size"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"fade",
+				"fadeout\t(notification.css)"
+			],
+			[
+				"trasn",
+				"transform"
+			],
+			[
+				"bloomin",
+				"blooming-menu.js"
+			],
+			[
+				"cu",
+				"curriculum_ita.htm"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "todoapp.html",
+			"settings":
+			{
+				"buffer_size": 285,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "todoapp.js",
+			"settings":
+			{
+				"buffer_size": 558,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tbe.js",
+			"settings":
+			{
+				"buffer_size": 13755,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "ins",
+		"selected_items":
+		[
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 497.0
+	},
+	"console":
+	{
+		"height": 130.0,
+		"history":
+		[
+			"packagecontrol",
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/home/stefano/develop/GitHub/site/pages/curriculum.htm",
+		"/home/stefano/develop/GitHub/site/js/cv-data-it.js",
+		"/home/stefano/develop/GitHub/site/js/cv-data-en.js",
+		"/home/stefano/develop/GitHub/site/js/main.js",
+		"/home/stefano/develop/GitHub/site/js/nte.js",
+		"/home/stefano/develop/GitHub/site/CHANGELOG",
+		"/home/stefano/develop/GitHub/site/utils/cv2pdf.sh",
+		"/home/stefano/develop/GitHub/site/js/bootLoader.js",
+		"/home/stefano/develop/GitHub/NTE/src/TodoListExample/todoApp.html",
+		"/home/stefano/develop/GitHub/NTE/src/TodoListExample/todoApp.js",
+		"/home/stefano/develop/GitHub/site/pages/tsql_zaglios_collection.htm",
+		"/home/stefano/develop/GitHub/site/doc/nte.txt",
+		"/home/stefano/develop/GitHub/site/js/cv-data-bk.js",
+		"/home/stefano/develop/GitHub/site/css/curriculum.css",
+		"/home/stefano/develop/GitHub/NTE/src/scope_tests.html",
+		"/home/stefano/develop/GitHub/site/curriculum_ita.htm",
+		"/home/stefano/develop/GitHub/site/js/app.js",
+		"/home/stefano/develop/GitHub/site/css/cv.css",
+		"/home/stefano/develop/GitHub/site/curriculum_eng.htm",
+		"/home/stefano/develop/GitHub/site/pages/curriculum_ita.htm",
+		"/home/stefano/develop/GitHub/site/utils/translator/transtest.htm",
+		"/home/stefano/develop/GitHub/site/utils/translator/translate-cv.js",
+		"/home/stefano/develop/GitHub/site/utils/translator/test.js",
+		"/home/stefano/develop/GitHub/site/utils/translator/syncpromise.js",
+		"/home/stefano/.cache/.fr-c5eg4M/windows95-1.3.0/src/es6.js",
+		"/home/stefano/develop/GitHub/site/utils/translator/debug.sh",
+		"/home/stefano/develop/GitHub/site/utils/translator/start.sh",
+		"/home/stefano/develop/GitHub/site/utils/translator/package.json",
+		"/home/stefano/develop/GitHub/site/utils/translator/package",
+		"/home/stefano/develop/GitHub/site/utils/git-start-over.sh",
+		"/home/stefano/develop/GitHub/site/index.htm",
+		"/home/stefano/develop/GitHub/site/curriculum_ita.html",
+		"/home/stefano/develop/GitHub/site/transtest.htm",
+		"/home/stefano/develop/GitHub/site/cv2pdf.sh",
+		"/home/stefano/develop/GitHub/site/js/cv-data.js",
+		"/home/stefano/develop/GitHub/site/tsql_index.htm",
+		"/home/stefano/develop/GitHub/site/notifyBar.htm",
+		"/home/stefano/develop/GitHub/site/js/compatibility.js",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web_u4c4e6qc_1.cs",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web__StudentEdit.cshtml.7bedfbc1.veeaxs8i_1.cs",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web_rbv8sh0l_6.cs",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web_pmppbfag_6.cs",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web__StudentEdit.cshtml.ffed9a41.9f77coez_1.cs",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web_j9879nca_4.cs",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web_d06kieib_4.cs",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web_guiq65re_6.cs",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web_w8wh9ig1_6.cs",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web_gypfznxu_5.cs",
+		"/tmp/root-temp-aspnet-0/61ea8a12/App_Web_vqqzbpxw_5.cs",
+		"/home/stefano/develop/GitHub/site/js/htmlimport.min.js",
+		"/home/stefano/test7.html",
+		"/home/stefano/develop/GitHub/site/curriculum.htm",
+		"/home/stefano/develop/GitHub/site/js/person-info.js",
+		"/home/stefano/develop/GitHub/site/js/proto.js",
+		"/home/stefano/develop/GitHub/site/curriculum_ita_static.htm",
+		"/home/stefano/develop/GitHub/site/css/notifyBar.css",
+		"/home/stefano/develop/GitHub/site/js/boot.js",
+		"/home/stefano/develop/GitHub/site/cv.js",
+		"/home/stefano/develop/GitHub/site/proto.js",
+		"/home/stefano/develop/GitHub/site/cv.css",
+		"/home/stefano/develop/GitHub/site/app.js",
+		"/home/stefano/Downloads/Curriculum di Stefano Zaglio_files/cv.css",
+		"/home/stefano/Downloads/Curriculum di Stefano Zaglio.html",
+		"/home/stefano/develop/GitHub/site/curriculum_ita_mhtml.htm",
+		"/home/stefano/develop/GitHub/site/cv.json",
+		"/home/stefano/develop/GitHub/site/bibliografia.csv",
+		"/home/stefano/develop/GitHub/site/bibliografia.htm",
+		"/home/stefano/develop/GitHub/site/js/jquery.csv2table-0.02-b-4.8.js",
+		"/home/stefano/develop/GitHub/site/README.md",
+		"/home/stefano/develop/GitHub/site/responsabile_it_copan_italia_spa.htm",
+		"/home/stefano/develop/GitHub/site/esempi_estratti_da_mie_analisi.htm",
+		"/home/stefano/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/stefano/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/stefano/develop/GitHub/site/software_quality_and_standard.htm",
+		"/home/stefano/develop/GitHub/site/libri_saggi_poesie.htm",
+		"/home/stefano/test5.html",
+		"/home/stefano/myrec.sh",
+		"/home/stefano/Documents/site/index.htm",
+		"/home/stefano/Documents/site/libri_saggi_poesie.htm",
+		"/home/stefano/Documents/site/js/background-animations.js",
+		"/home/stefano/Documents/site/css/index.css",
+		"/home/stefano/develop/blooming-menu.js/src/index.js",
+		"/home/stefano/Documents/site/css/radial-menu.css",
+		"/home/stefano/Documents/site/js/notification.js",
+		"/home/stefano/Documents/site/css/notification.css",
+		"/home/stefano/Documents/site/css/tooltip.css",
+		"/home/stefano/Documents/site/bibliografia.htm",
+		"/home/stefano/Documents/site/js/radial-menu.js",
+		"/home/stefano/Documents/site/images/menu/cv-ita.svg",
+		"/home/stefano/Documents/site/css/radial-menu.scss",
+		"/home/stefano/Documents/site/css/blooming-menu.css",
+		"/home/stefano/Documents/site/js/blooming-menu-app.js",
+		"/home/stefano/Documents/site/css/background-animations.css",
+		"/home/stefano/Documents/site/esperienze.htm",
+		"/home/stefano/develop/blooming-menu.js/example/index.html",
+		"/home/stefano/develop/cool-radial-toggle-menu-with-gooey-effect/index.html",
+		"/home/stefano/develop/blooming-menu.js/example/bottom-left-corner.html",
+		"/home/stefano/Documents/site/curriculum_ita.htm",
+		"/home/stefano/Documents/site/js/cv-data.js",
+		"/home/stefano/Documents/site/js/blooming-menu.js",
+		"/media/stefano/Windows/Users/steza/Dropbox/develop/LefWebApp/LefWebApp/App_Code/wi.cshtml",
+		"/tmp/stefano-temp-aspnet-0/61ea8a12/App_Web_alf5bckt_4.cs",
+		"/tmp/stefano-temp-aspnet-0/61ea8a12/App_Web_y0aovrbq_4.cs",
+		"/media/stefano/Windows/Users/steza/Dropbox/develop/LefWebApp/LefWebApp/LefWebApp.csproj",
+		"/home/stefano/LefWebApp/App_Data/student_names.json",
+		"/home/stefano/develop/jsPDF/jspdf.js",
+		"/home/stefano/develop/jsPDF/build.js",
+		"/tmp/stefano-temp-aspnet-0/61ea8a12/App_Web_ka1khhp6_4.cs",
+		"/tmp/stefano-temp-aspnet-0/61ea8a12/App_Web_qq78l6cf_1.cs",
+		"/tmp/stefano-temp-aspnet-0/61ea8a12/App_Web_qq78l6cf_2.cs",
+		"/tmp/stefano-temp-aspnet-0/61ea8a12/App_Web_qq78l6cf_3.cs",
+		"/tmp/stefano-temp-aspnet-0/61ea8a12/App_Web_qq78l6cf_4.cs",
+		"/home/stefano/develop/LefWebApp/LefWebApp/App_Code/wi.cshtml",
+		"/home/stefano/.config/sublime-text-3/Packages/All Autocomplete/All Autocomplete.sublime-settings",
+		"/home/stefano/.config/sublime-text-3/Packages/Package Control/Package Control.sublime-settings",
+		"/home/stefano/Dropbox/jsPascal.pas",
+		"/home/stefano/forms.js"
+	],
+	"find":
+	{
+		"height": 39.96003996
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"$upda",
+			"splice",
+			"debu",
+			"spli",
+			"sli",
+			"propery",
+			".elem",
+			"style.",
+			"$",
+			"element",
+			"__proto",
+			"clone",
+			"append",
+			"dispatc",
+			"arguments",
+			"slices",
+			"keydow",
+			"functionParamNames",
+			"eventsToDispatch",
+			".value",
+			"lunga",
+			"SQL",
+			"MSSQL",
+			"ACG",
+			"MSacc",
+			"experie",
+			"debug",
+			"lang :",
+			"lang:",
+			"sposato",
+			"links",
+			"lang",
+			"qualità",
+			"quality",
+			"qualità",
+			"autorizzo",
+			"a",
+			"fullpage",
+			"changeView",
+			"hid",
+			"m.message",
+			"changeView",
+			".message",
+			"langli",
+			"Attività e",
+			"competence_dsc",
+			"document.bo",
+			"body =",
+			"collectTextNodes",
+			".lang",
+			"app.",
+			"convertLinksToText",
+			"renderWikiStyleTags",
+			"html",
+			"compete",
+			"hash",
+			"#hash",
+			"%origin%",
+			"$origin%",
+			"$details%",
+			"lang-l",
+			"lang",
+			"msgs",
+			"innerText",
+			"lang-link",
+			"ottimizza",
+			"delivery",
+			"optimization of delivery and billing",
+			"projectsTable",
+			"%origin",
+			"stack",
+			"stacks",
+			"last-kb",
+			"config",
+			"redirect",
+			"self.",
+			"%origin%",
+			"ms sql",
+			"%origin",
+			"\"PDF\"",
+			"%origin%",
+			"links",
+			".links",
+			"10",
+			"eval",
+			"cv.",
+			"images",
+			"intro",
+			"images",
+			"intratte",
+			"links",
+			".for",
+			"links",
+			"array",
+			".htm",
+			".ht",
+			".for",
+			"autori",
+			"%location.origin%",
+			"https://zonafets.github.io/site/curriculum_ita.htm#details#projects",
+			"AgeOpt",
+			"Age",
+			"AgeOpt",
+			"Event",
+			"DataM",
+			"message",
+			"experiences",
+			"fullp",
+			"competencie",
+			"convertLinksToText",
+			"-idx",
+			"[\"projec",
+			"RAL",
+			"message",
+			"brief",
+			"flip",
+			"renderWi",
+			"copiato",
+			"debugger",
+			"hash",
+			"bind",
+			"renderT",
+			"transition",
+			"flip",
+			"NTE",
+			"querySelectorAll",
+			"foreach",
+			"./Curriculum di Stefano Zaglio_files/"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"app.",
+			"images/icons/",
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "todoapp.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 285,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								148,
+								148
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 17.982017982,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "todoapp.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 558,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								427,
+								427
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 17.982017982,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "tbe.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13755,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								12204,
+								12204
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 6777.22277722,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.972027972
+	},
+	"input":
+	{
+		"height": 35.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "tbe.sublime-project",
+	"replace":
+	{
+		"height": 51.9480519481
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
