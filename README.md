@@ -3,7 +3,7 @@
 
 
 This is the second self brainstorming about a new (type of) framework that keep the old paradigm.
-The old guesses are [here](oldstuff.md).
+The old guesses are [here](https://github.com/zonafets/NTE/blob/master/old_stuff.md).
 
 It's started to train my self to a deep use of javascript's features.
 
@@ -133,11 +133,65 @@ Other aspect of this solution are:
 
 ### What more
 
-My own [CV page](https://zonafets.github.io/site/pages/curriculum.htm#details#projects) was a previous example of principles of *.
+I'm imagining some feature as **"hash"** member to automatically connect the URL to a page/component/tab.
 
-I'm imagine some feature as **"hash"** member to automatically connect a page/component/tab to the URL.
+Integration with Bootstrap&C may require an HTML constructor method as I used in my [CV page](https://zonafets.github.io/site/pages/curriculum.htm#details#projects) (where I have experienced the principles of * for the first time).
 
-Integrate it with Bootstrap&C may require sub-components template system or a HTML constructor method as I used in my CV page.
+We can replace complexity of instructions with concept:
+```javascript
+
+	task: {
+		...
+		empty: (value) => ""
+	}
+	
+	// and instead of:
+	
+	task.value = ""
+	
+	// write
+	
+	task.empty()
+```
+
+
+**Easy diagram generation?**
+
+![flowchar](src/TodoListExample/todoapp.svg)
+
+
+**More simple diffs?**
+```diff
+5c5
+< 	task: {
+---
+> 	todo: {
+7c7,9
+< 		onKeyReturn: (add) => add.click()
+---
+> 		onKeyReturn: (add) => add.click(),
+> 		empty:(value)=>""
+> 		
+11,12c13,14
+< 		disabled: (task,onkeyup) => task.value == "",
+< 		onclick: (todolist,task) => {
+---
+> 		disabled: (todo,onkeyup) => todo.value == "",
+> 		onclick: (todolist,todo) => {
+15c17
+< 				description: task.value
+---
+> 				description: todo.value
+17c19
+< 			task.value = ""
+---
+> 			todo.empty()
+34c36
+< }
+---
+> }
+
+```
 
 ## (*)
 I'm not sure if call this new (type of) framework with:

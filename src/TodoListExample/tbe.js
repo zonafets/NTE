@@ -4,7 +4,7 @@
 	First draft: 2014-05-05
 	Last revision: 2018-11-05
 	Scope: demostrate principles of the NTE/TBE framework.
-	(C): deal me in
+	(C): involve me
 
 	>> This code is tailored on the example and, I know, it's very ugly. <<
 

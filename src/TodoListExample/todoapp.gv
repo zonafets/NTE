@@ -1,0 +1,40 @@
+digraph todoapp {
+
+	node [shape=box];
+	compound=true;
+
+	label="NTE|TBE Todo List";
+	labelloc=top;
+
+	placeholder -> task [label="\"write here what to do\""];
+	task -> disabled  [label="onKeyUp"];
+	disabled -> add;
+	task -> add   [label="onKeyReturn"];
+	add [label="Add to list"];
+
+	subgraph cluster1 {
+		remove;
+		done;
+		description;
+		label = "todolist";
+	}
+
+	item;
+
+	done -> textDecoration [label="onClick"];
+	textDecoration -> description;
+
+	task -> done [lhead=cluster1];
+	add -> done [label="onClick",lhead=cluster1];
+	remove -> item [label="onClick"];
+	item -> done [lhead=cluster1];
+	item -> textDecoration;
+
+	disabled [shape=ellipse];
+	textDecoration [shape=ellipse];
+	description [shape=trapezium];
+	placeholder [shape=ellipse];
+	task [shape=parallelogram];
+	done [shape=parallelogram];
+
+}
