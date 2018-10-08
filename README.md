@@ -116,15 +116,16 @@ var todoapp = {
 
 Using the speed of browser's DOM compiler, TBE scan root tags (**todoapp**) and load the relative **html** and then the **js**.
 
-**If I'm not mistaken, you can close your eyes, point your finger at random and read the code. You will understand the connection and a bit of vision of the whole.**
+**Rules are (must be) simples:**
 
-I used JSON as mirror of HTML same as CSS. I added a pinch of Wiki and seasoned it with simple javascript, using, as a secret additive, the parameters of the functions in the form of an observer pattern.
+- html part is only for layout purpose: no attributes
+- JSON/javascript define only the behaviour as CSS define the style
 
-Looking at this code is like tasting a single dish in which the individual flavors stand out well.
+**The aim is to reduce the interception time between the effect (runtime/view) and the cause (the code/model-control).**
 
 JSON is very plastic. For example it can be mixed as in a inheritance.
 
-I'm very attracted from using a single programming language and from transpilation (in particular webasm), but here the generated code is not over structured and there is no overhead.
+I'm very attracted from using a single programming language and from transpilation (in particular webasm), but here the generated code is not over structured and there is no overhead (maybe can be effect of a transpilation too).
 
 Other aspect of this solution are:
 - semantic check by javascript compiler or simple editor (eg. "wrong parameter name" with "use strict") but also by TBE ( eg. "tag/control X not found in Y" )
@@ -197,3 +198,8 @@ We can replace complexity of instructions with concept:
 I'm not sure if call this new (type of) framework with:
 - NTE: natural template engine because it resuses basic knowledge
 - TBE: template by example because what you draw with HTML is what you see and what you get into JSON/javascript.
+
+### A poetic description
+I used JSON as mirror of HTML same as CSS. I added a pinch of Wiki and seasoned it with simple javascript, using, as a secret additive, the parameters of the functions in the form of an observer pattern.
+
+Looking at this code is like tasting a single dish in which the individual flavors stand out well.

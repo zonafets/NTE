@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"desc",
+				"descriptionStyleTextDecoration"
+			],
+			[
+				"node",
+				"nodeProperty"
+			],
+			[
 				"replace",
 				"replaceNode"
 			],
@@ -240,28 +248,37 @@
 	"buffers":
 	[
 		{
-			"file": "todoapp.html",
+			"file": "/home/stefano/develop/GitHub/site/pages/curriculum.htm",
 			"settings":
 			{
-				"buffer_size": 285,
+				"buffer_size": 7674,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/home/stefano/develop/GitHub/site/js/cv-data-en.js",
+			"settings":
+			{
+				"buffer_size": 21434,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "todoapp.js",
+			"file": "/home/stefano/develop/GitHub/site/js/cv-data-it.js",
 			"settings":
 			{
-				"buffer_size": 558,
+				"buffer_size": 21436,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "tbe.js",
+			"file": "/home/stefano/develop/GitHub/site/js/main.js",
 			"settings":
 			{
-				"buffer_size": 13755,
+				"buffer_size": 21191,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -325,6 +342,14 @@
 	},
 	"file_history":
 	[
+		"/home/stefano/develop/GitHub/NTE/src/TodoListExample/todoapp.html",
+		"/home/stefano/develop/GitHub/site/index.htm",
+		"/home/stefano/develop/GitHub/NTE/src/TodoListExample/todoapp.js",
+		"/home/stefano/develop/GitHub/NTE/src/TodoListExample/tbe.js",
+		"/home/stefano/develop/GitHub/NTE/src/TodoListExample/todoapp.gv",
+		"/home/stefano/develop/GitHub/NTE/src/TodoListExample/todoappDiff.js",
+		"/home/stefano/develop/GitHub/NTE/src/TodoListExample/todoapp.dot",
+		"/home/stefano/.cache/.fr-ltiBim/vue-todo-master/src/main.js",
 		"/home/stefano/develop/GitHub/site/pages/curriculum.htm",
 		"/home/stefano/develop/GitHub/site/js/cv-data-it.js",
 		"/home/stefano/develop/GitHub/site/js/cv-data-en.js",
@@ -355,7 +380,6 @@
 		"/home/stefano/develop/GitHub/site/utils/translator/package.json",
 		"/home/stefano/develop/GitHub/site/utils/translator/package",
 		"/home/stefano/develop/GitHub/site/utils/git-start-over.sh",
-		"/home/stefano/develop/GitHub/site/index.htm",
 		"/home/stefano/develop/GitHub/site/curriculum_ita.html",
 		"/home/stefano/develop/GitHub/site/transtest.htm",
 		"/home/stefano/develop/GitHub/site/cv2pdf.sh",
@@ -445,7 +469,7 @@
 	],
 	"find":
 	{
-		"height": 39.96003996
+		"height": 27.972027972
 	},
 	"find_in_files":
 	{
@@ -459,6 +483,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"nodeRef",
+			".value",
+			"=.value",
+			"iterm",
 			"$upda",
 			"splice",
 			"debu",
@@ -582,11 +610,7 @@
 			"bind",
 			"renderT",
 			"transition",
-			"flip",
-			"NTE",
-			"querySelectorAll",
-			"foreach",
-			"./Curriculum di Stefano Zaglio_files/"
+			"flip"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -607,24 +631,24 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "todoapp.html",
+					"file": "/home/stefano/develop/GitHub/site/pages/curriculum.htm",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 285,
+						"buffer_size": 7674,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								148,
-								148
+								0,
+								0
 							]
 						],
 						"settings":
@@ -633,27 +657,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 17.982017982,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "todoapp.js",
+					"file": "/home/stefano/develop/GitHub/site/js/cv-data-en.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 558,
+						"buffer_size": 21434,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								427,
-								427
+								0,
+								0
 							]
 						],
 						"settings":
@@ -662,27 +686,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 17.982017982,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "tbe.js",
+					"file": "/home/stefano/develop/GitHub/site/js/cv-data-it.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 13755,
+						"buffer_size": 21436,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								12204,
-								12204
+								0,
+								0
 							]
 						],
 						"settings":
@@ -690,7 +714,36 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 6777.22277722,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/home/stefano/develop/GitHub/site/js/main.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21191,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
