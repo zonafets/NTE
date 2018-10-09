@@ -68,7 +68,7 @@ KnockoutJS, AngularJS, Vue, React infuse the html with attributes.
 </todolist>
 ```
 
-### todoapp.js (loaded bt NTE)
+### todoapp.js (loaded by NTE)
 ```javascript
 var todoapp = {
 
@@ -128,7 +128,7 @@ I'm imagining some feature as **"hash"** member to automatically connect the URL
 
 Integration with Bootstrap&C may require an HTML constructor method as I used in my [CV page](https://zonafets.github.io/site/pages/curriculum.htm#details#projects) (where I have experienced the principles of NTE for the first time).
 
-#### But also widgets template?
+#### Widgets template?
 
 ```html
 
@@ -167,7 +167,7 @@ Integration with Bootstrap&C may require an HTML constructor method as I used in
 ```
 
 
-#### Easy diagram generation? (using [graphviz](src/TodolistExample/todoapp.gv))
+#### Easy diagram generation? (using [graphviz](https://github.com/zonafets/NTE/blob/master/src/TodoListExample/todoapp.gv))
 
 ![flowchar](src/TodoListExample/todoapp.svg)
 
