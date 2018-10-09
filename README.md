@@ -1,24 +1,18 @@
-# NTE | TBE *
-## Natural Template Engine | Template By Example
+# NTE
+## Natural Template Engine
 
+I developed the following running example to train myself to a deep use of the javascript features while I was learning about the recent frameworks.
 
-This is the second self brainstorming about a new (type of) framework that keep the old paradigm.
-The old guesses are [here](https://github.com/zonafets/NTE/blob/master/old_stuff.md).
+But the idea behind looks interesting and I am available to move from my country if someone wants to support its realization.
 
-It's started to train my self to a deep use of javascript's features.
+Link to old guesses at bottom.
 
-But the idea behind looks interesting and I am available to move from Italy if someone wants to support its realization.
-
-## Let's start
-
-**Take a look to this example:**
+**Take a look to this nice example:**
  
 ```html
 <style>
   
   .order[data-order-state="new"] { color: green; }
-
-  .order[data-order-state="pending"] { color: blue; }
 
   .order[data-order-state="canceled"] { color: red; }
   
@@ -26,16 +20,14 @@ But the idea behind looks interesting and I am available to move from Italy if s
 
 <div class="order" data-order-state="new">  A new order. </div>
 
-<div class="order" data-order-state="pending">  A pending order. </div>
-
 <div class="order" data-order-state="canceled">  A canceled order. </div>
 ```
 
 **CSS is a magic mirror** that keep the HTML **clean and clear**.
 
-**What happen when it grow and become dynamic?** We loose the concepts in the crossing of attributes.
+**But when it grow and become dynamic,** we loose the concepts in the crossing of attributes.
 
-KnockoutJS, AngularJS, Vue, React infuse the html with attributes of names and contents that are often unrelated to javascript.
+KnockoutJS, AngularJS, Vue, React infuse the html with attributes.
 
 **Googling** with **"@framework simple todolist"** I found this:
 
@@ -44,13 +36,13 @@ KnockoutJS, AngularJS, Vue, React infuse the html with attributes of names and c
 - Simple (not to find) todolist example with React [code](https://github.com/christiannwamba/scotch-react-todo/blob/master/src/index.jsx) [demo](https://codepen.io/codebeast/full/PzVyRm)
 - Simple todolist example with AngularJS [code&demo](http://embed.plnkr.co/ZiVJbCeX4GDgC1kMjnUB/)
 
-## My * example
+## NTE code example
 
 ### index.html
 
 ```html
 <head>
-	<script src="tbe.js"></script>
+	<script src="nte.js"></script>
 </head>
 
 <body>
@@ -60,7 +52,7 @@ KnockoutJS, AngularJS, Vue, React infuse the html with attributes of names and c
 </body>
 ```
 
-### todoapp.html
+### todoapp.html (loaded by NTE)
 
 ```html
 <h1>Todo list</h1>
@@ -76,7 +68,7 @@ KnockoutJS, AngularJS, Vue, React infuse the html with attributes of names and c
 </todolist>
 ```
 
-### todoapp.js
+### todoapp.js (loaded bt NTE)
 ```javascript
 var todoapp = {
 
@@ -114,8 +106,6 @@ var todoapp = {
 
 ### [Demo](https://zonafets.github.io/NTE/src/TodoListExample/todoapp.html)
 
-Using the speed of browser's DOM compiler, TBE scan root tags (**todoapp**) and load the relative **html** and then the **js**.
-
 **Rules are (must be) simples:**
 
 - html part is only for layout purpose: no attributes
@@ -123,22 +113,44 @@ Using the speed of browser's DOM compiler, TBE scan root tags (**todoapp**) and 
 
 **The aim is to reduce the interception time between the effect (runtime/view) and the cause (the code/model-control).**
 
-JSON is very plastic. For example it can be mixed as in a inheritance.
-
-I'm very attracted from using a single programming language and from transpilation (in particular webasm), but here the generated code is not over structured and there is no overhead (maybe can be effect of a transpilation too).
+JSON is very plastic. For example it can be mixed as in a inheritance and can be generated server side through a transpilation too (also webasm).
 
 Other aspect of this solution are:
-- semantic check by javascript compiler or simple editor (eg. "wrong parameter name" with "use strict") but also by TBE ( eg. "tag/control X not found in Y" )
+
+- semantic check by javascript compiler or simple editor (eg. __wrong parameter name__ with "use strict") but also by NTE ( eg. __tag/control 'add' not found in tag 'todoapp'__ )
 - user-definible events to hide complexity ( eg. "onKeyReturn" )
 - simplify tests ( eg. "add.click()" )
 
 ### What more
 
+#### Preferred pages?
+
 I'm imagining some feature as **"hash"** member to automatically connect the URL to a page/component/tab.
 
-Integration with Bootstrap&C may require an HTML constructor method as I used in my [CV page](https://zonafets.github.io/site/pages/curriculum.htm#details#projects) (where I have experienced the principles of * for the first time).
+Integration with Bootstrap&C may require an HTML constructor method as I used in my [CV page](https://zonafets.github.io/site/pages/curriculum.htm#details#projects) (where I have experienced the principles of NTE for the first time).
 
-We can replace complexity of instructions with concept:
+#### But also widgets template?
+
+```html
+
+<toPay widget="money">To pay</toPay>
+<payed widget="money">Payed</payed>
+
+...
+
+<widget name="money" ifParent="form" ifUI="BT3">
+
+  <div class="form-group">
+    <label for="@id">@contentText</label>
+    <input type="text" class="form-control" id="@id">
+  </div>
+  
+</widget>
+```
+ 
+
+#### Replace complexity of instructions with a concept?
+
 ```javascript
 
 	task: {
@@ -156,7 +168,7 @@ We can replace complexity of instructions with concept:
 ```
 
 
-**Easy diagram generation?**
+#### Easy diagram generation? (using [graphviz](src/TodolistExample/todoapp.gv))
 
 ![flowchar](src/TodoListExample/todoapp.svg)
 
@@ -194,12 +206,11 @@ We can replace complexity of instructions with concept:
 
 ```
 
-## (*)
-I'm not sure if call this new (type of) framework with:
-- NTE: natural template engine because it resuses basic knowledge
-- TBE: template by example because what you draw with HTML is what you see and what you get into JSON/javascript.
 
 ### A poetic description
 I used JSON as mirror of HTML same as CSS. I added a pinch of Wiki and seasoned it with simple javascript, using, as a secret additive, the parameters of the functions in the form of an observer pattern.
 
 Looking at this code is like tasting a single dish in which the individual flavors stand out well.
+
+### Links
+- old guesses are [here](https://github.com/zonafets/NTE/blob/master/old_stuff.md)
