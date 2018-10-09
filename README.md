@@ -1,7 +1,7 @@
 # NTE
 ## Natural Template Engine
 
-I developed the following running example to train myself to a deep use of the javascript features while I was learning about the recent frameworks.
+I developed the following example (with [Demo](https://zonafets.github.io/NTE/src/TodoListExample/todoapp.html)) to train myself to a deep use of the javascript features while I was learning about the recent frameworks.
 
 But the idea behind looks interesting and I am available to move from my country if someone wants to support its realization.
 
@@ -104,7 +104,6 @@ var todoapp = {
 }
 ```
 
-### [Demo](https://zonafets.github.io/NTE/src/TodoListExample/todoapp.html)
 
 **Rules are (must be) simples:**
 
