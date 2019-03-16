@@ -5,8 +5,6 @@ I developed the following example (with [Demo](https://zonafets.github.io/NTE/sr
 
 But the idea behind looks interesting.
 
-Link to old guesses at bottom.
-
 **Take a look to this nice example:**
  
 ```html
@@ -23,7 +21,7 @@ Link to old guesses at bottom.
 <div class="order" data-order-state="canceled">  A canceled order. </div>
 ```
 
-**CSS is a magic mirror** that keep the HTML **clean and clear**.
+The **CSS** keeps the HTML **clean and clear**.
 
 **But when it grow and become dynamic,** we loose the concepts in the crossing of attributes.
 
@@ -110,7 +108,7 @@ var todoapp = {
 - html part is only for layout purpose: no attributes
 - JSON/javascript define only the behaviour as CSS define the style
 
-**The aim is to reduce the interception time between the effect (runtime/view) and the cause (the code/model-control).**
+**The aim is to reduce the interception time between the effect (runtime/view) and the cause (the code/model-control).** This because from one point of view, there is no difference between a bug and developing code.
 
 JSON is very plastic. For example it can be mixed as in a inheritance and can be generated server side through a transpilation too (also webasm).
 
@@ -121,6 +119,20 @@ Other aspect of this solution are:
 - simplify tests ( eg. "add.click()" )
 
 ### What more
+
+#### todolist.NTML?
+
+```js
+h1 "Todo list" 
+
+input @task button "Add to list" @add
+
+ul @todolist
+
+	li[] 
+
+		checkbox @done @description button "Remove" @remove
+```
 
 #### Preferred pages?
 
