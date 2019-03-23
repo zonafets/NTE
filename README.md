@@ -1,11 +1,11 @@
 # NTE
 ## Natural Template Engine
 
-I developed the following example (with [Demo](https://zonafets.github.io/NTE/src/TodoListExample/todoapp.html)) to train myself to a deep use of the javascript features while I was learning about the recent frameworks.
+I developed the following example (with [Demo](https://zonafets.github.io/NTE/src/TodoListExample/todoapp.html)) to train myself to a deep use of javascript.
 
-But the idea behind looks interesting.
+And a an interesting idea emerged.
 
-**Take a look to this nice example:**
+**Take a look to this nice sample where CSS keeps HTML clean and clear:**
  
 ```html
 <style>
@@ -21,11 +21,14 @@ But the idea behind looks interesting.
 <div class="order" data-order-state="canceled">  A canceled order. </div>
 ```
 
-The **CSS** keeps the HTML **clean and clear**.
 
-**But when it grow and become dynamic,** we loose the concepts in the crossing of attributes.
+**But when it grow and/or become dynamic,** we loose the concepts in the crossing of attributes.
 
-KnockoutJS, AngularJS, Vue, React infuse the html with attributes.
+In one my experience, I noticed that "addEventLister" was a more flexible choice than use "body.onFocus" that work differently from Chrome desktop to Chome mobile.
+
+**Looks like layout and behaviour have to stay separated.**
+
+Instead KnockoutJS, AngularJS, Vue, React infuse the html with more attributes.
 
 **Googling** with **"@framework simple todolist"** I found this:
 
@@ -108,14 +111,14 @@ var todoapp = {
 - html part is only for layout purpose: no attributes
 - JSON/javascript define only the behaviour as CSS define the style
 
-**The aim is to reduce the interception time between the effect (runtime/view) and the cause (the code/model-control).** This because from one point of view, there is no difference between a bug and developing code.
+** For a quicker debug, Layout bugs must be separated from process bugs.** This require also convert view events into program actions (e.g. cmdAddTask: add.onclick). 
 
-JSON is very plastic. For example it can be mixed as in a inheritance and can be generated server side through a transpilation too (also webasm).
+JSON is very plastic. For example it can be mixed as in a inheritance and can be generated server side through a transpilation too (and today we have webasm too).
 
 Other aspect of this solution are:
 
 - semantic check by javascript compiler or simple editor (eg. __wrong parameter name__ with "use strict") but also by NTE ( eg. __tag/control 'add' not found in tag 'todoapp'__ )
-- user-definible events to hide complexity ( eg. "onKeyReturn" )
+- user-definible events to hide complexity or hide GUI event under application actions (eg. "onKeyReturn")
 - simplify tests ( eg. "add.click()" )
 
 ### What more
