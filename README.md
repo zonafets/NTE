@@ -1,12 +1,10 @@
 # NTE
 ## Natural Template Engine
 
-I developed the following example (with [Demo](https://zonafets.github.io/NTE/src/TodoListExample/todoapp.html)) to train myself to a deep use of javascript.
-
-And a an interesting idea emerged.
+An interesting idea emerged developing the following example (with [Demo](https://zonafets.github.io/NTE/src/TodoListExample/todoapp.html)) to train myself to a deep use of javascript.
 
 **Take a look to this nice sample where CSS keeps HTML clean and clear:**
- 
+
 ```html
 <style>
   
@@ -39,6 +37,10 @@ Instead KnockoutJS, AngularJS, Vue, React infuse the html with more attributes.
 
 ## NTE code example
 
+Why **natural**? Because the developer must develop using what he already knows by learning new things along the way. So, isn't you that learn the framework, but is the framework that teach to you.
+
+NB. The following example is a prerequisite to that following in the [new version of the concept](NTE-MVC.md).
+
 ### index.html
 
 ```html
@@ -58,13 +60,11 @@ Instead KnockoutJS, AngularJS, Vue, React infuse the html with more attributes.
 ```html
 <h1>Todo list</h1>
 
-<task>?</task> <add>Add to list</add>
+<task></task> <add>Add to list</add>
 
 <todolist>
 
-	<li>
-		<done>[_]</done> <description></description> <remove>Remove</remove>
-	</li>
+    <done></done> <description></description> <remove>Remove</remove>
 
 </todolist>
 ```
@@ -74,6 +74,7 @@ Instead KnockoutJS, AngularJS, Vue, React infuse the html with more attributes.
 var todoapp = {
 
 	task: {
+        tag: "input",
 		placeholder:"write here what to do",
 		onKeyReturn: (add) => add.click()
 	},
@@ -88,6 +89,10 @@ var todoapp = {
 			task.value = ""
 		}
 	},
+    
+    done: {
+        tag: "checkbox"
+    }
 
 	todolist: {
 		tag:"ul",
@@ -105,23 +110,13 @@ var todoapp = {
 }
 ```
 
-
-**Rules are (must be) simples:**
-
-- html part is only for layout purpose: no attributes
-- JSON/javascript define only the behaviour as CSS define the style
-
-** For a quicker debug, Layout bugs must be separated from process bugs.** This require also convert view events into program actions (e.g. cmdAddTask: add.onclick). 
-
-JSON is very plastic. For example it can be mixed as in a inheritance and can be generated server side through a transpilation too (and today we have webasm too).
-
-Other aspect of this solution are:
+**Advantagies**
 
 - semantic check by javascript compiler or simple editor (eg. __wrong parameter name__ with "use strict") but also by NTE ( eg. __tag/control 'add' not found in tag 'todoapp'__ )
 - user-definible events to hide complexity or hide GUI event under application actions (eg. "onKeyReturn")
 - simplify tests ( eg. "add.click()" )
 
-### What more
+### Ideas for the future
 
 #### todolist.NTML?
 
@@ -137,7 +132,7 @@ ul @todolist
 		checkbox @done @description button "Remove" @remove
 ```
 
-#### Preferred pages?
+#### Direct link to GUI parts?
 
 I'm imagining some feature as **"hash"** member to automatically connect the URL to a page/component/tab.
 
@@ -161,7 +156,7 @@ Integration with Bootstrap&C may require an HTML constructor method as I used in
   
 </widget>
 ```
- 
+
 
 #### Replace complexity of instructions with a concept?
 
