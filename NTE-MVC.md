@@ -36,7 +36,7 @@ var app = {
 var myApp = NTE.createApp( app, NTE.layouts.verticalForm )
 ```
 
-[Demo]("src/mvc-nte.html").
+[Demo](https://zonafets.github.io/NTE/src/mvc-nte.html).
 
 NTE bind model to the view matching the names of members.
 
