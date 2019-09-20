@@ -1,32 +1,17 @@
 # NTE
 ## Natural Template Engine
 
-An interesting idea emerged developing the following example (with [Demo](https://zonafets.github.io/NTE/src/TodoListExample/todoapp.html)) to train myself to a deep use of javascript.
+An interesting idea emerged while was developing a todo list app ([Demo](https://zonafets.github.io/NTE/src/TodoListExample/todoapp.html)) to train myself to a deep use of javascript.
 
-**Take a look to this nice sample where CSS keeps HTML clean and clear:**
+**CSS keeps HTML clean and clear**
 
-```html
-<style>
-  
-  .order[data-order-state="new"] { color: green; }
+But when it grow or become dynamic, we loose ourself in attributes.
 
-  .order[data-order-state="canceled"] { color: red; }
-  
-</style>
-
-<div class="order" data-order-state="new">  A new order. </div>
-
-<div class="order" data-order-state="canceled">  A canceled order. </div>
-```
-
-
-**But when it grow and/or become dynamic,** we loose the concepts in the crossing of attributes.
-
-In one my experience, I noticed that "addEventLister" was a more flexible choice than use "body.onFocus" that work differently from Chrome desktop to Chome mobile.
+I noticed that while "body.onFocus" work differently in Chrome between desktop and mobile,  "addEventLister" is a better choice.
 
 **Looks like layout and behaviour have to stay separated.**
 
-Instead KnockoutJS, AngularJS, Vue, React infuse the html with more attributes.
+KnockoutJS, AngularJS, Vue, React infuse the html with more attributes.
 
 **Googling** with **"@framework simple todolist"** I found this:
 
@@ -39,7 +24,7 @@ Instead KnockoutJS, AngularJS, Vue, React infuse the html with more attributes.
 
 Why **natural**? Because the developer must develop using what he already knows by learning new things along the way. So, isn't you that learn the framework, but is the framework that teach to you.
 
-NB. The following example is a prerequisite to that following in the [new version of the concept](NTE-MVC.md).
+NB. The following example is a prerequisite to that follow in the [new version of the concept](NTE-MVC.md).
 
 ### index.html
 
@@ -89,21 +74,19 @@ var todoapp = {
 			task.value = ""
 		}
 	},
-    
-    done: {
-        tag: "checkbox"
-    }
 
 	todolist: {
 		tag:"ul",
-		values: [],
-		li: [{
+		item: {
+    		tag:"li",
+            done: {
+                tag: "input type='checkbox'"
+            },
 			description: {
-				style: {
-					textDecoration: (done,onclick,item) => item.done ? "line-through" : "none"
+    			class: (done,onclick,item) => item.done ? "todo-item-done" : "" 
 				}
 			}, 
-			remove: (todolist,item) => todolist.values.remove(item),
+			remove: (todolist,onclick,item) => todolist.remove(item),
 		}],
 	},
 

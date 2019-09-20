@@ -53,12 +53,10 @@
 			    },
 
 			    controller: {
-			    	sync: {
-				    	init: function() {
-				    		debugger;
-				    		this.fullname.NTE.updateEveryKeyPress = true
-				    	}
-				    },
+					init: function() {
+						debugger;
+						this.fullname.NTE.updateEveryKeyPress = true
+					},
 				    async: {
 				        save: function() {
 				            send();
