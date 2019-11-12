@@ -3,15 +3,7 @@
 
 An interesting idea emerged while was developing a todo list app ([Demo](https://zonafets.github.io/NTE/src/TodoListExample/todoapp.html)) to train myself to a deep use of javascript.
 
-**CSS keeps HTML clean and clear**
-
-But when it grow or become dynamic, we loose ourself in attributes.
-
-I noticed that while "body.onFocus" work differently in Chrome between desktop and mobile,  "addEventLister" is a better choice.
-
-**Looks like layout and behaviour have to stay separated.**
-
-KnockoutJS, AngularJS, Vue, React infuse the html with more attributes.
+**I've done this because many frameworks claim that layout and behavior have to stay separated but infuse the html with more attributes.**
 
 **Googling** with **"@framework simple todolist"** I found this:
 
@@ -24,7 +16,8 @@ KnockoutJS, AngularJS, Vue, React infuse the html with more attributes.
 
 Why **natural**? Because the developer must develop using what he already knows by learning new things along the way. So, isn't you that learn the framework, but is the framework that teach to you.
 
-NB. The following example is a prerequisite to that follow in the [new version of the concept](NTE-MVC.md).
+### Goal (more or less)
+![flowchar](imgs/TodoListWidget.png)
 
 ### index.html
 
@@ -35,91 +28,89 @@ NB. The following example is a prerequisite to that follow in the [new version o
 
 <body>
 
-	<todoapp></todoapp>
+	<TodoListWidget></TodoListWidget>
 	
 </body>
 ```
 
-### todoapp.html (loaded by NTE)
+**<u>NTE load and convert the following files.</u>**
 
-```html
-<h1>Todo list</h1>
+### TodoListWidget.nhtml (optional)
 
-<task></task> <add>Add to list</add>
-
-<todolist>
-
-    <done></done> <description></description> <remove>Remove</remove>
-
-</todolist>
-```
-
-### todoapp.js (loaded by NTE)
-```javascript
-var todoapp = {
-
-	task: {
-        tag: "input",
-		placeholder:"write here what to do",
-		onKeyReturn: (add) => add.click()
-	},
-
-	add: {
-		disabled: (task,onkeyup) => task.value == "",
-		onclick: (todolist,task) => {
-			todolist.values.push({
-				done: false,
-				description: task.value
-			})
-			task.value = ""
-		}
-	},
-
-	todolist: {
-		tag:"ul",
-		item: {
-    		tag:"li",
-            done: {
-                tag: "input type='checkbox'"
-            },
-			description: {
-    			class: (done,onclick,item) => item.done ? "todo-item-done" : "" 
-				}
-			}, 
-			remove: (todolist,onclick,item) => todolist.remove(item),
-		}],
-	},
-
-}
-```
-
-**Advantagies**
-
-- semantic check by javascript compiler or simple editor (eg. __wrong parameter name__ with "use strict") but also by NTE ( eg. __tag/control 'add' not found in tag 'todoapp'__ )
-- user-definible events to hide complexity or hide GUI event under application actions (eg. "onKeyReturn")
-- simplify tests ( eg. "add.click()" )
-
-### Ideas for the future
-
-#### todolist.NTML?
+Will be preprocessed by server into TodoListWidget.html.
 
 ```js
 h1 "Todo list" 
 
-input @task button "Add to list" @add
+Task: input @Task 
+	  button "Add to list" @add
 
-ul @todolist
+ul @TodoList
 
-	li[] 
+	li @TodoItem
 
-		checkbox @done @description button "Remove" @remove
+		checkbox @done 
+		@description 
+		button "Remove" @remove
 ```
+
+### **TodoListWidget**.html
+
+```html
+<H1>Todo list</H1>
+
+Task: <input id="Task"> 
+	<button id="Add">Add to list</button>
+
+<ul id="TodoList">
+
+    <li name="TodoItem">
+        <input id="Done" type="checkbox">
+        <span id="Description">#description</span>
+        <Button id="Remove">Remove</button>
+    </li>
+
+</ul>
+```
+
+### TodoListWidget.js 
+```javascript
+var TodoListWidget = {
+
+	Task: '',
+    
+    Add: (Task,onKeyUp)=> this.Enabled = (Task == '')
+
+	TodoItem: {
+		Description: {
+			class: (Done)=> Done?"removed":""
+			}
+	},
+	
+	TodoList: {
+		remove: (Remove,TodoItem)=> TodoItem.Done == false,
+		add: (Add,TodoItem)=> TodoList.push(TodoItem),
+	}
+	
+} // TodoListWidget
+```
+
+**Advantages**
+
+- semantic check by javascript compiler itself (eg. __wrong parameter name__ with "use strict") but also by NTE ( eg. __tag/control {0} not found in tag {1}__ )
+- UI events are hidden/replaced by application actions, that are more similar to messages
+- simplify/automate tests 
+- simplified diffs (**todo**)
+
+### Ideas for the future
 
 #### Direct link to GUI parts?
 
-I'm imagining some feature as **"hash"** member to automatically connect the URL to a page/component/tab.
+I'm imagining some feature as **"hash"** member to automatically connect the URL to a page/tab or component.
 
-Integration with Bootstrap&C may require an HTML constructor method as I used in my [CV page](https://zonafets.github.io/site/pages/curriculum.htm#details#projects) (where I have experienced the principles of NTE for the first time).
+#### Easy diagram generation? (using [graphviz](https://github.com/zonafets/NTE/blob/master/src/TodoListExample/todoapp.gv))
+
+![flowchar](src/TodoListExample/todoapp.svg)
 
 #### Widgets template?
 
@@ -139,70 +130,3 @@ Integration with Bootstrap&C may require an HTML constructor method as I used in
   
 </widget>
 ```
-
-
-#### Replace complexity of instructions with a concept?
-
-```javascript
-
-	task: {
-		...
-		empty: (value) => ""
-	}
-	
-	// and instead of:
-	
-	task.value = ""
-	
-	// write
-	
-	task.empty()
-```
-
-
-#### Easy diagram generation? (using [graphviz](https://github.com/zonafets/NTE/blob/master/src/TodoListExample/todoapp.gv))
-
-![flowchar](src/TodoListExample/todoapp.svg)
-
-
-**More simple diffs?**
-```diff
-5c5
-< 	task: {
----
-> 	todo: {
-7c7,9
-< 		onKeyReturn: (add) => add.click()
----
-> 		onKeyReturn: (add) => add.click(),
-> 		empty:(value)=>""
-> 		
-11,12c13,14
-< 		disabled: (task,onkeyup) => task.value == "",
-< 		onclick: (todolist,task) => {
----
-> 		disabled: (todo,onkeyup) => todo.value == "",
-> 		onclick: (todolist,todo) => {
-15c17
-< 				description: task.value
----
-> 				description: todo.value
-17c19
-< 			task.value = ""
----
-> 			todo.empty()
-34c36
-< }
----
-> }
-
-```
-
-
-### A poetic description
-I used JSON as mirror of HTML same as CSS. I added a pinch of Wiki and seasoned it with simple javascript, using, as a secret additive, the parameters of the functions in the form of an observer pattern.
-
-Looking at this code is like tasting a single dish in which the individual flavors stand out well.
-
-### Links
-- old guesses are [here](https://github.com/zonafets/NTE/blob/master/old_stuff.md)
