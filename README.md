@@ -42,16 +42,17 @@ Will be preprocessed by server into TodoListWidget.html.
 ```js
 h1 "Todo list" 
 
-Task: input @Task 
-	  button "Add to list" @add
+Task:
+  input @Task 
+  button "Add to list" @add
 
 ul @TodoList
 
-	li @TodoItem
+  li @TodoItem
 
-		checkbox @done 
-		@description 
-		button "Remove" @remove
+    checkbox @done 
+    @description 
+    button "Remove" @remove
 ```
 
 ### **TodoListWidget**.html
@@ -59,16 +60,17 @@ ul @TodoList
 ```html
 <H1>Todo list</H1>
 
-Task: <input id="Task"> 
-	<button id="Add">Add to list</button>
+Task:
+  <input id="Task"> 
+  <button id="Add">Add to list</button>
 
 <ul id="TodoList">
 
-    <li name="TodoItem">
-        <input id="Done" type="checkbox">
-        <span id="Description">#description</span>
-        <Button id="Remove">Remove</button>
-    </li>
+  <li name="TodoItem">
+    <input id="Done" type="checkbox">
+    <span id="Description">#description</span>
+    <Button id="Remove">Remove</button>
+  </li>
 
 </ul>
 ```
@@ -77,20 +79,23 @@ Task: <input id="Task">
 ```javascript
 var TodoListWidget = {
 
-	Task: '',
+  Task: '',
     
-    Add: (Task,onKeyUp)=> this.Enabled = (Task == '')
+  Add: (Task,onKeyUp) => 
+    this.Enabled = (Task == '')
 
-	TodoItem: {
-		Description: {
-			class: (Done)=> Done?"removed":""
-			}
-	},
+  TodoItem: {
+    Description: {
+	  class: (Done) => Done?"removed":""
+      }
+  },
 	
-	TodoList: {
-		remove: (Remove,TodoItem)=> TodoItem.Done == false,
-		add: (Add,TodoItem)=> TodoList.push(TodoItem),
-	}
+  TodoList: {
+    remove: (Remove,TodoItem) => 
+      TodoItem.Done == false,
+    add: (Add,TodoItem) => 
+      TodoList.push(TodoItem),
+  }
 	
 } // TodoListWidget
 ```
