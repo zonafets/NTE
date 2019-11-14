@@ -51,7 +51,7 @@ ul @TodoList
   li @TodoItem
 
     checkbox @done 
-    @description 
+    @description "todo"
     button "Remove" @remove
 ```
 
@@ -68,7 +68,7 @@ Task:
 
   <li name="TodoItem">
     <input id="Done" type="checkbox">
-    <span id="Description">#description</span>
+    <span id="Description">todo</span>
     <Button id="Remove">Remove</button>
   </li>
 
@@ -77,27 +77,64 @@ Task:
 
 ### TodoListWidget.js 
 ```javascript
-var TodoListWidget = {
+Task: '',
 
-  Task: '',
+Add: (Task,onKeyUp) => 
+  this.Enabled = (Task == '')
+
+TodoItem: {
+  Description: {
+    class: (Done) => Done?"removed":""
+    }
+},
+	
+TodoList: {
+  remove: (Remove,TodoItem) => 
+    TodoItem.Done == false,
+  add: (Add,TodoItem,TodoList) => 
+    TodoList.push(TodoItem),
+}
+```
+
+#### TodoListWidget.js explained
+```javascript
+/* wrapped by NTE with
+   var TodoListWidget = {
+   */
+
+/* init de value of the model
+   that reflect to the view */
+
+Task: '',
+
+/* 'this' point to the control
+   'onKeyUp' link the relative
+   event of Task to this function */
+   
+Add: (Task,onKeyUp) => 
+  this.Enabled = (Task == '')
+
+TodoItem: {
+  Description: {
+  
+    /* on change of Done, change
+       the style of 'Description' */
     
-  Add: (Task,onKeyUp) => 
-    this.Enabled = (Task == '')
+    class: (Done) => Done?"removed":""
+    }
+},
+	
+TodoList: {
 
-  TodoItem: {
-    Description: {
-	  class: (Done) => Done?"removed":""
-      }
-  },
-	
-  TodoList: {
-    remove: (Remove,TodoItem) => 
-      TodoItem.Done == false,
-    add: (Add,TodoItem) => 
-      TodoList.push(TodoItem),
-  }
-	
-} // TodoListWidget
+  /* on change (click) of Remove or Add,
+     call relatives functions, with relative
+     models */
+
+  remove: (Remove,TodoItem) => 
+    TodoItem.Done == false,
+  add: (Add,TodoItem,TodoList) => 
+    TodoList.push(TodoItem),
+}
 ```
 
 **Advantages**
