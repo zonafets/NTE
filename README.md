@@ -23,13 +23,13 @@ Why **natural**? Because the developer must develop using what he already knows 
 
 ```html
 <head>
-	<script src="nte.js"></script>
+  <script src="nte.js"></script>
 </head>
 
 <body>
+    
+  <TodoListWidget></TodoListWidget>
 
-	<TodoListWidget></TodoListWidget>
-	
 </body>
 ```
 
@@ -75,7 +75,7 @@ Task:
 </ul>
 ```
 
-### TodoListWidget.js 
+### TodoListWidget.njs 
 ```javascript
 Task: '',
 
@@ -98,18 +98,22 @@ TodoList: {
 
 #### TodoListWidget.js explained
 ```javascript
-/* wrapped by NTE with
-   var TodoListWidget = {
-   */
+/* 
+wrapped by NTE with:
+  var TodoListWidget = {
+*/
 
-/* init de value of the model
-   that reflect to the view */
+/* 
+init the values
+*/
 
 Task: '',
 
-/* 'this' point to the control
-   'onKeyUp' link the relative
-   event of Task to this function */
+/* 
+'this' point to the control
+'onKeyUp' link the relative
+event of Task to this function 
+*/
    
 Add: (Task,onKeyUp) => 
   this.Enabled = (Task == '')
@@ -117,8 +121,10 @@ Add: (Task,onKeyUp) =>
 TodoItem: {
   Description: {
   
-    /* on change of Done, change
-       the style of 'Description' */
+    /* 
+    on change of Done, change
+    the style of 'Description' 
+    */
     
     class: (Done) => Done?"removed":""
     }
@@ -126,9 +132,11 @@ TodoItem: {
 	
 TodoList: {
 
-  /* on change (click) of Remove or Add,
-     call relatives functions, with relative
-     models */
+  /* 
+  on change (click) of Remove or Add,
+  call relatives functions, with relative
+  models 
+  */
 
   remove: (Remove,TodoItem) => 
     TodoItem.Done == false,
@@ -158,8 +166,8 @@ I'm imagining some feature as **"hash"** member to automatically connect the URL
 
 ```html
 
-<toPay widget="money">To pay</toPay>
-<payed widget="money">Payed</payed>
+money @toPay "To pay"
+money @Payed "Payed"
 
 ...
 
