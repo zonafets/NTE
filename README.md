@@ -28,45 +28,43 @@ Why **natural**? Because the developer must develop using what he already knows 
 
 <body>
     
-  <TodoListWidget></TodoListWidget>
+  <TodoList></TodoList>
 
 </body>
 ```
 
-**<u>NTE load and convert the following files.</u>**
+### TodoList.nhtml (optional)
 
-### TodoListWidget.nhtml (optional)
-
-Will be preprocessed by server into TodoListWidget.html.
+Optionally loaded and converted by NTE client or server.
 
 ```js
 h1 "Todo list" 
 
 Task:
   input @Task 
-  button "Add to list" @add
+  button "Add" @add
 
-ul @TodoList
+ul @List
 
-  li @TodoItem
+  li @Item
 
     checkbox @done 
     @description "todo"
     button "Remove" @remove
 ```
 
-### **TodoListWidget**.html
+### **TodoList.html
 
 ```html
 <H1>Todo list</H1>
 
 Task:
   <input id="Task"> 
-  <button id="Add">Add to list</button>
+  <button id="Add">Add</button>
 
-<ul id="TodoList">
+<ul id="List">
 
-  <li name="TodoItem">
+  <li name="Item">
     <input id="Done" type="checkbox">
     <span id="Description">todo</span>
     <Button id="Remove">Remove</button>
@@ -75,32 +73,37 @@ Task:
 </ul>
 ```
 
-### TodoListWidget.njs 
+### TodoList.njs 
 ```javascript
 Task: '',
 
 Add: (Task,onKeyUp) => 
   this.Enabled = (Task == '')
 
-TodoItem: {
+Item: {
   Description: {
-    class: (Done) => Done?"removed":""
+    class: (Done) => 
+      Done?"removed":""
     }
 },
 	
-TodoList: {
-  remove: (Remove,TodoItem) => 
-    TodoItem.Done == false,
-  add: (Add,TodoItem,TodoList) => 
-    TodoList.push(TodoItem),
+List: {
+
+  remove: (Remove,Item,List) => 
+    delete List[List.indexOf(Item)],
+    
+  add: (Add,Task,List) => 
+    List.push({Done:false,Description:Task}),
+    
 }
 ```
 
-#### TodoListWidget.js explained
+#### TodoList.njs explained
 ```javascript
 /* 
 wrapped by NTE with:
-  var TodoListWidget = {
+  var TodoList = {
+from name of file
 */
 
 /* 
@@ -110,15 +113,16 @@ init the values
 Task: '',
 
 /* 
-'this' point to the control
-'onKeyUp' link the relative
-event of Task to this function 
+'this' point to the element
+'onKeyUp' means: 
+"link the relative event" 
+to this function 
 */
    
 Add: (Task,onKeyUp) => 
   this.Enabled = (Task == '')
 
-TodoItem: {
+Item: {
   Description: {
   
     /* 
@@ -130,19 +134,23 @@ TodoItem: {
     }
 },
 	
-TodoList: {
+List: {
 
   /* 
-  on change (click) of Remove or Add,
-  call relatives functions, with relative
-  models 
+  on (click) of Remove or Add,
+  calls relatives message functions, 
+  with specified models 
   */
 
-  remove: (Remove,TodoItem) => 
-    TodoItem.Done == false,
-  add: (Add,TodoItem,TodoList) => 
-    TodoList.push(TodoItem),
+  remove: (Remove,Item,List) => 
+    delete List[List.indexOf(Item)],
+    
+  add: (Add,Task,List) => 
+    List.push({Done:false,Description:Task}),
 }
+
+/* as in Vue, on exit of a function, the models are compared with
+   originals values and relative elements updated */
 ```
 
 **Advantages**
@@ -164,18 +172,34 @@ I'm imagining some feature as **"hash"** member to automatically connect the URL
 
 #### Widgets template?
 
-```html
-
+```javascript
 money @toPay "To pay"
 money @Payed "Payed"
-
 ...
+widget @money
+       ?parent = "form"
+       ?UI = "BT3"
+  div .form-group
+    label !for=@@id
+          @@content
+    input @@id
+          !type="text"
+          .form-control
+```
 
-<widget name="money" ifParent="form" ifUI="BT3">
+#### Rendered HTML
+```html
+<widget name="money" 
+        ifParent="form" 
+        ifUI="BT3">
 
   <div class="form-group">
-    <label for="@id">@contentText</label>
-    <input type="text" class="form-control" id="@id">
+    <label for="@id">
+      @content
+    </label>
+    <input id="@id"
+           type="text"
+           class="form-control" >
   </div>
   
 </widget>
