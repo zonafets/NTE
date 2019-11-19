@@ -10,6 +10,9 @@ An interesting idea emerged while was developing a todo list app ([Demo](https:/
 **Natural** because we must develop using what we already know, learning new things along the way. So, isn't you that learn the framework, but it must teach to you.
 
 ### Goal (more or less)
+
+(The code is more simple)
+
 ![flowchar](imgs/TodoListWidget.png)
 
 ### index.html
@@ -26,27 +29,25 @@ An interesting idea emerged while was developing a todo list app ([Demo](https:/
 </body>
 ```
 
-### TodoList.nhtml (optional)
-
-Optionally loaded and converted by NTE client or server.
+### TodoList.html.nte (optional)
 
 ```js
 h1 "Todo list" 
 
 Task:
-  input @Task 
+  input @task 
   button "Add" @add
 
-ul @List
+ul @list
 
-  li @Item
+  li @item
 
     checkbox @done 
     @description "todo"
     button "Remove" @remove
 ```
 
-### **TodoList.html
+### TodoList.html (rendered)
 
 ```html
 <H1>Todo list</H1>
@@ -66,7 +67,7 @@ Task:
 </ul>
 ```
 
-### TodoList.njs 
+### TodoList.js.nte
 ```javascript
 task: '',
 
@@ -88,14 +89,15 @@ list: {
     ],
     
   add: (task,list) => 
-    list.push(
-      {done:false,description: task}
-    ),
+    list.push({
+      done:false,
+      description: task
+  }),
     
 }
 ```
 
-#### TodoList.njs explained
+#### TodoList.njs (explained)
 ```javascript
 /* 
 wrapped by NTE with:
