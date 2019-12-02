@@ -72,7 +72,7 @@ Task:
 task: '',
 
 add: (task,onKeyUp) => 
-  this.Enabled = (task == '')
+  this.Enabled = (task !== '')
 
 item: {
   description: {
@@ -99,54 +99,48 @@ list: {
 
 #### TodoList.njs (explained)
 ```javascript
-/* 
-wrapped by NTE with:
-  var TodoList = {
-from name of file
-*/
+// implicit (as python's modules) 
+var TodoList = {
 
-/* 
-init the values
-*/
+// (model & element): value = ... 
 
 Task: '',
 
-/* 
-'this' point to the element
-'onKeyUp' means: 
-"link the relative event" 
-to this function 
-*/
+// element: (model, event) => action (this == element)
    
 Add: (Task,onKeyUp) => 
   this.Enabled = (Task == '')
 
 Item: {
-  Description: {
-  
-    /* 
-    on change of Done, change
-    the style of 'Description' 
-    */
+
+  // element: property(model) => action (this == element)
     
+  Description: {
     class: (Done) => 
       Done?"removed":""
     }
+
+  // element: (model) => action (this == element)
+    
+  description: (done) => 
+    this.style.class = 
+      done?"removed":"",
+
 },
-	
+    
+// model
+
 List: {
 
-  /* 
-  on (click) of Remove or Add,
-  calls relatives message functions, 
-  with specified models 
-  */
+  // message: (model,model) => action (this == parent model)
 
   remove: (Item,List) => 
     delete List[
       List.indexOf(Item)
     ],
     
+  // message: (model,model) => action (this == parent model)
+      
   add: (Task,List) => 
     List.push(
       {Done:false,Description:Task}
@@ -159,17 +153,17 @@ List: {
 
 **Advantages**
 
-- semantic check by javascript compiler or by NTE
-- UI events are hidden/wrapped by application actions
+- semantic/compile time check by Javascript compiler & NTE
+- UI events are hidden/wrapped by application actions (this is an application framework, not a replacement/alternative behavior for the UI framework)
 - simplify/automate tests 
-- simplified diffs (**todo**)
-- possible automatc diagram generation
+- simplified diffs
+- possible automatized diagram generation as in the above image
 
 ### Ideas for the future
 
 #### Direct link to GUI parts?
 
-I'm imagining some feature as **"hash"** member to automatically connect the URL to a page/tab or component.
+I'm imagining some feature that uses ** "hash"** both for a rapid recovery of a context and for testing purposes.
 
 #### Widgets template?
 
