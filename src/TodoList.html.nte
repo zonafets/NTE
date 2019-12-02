@@ -1,0 +1,13 @@
+h1 Todo list 
+
+Task
+  input @task 
+  button Add @add
+
+ul @list
+
+  li @item
+
+    checkbox @done 
+    @description todo
+    button Remove @remove

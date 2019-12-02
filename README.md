@@ -13,7 +13,7 @@ An interesting idea emerged while was developing a todo list app ([Demo](https:/
 
 (The code is more simple)
 
-![flowchar](imgs/TodoListWidget.png)
+![todolistchart](imgs/TodoListWidget.png)
 
 ### index.html
 
@@ -206,10 +206,38 @@ widget @money
 </widget>
 ```
 
-### Other frameworks examples
+### TODO examples with other frameworks
 **Googling** with **"@framework simple todolist"** I found this:
 
 - Simple todolist example with AngularJS [code&demo](http://embed.plnkr.co/ZiVJbCeX4GDgC1kMjnUB/)
 - Simple todolist example with KnockoutJS [code&demo](http://jsfiddle.net/icoxfog417/sujqa/)
 - Simple todolist example with React [code](https://github.com/christiannwamba/scotch-react-todo/blob/master/src/index.jsx) [demo](https://codepen.io/codebeast/full/PzVyRm)
 - Simple todolist example with Angular2 [code&demo](http://embed.plnkr.co/ZiVJbCeX4GDgC1kMjnUB/)
+
+
+## **Case y = m * x**
+
+![ymx](imgs/ymx.png)
+#### ymx.html.nte
+```javascript
+@@anonymouse = "input"
+@@before = "@@id:"
+
+@y = @m * @x
+```
+#### ymx.html
+```html
+y:<input id="y"> = m:<input id="m"> * x:<input id="x">
+```
+#### ymx.js.nte
+```javascript
+x:0, y:0, z:0, 
+// this is the same of
+ymx:()=>this.x = this.y = this.z = 0, 
+// that is the same of
+init:(ymx)=>ymx.x = ymx.y = ymx.z=0,
+
+y:(x,m)=>return x*m,
+x:(y,m)=>return y/m,
+m:(y,x)=>return y/x,
+```

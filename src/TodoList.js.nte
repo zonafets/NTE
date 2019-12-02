@@ -1,0 +1,26 @@
+task: '',
+
+add: (task,onKeyUp) => 
+  this.Enabled = (task == '')
+
+item: {
+  description: {
+    class: (done) => 
+      done?"removed":""
+    }
+},
+	
+list: {
+
+  remove: (item,list) => 
+    delete list[
+      list.indexOf(item)
+    ],
+    
+  add: (task,list) => 
+    list.push({
+      done:false,
+      description: task
+  }),
+    
+}
