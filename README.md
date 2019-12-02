@@ -97,30 +97,33 @@ list: {
 }
 ```
 
-#### TodoList.njs (explained)
+#### TodoList.js.nte (explained)
 ```javascript
 // implicit (as python's modules) 
 var TodoList = {
 
-// (model & element): value = ... 
+// (model | element): value = ... 
 
 Task: '',
 
-// element: (model, event) => action (this == element)
+/* element: (model, event) => 
+     action (this == element)  */
    
 Add: (Task,onKeyUp) => 
   this.Enabled = (Task == '')
 
 Item: {
 
-  // element: property(model) => action (this == element)
+  /* element: property(model) => 
+       action (this == element)  */
     
   Description: {
     class: (Done) => 
       Done?"removed":""
     }
 
-  // element: (model) => action (this == element)
+  /* element: (model) => 
+       action (this == element) */
     
   description: (done) => 
     this.style.class = 
@@ -132,23 +135,22 @@ Item: {
 
 List: {
 
-  // message: (model,model) => action (this == parent model)
+  /* message: (model,model) => 
+       action (this == parent model) */
 
   remove: (Item,List) => 
     delete List[
       List.indexOf(Item)
     ],
     
-  // message: (model,model) => action (this == parent model)
+  /* message: (model,model) => 
+       action (this == parent model) */
       
   add: (Task,List) => 
     List.push(
       {Done:false,Description:Task}
     ),
 }
-
-/* as in Vue, on exit of a function, the models are compared with
-   originals values and relative elements updated */
 ```
 
 **Advantages**
