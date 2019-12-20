@@ -1,13 +1,13 @@
-h1 Todo list 
+h1 "Todo list" 
 
-Task
+Task:
   input @task 
-  button Add @add
+  button "Add" @add
 
 ul @list
 
   li @item
 
     checkbox @done 
-    @description todo
-    button Remove @remove
+    @description "todo"
+    button "Remove" @remove

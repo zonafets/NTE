@@ -71,28 +71,32 @@ Task:
 ```javascript
 task: '',
 
-add: (task,onKeyUp) => 
-  this.Enabled = (task !== '')
+add: function(task,keyup) { 
+  this.disabled = (task == '')
+},
 
 item: {
   description: {
-    class: (done) => 
-      done?"removed":""
-    }
+	classList: {
+		"removed": (done) => done
+	},
+  },
 },
 	
 list: {
 
-  remove: (item,list) => 
-    delete list[
-      list.indexOf(item)
-    ],
-    
-  add: (task,list) => 
+  add: function(task,list) {
     list.push({
       done:false,
       description: task
-  }),
+    }),
+  },
+
+  remove: function(item,list) { 
+    delete list[
+      list.indexOf(item)
+    ]
+  },
     
 }
 ```
@@ -104,52 +108,37 @@ var TodoList = {
 
 // (model | element): value = ... 
 
-Task: '',
+task: '',
 
 /* element: (model, event) => 
      action (this == element)  */
    
-Add: (Task,onKeyUp) => 
-  this.Enabled = (Task == '')
+add: (task,keyup)
 
-Item: {
-
-  /* element: property(model) => 
-       action (this == element)  */
-    
-  Description: {
-    class: (Done) => 
-      Done?"removed":""
-    }
+item: {
 
   /* element: (model) => 
-       action (this == element) */
+       property: expression (this == element) */
     
-  description: (done) => 
-    this.style.class = 
-      done?"removed":"",
-
+  description: {
+    className: (done)
+  }
 },
     
 // model
 
-List: {
+list: {
 
   /* message: (model,model) => 
-       action (this == parent model) */
+       action (this == element) */
 
-  remove: (Item,List) => 
-    delete List[
-      List.indexOf(Item)
-    ],
+  remove: (item,list)
     
   /* message: (model,model) => 
-       action (this == parent model) */
+       action (this == element) */
       
-  add: (Task,List) => 
-    List.push(
-      {Done:false,Description:Task}
-    ),
+  add: (task,list)
+
 }
 ```
 

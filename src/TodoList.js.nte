@@ -1,7 +1,7 @@
 task: '',
 
 add: (task,onKeyUp) => 
-  this.Enabled = (task == '')
+  this.Enabled = (task !== '')
 
 item: {
   description: {
