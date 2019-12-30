@@ -71,8 +71,27 @@ Task:
 ```javascript
 task: '',
 
-add: function(task,keyup) { 
-  this.disabled = (task == '')
+list_add: function(task,list) 
+{
+	return {
+		task: '',
+		list: list.push({
+		  done:false,
+		  description: task
+		  })
+	}
+},
+
+add: function(
+		element,list,
+		task,keyup,change
+		) 
+{
+  element.disabled = (task == '')
+  if (keyup!==undefined 
+  && keyup.keyCode==13 
+  && task!='') 
+	  return this.list_add(task,list)
 },
 
 item: {
@@ -86,60 +105,19 @@ item: {
 list: {
 
   add: function(task,list) {
-    list.push({
-      done:false,
-      description: task
-    }),
+	  return this.list_add(task,list)
   },
 
-  remove: function(item,list) { 
-    delete list[
-      list.indexOf(item)
-    ]
+  remove: function(item,list) {
+	  return list.pop(item)
   },
-    
+  
 }
 ```
 
 #### TodoList.js.nte (explained)
 ```javascript
-// implicit (as python's modules) 
-var TodoList = {
 
-// (model | element): value = ... 
-
-task: '',
-
-/* element: (model, event) => 
-     action (this == element)  */
-   
-add: (task,keyup)
-
-item: {
-
-  /* element: (model) => 
-       property: expression (this == element) */
-    
-  description: {
-    className: (done)
-  }
-},
-    
-// model
-
-list: {
-
-  /* message: (model,model) => 
-       action (this == element) */
-
-  remove: (item,list)
-    
-  /* message: (model,model) => 
-       action (this == element) */
-      
-  add: (task,list)
-
-}
 ```
 
 **Advantages**
