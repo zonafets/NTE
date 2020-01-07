@@ -75,25 +75,28 @@ list_add: function(task,list)
 {
   return {
     task: '',
-      list: list.push({
+    list: list.push({
         done:false,
         description: task
-        })
+    })
   }
 },
 
 add: function(
-      element,list,
+      $add,list,
       task,keyup,change
       ) 
 {
   var disabled = (task == '')
-  element.disabled = disabled 
-  if (!disabled
+  $add.disabled = disabled 
+  var add = (!disabled
   && keyup!==undefined 
   && keyup.keyCode==13) 
-	return 
-    this.list_add(task,list)
+  if (add) return (
+      this.list_add(
+          task,list
+      )
+  )
 },
 
 item: {

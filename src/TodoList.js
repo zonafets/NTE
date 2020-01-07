@@ -13,15 +13,20 @@ var TodoList = {
 	},
 
 	add: function(
-			element,list,
+			$add,list,
 			task,keyup,change
 			) 
 	{
-	  element.disabled = (task == '')
-	  if (keyup!==undefined 
-	  && keyup.keyCode==13 
-	  && task!='') 
-		  return this.list_add(task,list)
+	  var disabled = (task == '')
+	  $add.disabled = disabled
+	  var add = (!disabled 
+	  && keyup!==undefined
+	  && keyup.keyCode==13)
+	  if (add) return (
+	      this.list_add(
+	        task,list
+          )
+	  )
 	},
 
 	item: {
@@ -47,7 +52,6 @@ var TodoList = {
 
 // model
 $TodoList = {}
-$TodoList.task = TodoList.task
 $TodoList.list = []
 $TodoList.list_add = TodoList.list_add.bind($TodoList)
 
@@ -82,12 +86,12 @@ $TodoList.$item.remove()
 // events and messages
 var TodoList_task_keyup = function(ev)
 {
-	var updates = TodoList.add.call($TodoList,$TodoList.$add,task.value,ev,undefined)
+	var updates = TodoList.add.call($TodoList,$TodoList.$add,$TodoList.list,task.value,ev,undefined)
 }
 
 var TodoList_task_change = function(ev)
 {
-	var updates = TodoList.add.call($TodoList,$TodoList.$add,task.value,undefined,ev)
+	var updates = TodoList.add.call($TodoList,$TodoList.$add,$TodoList.list,task.value,undefined,ev)
 }
 
 var TodoList_item_done_change = function(ev)
@@ -112,6 +116,8 @@ var TodoList_list_add_click = function(ev)
 {
 	var updates = TodoList.list.add.call($TodoList,task.value,$TodoList.list)
 	$TodoList.$task.value = updates.task
+	var ev = new Event('change');
+	task.dispatchEvent(ev);
 	var item = updates.list.item
 	var li = $TodoList.$item.cloneNode(true)
 	var done = li.querySelector("[name='done']")
@@ -139,6 +145,7 @@ task.addEventListener("change",TodoList_task_change)
 add.addEventListener("click",TodoList_list_add_click)
 
 // init static values
+$TodoList.task = TodoList.task
 task.value = $TodoList.task
 
 var ev = new Event('change');
