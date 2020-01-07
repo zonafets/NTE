@@ -1,6 +1,6 @@
 var TodoList = {
 	task: '',
-	
+
 	list_add: function(task,list) 
 	{
 		return {

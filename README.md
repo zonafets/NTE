@@ -73,43 +73,47 @@ task: '',
 
 list_add: function(task,list) 
 {
-	return {
-		task: '',
-		list: list.push({
-		  done:false,
-		  description: task
-		  })
-	}
+  return {
+    task: '',
+      list: list.push({
+        done:false,
+        description: task
+        })
+  }
 },
 
 add: function(
-		element,list,
-		task,keyup,change
-		) 
+      element,list,
+      task,keyup,change
+      ) 
 {
-  element.disabled = (task == '')
-  if (keyup!==undefined 
-  && keyup.keyCode==13 
-  && task!='') 
-	  return this.list_add(task,list)
+  var disabled = (task == '')
+  element.disabled = disabled 
+  if (!disabled
+  && keyup!==undefined 
+  && keyup.keyCode==13) 
+	return 
+    this.list_add(task,list)
 },
 
 item: {
   description: {
-	classList: {
-		"removed": (done) => done
-	},
+    classList: {
+      "removed": (done) => done
+    },
   },
 },
 	
 list: {
 
   add: function(task,list) {
-	  return this.list_add(task,list)
+    return 
+      this.list_add(task,list)
   },
 
   remove: function(item,list) {
-	  return list.pop(item)
+    return 
+      list.pop(item)
   },
   
 }
