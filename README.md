@@ -69,18 +69,11 @@ Task:
 
 ### TodoList.js.nte
 ```javascript
+/* ctor */
+
 task: '',
 
-list_add: function(task,list) 
-{
-  return {
-    task: '',
-    list: list.push({
-        done:false,
-        description: task
-    })
-  }
-},
+/* on task.(keyup|change) */
 
 add: function(
       $add,list,
@@ -93,11 +86,13 @@ add: function(
   && keyup!==undefined 
   && keyup.keyCode==13) 
   if (add) return (
-      this.list_add(
+      this.list.add(
           task,list
       )
   )
 },
+
+/* on done.clicked */
 
 item: {
   description: {
@@ -109,28 +104,34 @@ item: {
 	
 list: {
 
+  /* on add.clicked */
+
   add: function(task,list) {
-    return 
-      this.list_add(task,list)
+    return {
+      task: '',
+      list: list.push({
+        done:false,
+        description: task
+      })
+    }
   },
 
+  /* on remove.clicked */
+
   remove: function(item,list) {
-    return 
+    return (
       list.pop(item)
+    )
   },
   
 }
 ```
 
-#### TodoList.js.nte (explained)
-```javascript
-
-```
-
 **Advantages**
 
 - semantic/compile time check by Javascript compiler & NTE
-- UI events are hidden/wrapped by application actions (this is an application framework, not a replacement/alternative behavior for the UI framework)
+- possible flow-check
+- UI events are hidden/wrapped by application actions (**this is an application framework**, not an alternative behavior of the language and the browser's UI)
 - simplify/automate tests 
 - simplified diffs
 - possible automatized diagram generation as in the above image

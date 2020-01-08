@@ -1,17 +1,6 @@
 var TodoList = {
 	task: '',
 
-	list_add: function(task,list) 
-	{
-		return {
-			task: '',
-			list: list.push({
-			  done:false,
-			  description: task
-			  })
-		}
-	},
-
 	add: function(
 			$add,list,
 			task,keyup,change
@@ -23,7 +12,7 @@ var TodoList = {
 	  && keyup!==undefined
 	  && keyup.keyCode==13)
 	  if (add) return (
-	      this.list_add(
+	      this.list.add(
 	        task,list
           )
 	  )
@@ -40,7 +29,13 @@ var TodoList = {
 	list: {
 
 	  add: function(task,list) {
-		  return this.list_add(task,list)
+		  return {
+			task: '',
+			list: list.push({
+			  done:false,
+			  description: task
+			  })
+		}
 	  },
 
 	  remove: function(item,list) {
@@ -52,18 +47,23 @@ var TodoList = {
 
 // model
 $TodoList = {}
-$TodoList.list = []
-$TodoList.list_add = TodoList.list_add.bind($TodoList)
+$TodoList.$vm = {} // ViewModel data
+$vm=$TodoList.$vm
+$vm.list = []
+$TodoList.$messages={} // ViewModel functions
+$messages=$TodoList.$messages
+$messages.list={}
+$messages.list.add = TodoList.list.add.bind($messages)
 
 // extend prototypes
-$TodoList.list.push = function() {
+$vm.list.push = function() {
 	Array.prototype.push.apply(this,arguments);
 	return {
 		action: +1,
-		item: $TodoList.list[$TodoList.list.length-1]
+		item: $vm.list[$vm.list.length-1]
 	}
 }
-$TodoList.list.pop = function(item) {
+$vm.list.pop = function(item) {
 	//Array.prototype.push.apply(this,arguments);
 	delete this[
 		  this.indexOf(item)
@@ -74,7 +74,7 @@ $TodoList.list.pop = function(item) {
 	}
 }
 
-// get widgets
+// widgets
 $TodoList.$task = document.querySelector("#task")
 $TodoList.$add = document.querySelector("#add")
 $TodoList.$list = document.querySelector("#list")
@@ -86,12 +86,12 @@ $TodoList.$item.remove()
 // events and messages
 var TodoList_task_keyup = function(ev)
 {
-	var updates = TodoList.add.call($TodoList,$TodoList.$add,$TodoList.list,task.value,ev,undefined)
+	var updates = TodoList.add.call($messages,$TodoList.$add,$vm.list,task.value,ev,undefined)
 }
 
 var TodoList_task_change = function(ev)
 {
-	var updates = TodoList.add.call($TodoList,$TodoList.$add,$TodoList.list,task.value,undefined,ev)
+	var updates = TodoList.add.call($messages,$TodoList.$add,$vm.list,task.value,undefined,ev)
 }
 
 var TodoList_item_done_change = function(ev)
@@ -114,7 +114,7 @@ var TodoList_item_description_classList = function(ev)
 
 var TodoList_list_add_click = function(ev)
 {
-	var updates = TodoList.list.add.call($TodoList,task.value,$TodoList.list)
+	var updates = TodoList.list.add.call($messages,task.value,$vm.list)
 	$TodoList.$task.value = updates.task
 	var ev = new Event('change');
 	task.dispatchEvent(ev);
@@ -136,7 +136,7 @@ var TodoList_list_remove_click = function(ev)
 {
 	var li = this.parentElement
 	var $item = li.$item
-	var updates = TodoList.list.remove.call(this,$item,$TodoList.list)
+	var updates = TodoList.list.remove.call($messages,$item,$vm.list)
 	li.remove()
 }
 
