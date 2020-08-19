@@ -1,0 +1,23 @@
+<html>
+<body>
+<script>
+var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+var ARGUMENT_NAMES = /([^\s,]+)/g;
+function getParamNames(func) {
+  var fnStr = func.toString().replace(STRIP_COMMENTS, '');
+  var result = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+  if(result === null)
+     result = [];
+  return result;
+}
+
+var test1 = function(a,b,c,d) {var a=10}
+var test2 = function() { return (aa,bb)=>{arg1:"val1"} }()
+
+console.log(getParamNames(test1))
+console.log(getParamNames(test2))
+console.log(test2)
+
+</script>
+</body>
+</html>

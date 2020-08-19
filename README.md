@@ -11,10 +11,6 @@ An interesting idea emerged while was developing a todo list app ([Demo](https:/
 
 ### Goal (more or less)
 
-(The code is more simple)
-
-![todolistchart](imgs/TodoListWidget.png)
-
 ### index.html
 
 ```html
