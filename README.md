@@ -69,61 +69,57 @@ Task:
 
 ### TodoList.js.nte
 ```javascript
-/* ctor */
+TodoList = {
+    task: "",
+	list: [],
 
-task: '',
+    add: function(
+          add_click, 
+          task_keypress_keyCode_13, 
+          task_change,
+          $add, 
+          task, 
+          task_empty
+          ) 
+    {
+      if (task_change) 
+          $add.disabled = task_empty
 
-/* on task.(keyup|change) */
-
-add: function(
-      $add,list,
-      task,keyup,change
-      ) 
-{
-  var disabled = (task == '')
-  $add.disabled = disabled 
-  var add = (!disabled
-  && keyup!==undefined 
-  && keyup.keyCode==13) 
-  if (add) return (
-      this.list.add(
-          task,list
-      )
-  )
-},
-
-/* on done.clicked */
-
-item: {
-  description: {
-    classList: {
-      "removed": (done) => done
+      if ((add_click || 
+           task_keypress_keyCode_13) && 
+          !task_empty) 
+      {
+        return (list_add)=>{task: task}
+      }
     },
-  },
-},
-	
-list: {
 
-  /* on add.clicked */
+    item_done: 
+    function(
+    	done, 
+        done_change, 
+        $description) 
+    {
+      $description.className = 
+          done ? "done" : ""
+    },
 
-  add: function(task,list) {
-    return {
-      task: '',
-      list: list.push({
-        done:false,
-        description: task
-      })
+    list_remove: 
+    function( 
+    	 remove_click, 
+         item, 
+         list ) 
+    {
+      list.pop( item )
     }
-  },
 
-  /* on remove.clicked */
-
-  remove: function(item,list) {
-    return (
-      list.pop(item)
-    )
-  },
-  
+    list_add: function(task,list) {
+        list.push ( 
+            { done:false, 
+              description: task
+            }
+        )
+        return ()=>{task:""}
+    }
 }
 ```
 
@@ -202,13 +198,11 @@ y:<input id="y"> = m:<input id="m"> * x:<input id="x">
 ```
 #### ymx.js.nte
 ```javascript
-x:0, y:0, z:0, 
-// this is the same of
-ymx:()=>this.x = this.y = this.z = 0, 
-// that is the same of
-init:(ymx)=>ymx.x = ymx.y = ymx.z=0,
+var ymx = {
+    x:0, y:0, z:0, 
 
-y:(x,m)=>return x*m,
-x:(y,m)=>return y/m,
-m:(y,x)=>return y/x,
+    y:(x,m)=>return x*m,
+    x:(y,m)=>return y/m,
+    m:(y,x)=>return y/x,
+}
 ```
