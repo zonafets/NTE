@@ -66,56 +66,59 @@ Task:
 ### TodoList.js.nte
 ```javascript
 TodoList = {
-    task: "",
-	list: [],
+    
+  task: "",
+  list: [],
 
-    add: function(
-          add_click, 
-          task_keypress_keyCode_13, 
-          task_change,
-          $add, 
-          task, 
-          task_empty
-          ) 
-    {
-      if (task_change) 
-          $add.disabled = task_empty
+  add_clicked: 
+  function(
+    add_click, 
+    task_keypress_keyCode_13, 
+    task_change,
+    $add, 
+    task, 
+    task_empty)
+  {
+    if (task_change) 
+      $add.disabled = 
+        task_empty
 
-      if ((add_click || 
-           task_keypress_keyCode_13) && 
-          !task_empty) 
-      {
-        return (list_add)=>{task: task}
-      }
-    },
+    if ((add_click 
+    || task_keypress_keyCode_13) 
+    && !task_empty) 
+      return (list_add)=>{task: task}
+  },
 
-    item_done: 
-    function(
-    	done, 
-        done_change, 
-        $description) 
-    {
-      $description.className = 
-          done ? "done" : ""
-    },
+  item_done: 
+  function(
+    done, 
+    done_change, 
+    $description) 
+  {
+    $description.className = 
+      done ? "done" : ""
+  },
 
-    list_remove: 
-    function( 
-    	 remove_click, 
-         item, 
-         list ) 
-    {
-      list.pop( item )
-    }
+  list_remove: 
+  function( 
+    remove_click, 
+    item, 
+    list ) 
+  {
+    list.pop( item )
+  }
 
-    list_add: function(task,list) {
-        list.push ( 
-            { done:false, 
-              description: task
-            }
-        )
-        return ()=>{task:""}
-    }
+  list_add: 
+  function(
+    task,
+    list) 
+  {
+    list.push ({ 
+        done:false, 
+        description: task
+    })
+    return ()=>{task:""}
+  }
 }
 ```
 
