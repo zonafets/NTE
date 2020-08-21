@@ -1,0 +1,29 @@
+<html>
+<head>
+</head>
+<body>
+
+<script>
+	var list = []
+	var undolist = ["hi"]
+	list.push("hello","ciao")
+	console.log(list)
+	var model = {
+	  fn: (list,push) => ({a:1,b:2}),
+	  fnfn: (undolist,pop) => (list,push) => {},
+	  test: (task) => task === "",
+	  listpop: list => list.pop(),
+	  listlist: list => {for (i in list) console.log(list[i])},
+	  undo: (list,undolist) => {list.push(undolist.pop());return "ok"},
+	  simple: (list,list_count_0)=>{}
+	}
+	model.listlist(list)
+	console.log(model.test(""))
+	console.log(model.listpop(list,"ciao"))
+	console.log(model.list)
+	console.log(model.undo(list,undolist))
+	model.simple(list,0)
+</script>
+
+</body>
+</html>

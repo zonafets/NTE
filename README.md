@@ -1,22 +1,20 @@
 # NTE
 ## Natural Template Engine
 
-Today there are more than 20 frameworks. 
+Today there are more than 20 frameworks. Each one with pros/cons.
 
-Each one have its pro and its cons and there are pro/cons of use and not use they.
+There are also pros/cons of use and not use they.
 
-So I struggled (and I'm struggling) to do something that uses the UNIX philosophy and the concept behind styles.
+So I struggled (and I'm struggling) to do something that combine the UNIX philosophy, the concept behind styles, functional programming, mind limits and the KISS principle and the  Kernighan & Plaugher principle: "Don't write comments, rewirte the code".
 
 ## NTE code example
 
-**Natural** because we must develop using what we already know, learning new things along the way. So, isn't you that learn the framework, but it must teach to you.
+**"Natural"** because we must develop using what we already know, learning new things along the way. The framework has to teach while we use it.
 
 ### TodoList (view)
 
-Below the **HTML** rendered version.
-
-```javascript
-  H1 "NTE todolist demo"
+```ruby
+  H1 "Todolist NTE example"
   Task:
     input @task
     button "Add" @add @undo
@@ -25,11 +23,13 @@ Below the **HTML** rendered version.
         checkbox @done
         span @desciption
         button "Remove" @remove
-    button "Remove all done tasks" @removedone
+    button "Remove all done tasks" @removedones
+    button "Load tasks" @loadtasks
 ```
+Below the **HTML** rendered version.
+
 ### TodoList (model)
 This is a JSON with js arrow functions, without commas.
-Below the **transpiled** Javascript version.
 
 ```javascript
 // data
@@ -39,26 +39,49 @@ undolist:[]
 task: ""
 list: []
 
-// messages
+/* messages
+   msg: (
+     data_member, ...,
+     ctrl_event, ...,
+     data_value, ...,
+     event_prop_value, ...,
+     data_member_test_value
+   ) => {
+     body
+     return (next_model_state)
+   }
+*/
 
 addTask: (
-  task,add_click,
+  task, 
+  list,
+  add_click,
   task_change,
-  task_keypress_return) 
-  => (list,push) 
-  => ({done:false, 
-     description:task}) 
+  task_keypress_ketCode_13,
+  task_not_empty
+  => { 
+     list.push{
+       done:false, 
+       description:task}
+     return {task:""}
+     } 
 
-undoTask: (undolist,pop) 
-  => (list,push) 
-  => {}
+undoTask: (
+  list, 
+  undolist,
+  undolist_count_not_0
+  ) 
+  => {
+     list.push(undolist.pop())
+     }
 
-removeTask: (
+removetask: (
   list, item,
   remove_click)
   => list.pop(item)
 
-loadTasks: (
+loadtasks: (
+  loadtasks_click,
   loadlist,
   list)
   => {
@@ -69,8 +92,17 @@ loadTasks: (
         }
       )
   }
+  
+removedones: (
+  removedones_click,
+  list,
+  item,
+  list_each,
+  item_done_true
+  )
+  => list.pop(item)
 
-// behaviours
+// controls behaviours
 
 add: { 
   disabled: (task) 
@@ -91,6 +123,7 @@ list: {
   }
 }
 ```
+Below the **transpiled** Javascript version.
 
 **Pros**
 
@@ -105,14 +138,14 @@ list: {
 
 ```html
 <TodoList>
-  <H1>Todo list</H1>
+  <H1>Todo NTE example</H1>
 
   Task:
-  <input id="task"> 
-  <button id="add">Add</button>
-  <button id="undo">Undo</button>
+  <input name="task"> 
+  <button name="add">Add</button>
+  <button name="undo">Undo</button>
 
-  <ul id="list">
+  <ul name="list">
 
     <li name="item">
       <input name="done" type="checkbox">
@@ -121,10 +154,54 @@ list: {
     </li>
 
   </ul>
+  <button name="removedones">Remove all done tasks</button>
 </TodoList>
 ```
 
+#### Some proof of concepts
 
+**Get function parameters**
+```javascript
+var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+var ARGUMENT_NAMES = /([^\s,]+)/g;
+function getParamNames(func) {
+  var fnStr = func.toString().replace(STRIP_COMMENTS, '');
+  var result = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+  if(result === null)
+     result = [];
+  return result;
+}
+
+var test1 = function(a,b,c,d) {var a=10}
+var test2 = function() { return (aa,bb)=>{arg1:"val1"} }()
+
+console.log(getParamNames(test1))
+console.log(getParamNames(test2))
+console.log(test2)
+```
+
+**Arrow functions**
+```javascript
+	var list = []
+	var undolist = ["hi"]
+	list.push("hello","ciao")
+	console.log(list)
+	var model = {
+	  fn: (list,push) => ({a:1,b:2}),
+	  fnfn: (undolist,pop) => (list,push) => {},
+	  test: (task) => task === "",
+	  listpop: list => list.pop(),
+	  listlist: list => {for (i in list) console.log(list[i])},
+	  undo: (list,undolist) => {list.push(undolist.pop());return "ok"},
+	  simple: (list,list_count_0)=>{}
+	}
+	model.listlist(list)
+	console.log(model.test(""))
+	console.log(model.listpop(list,"ciao"))
+	console.log(model.list)
+	console.log(model.undo(list,undolist))
+	model.simple(list,0)
+```
 
 ### Ideas for the future
 

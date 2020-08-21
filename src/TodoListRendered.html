@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"> 
+<style>
+	.removed {
+		text-decoration-line: line-through;
+	}
+</style>
+</head>
+
+<body>
+    
+  <TodoList>
+	  <H1>Todo list</H1>
+
+	Task:
+	  <input id="task" placeholder=""> 
+	  <button id="add">Add</button>
+
+	<ul id="list">
+
+	  <li name="item">
+		<input name="done" type="checkbox">
+		<span name="description">todo</span>
+		<Button name="remove">Remove</button>
+	  </li>
+
+	</ul>
+  </TodoList>
+
+</body>
+<script>
+
+todolist = {
+    
+  task: {
+  	ctor:""
+    placeholder:"what want to be done?",
+  },
+
+  add: {
+      disabled: function(
+	    task_keypress,
+	    task_empty
+	  	) 
+	  {
+	    this.disabled = 
+	      task_empty
+	  }
+  },
+
+  list: {
+  	ctor: [],
+
+  	item: {
+
+  		add: function(
+		    add_click, 
+		    task_keypress_keyCode_13, 
+		    task,
+		    task_not_empty
+		    )
+		  {
+	   	  	var item = new Object()
+		  	item.done = false 
+	    	item.description = task
+	    	return [
+	    		(list,push)=>({item: item}),
+	    		{task:""}
+	    	]
+		  },
+
+		description: {
+			className: (done, done_change) => done ? "done" : "" 
+		},
+
+		remove: {
+			disabled: (done, done_changed, done_false) => true
+			click: (item) => (list,pop) => ({item: item})
+   		},
+	}
+
+}
+
+// ============================ RENDERED PART =============================================
+
+// widgets
+var $todolist = document.querySelector("todolist")
+
+var $task = $todolist.querySelector("#task")
+var $add = $todolist.querySelector("#add")
+var $list = $todolist.querySelector("#list")
+var $item = $list.querySelector("[name='item']")
+$list.removeChild($item)
+if (todolist.list === null) $todolist.removeChild($list)
+
+var $todolist_task_set(value) { 
+	$task.value = value; 
+	$task.dispatchEvent(new Event('change'));
+}
+
+// events
+
+var $list_item_add_result = function(result) {
+ 	if (result) {
+ 		var result = todolist.list_add( call().task, todolist.list)
+ 		if (todolist.task !== result.task) {
+ 			todolist.task = result.task
+		    $task.dispatchEvent(new Event('change'));
+ 		} 
+ 		item = result.item
+ 		todolist.list.push(item)
+		var $newitem = $item.cloneNode(true)
+		$newitem.$data = $item
+		$list.appendChild($newitem)
+		var $done = $newitem.querySelector("[name='done']")
+		var $description = $newitem.querySelector("[name='description']")
+		var $remove = $newitem.querySelector("[name='remove']")
+		$done.addEventListener("click",$list_item_done_change)
+		$remove.addEventListener("click",$list_item_remove_click)
+	}
+}
+
+var $list_item_done_change = function(ev) {
+	var $item = ev.target.parentNode
+    var item = $item.$data
+	var done = item.done
+	var done_change = ev
+	var $description = $item.querySelector("#description")
+	todolist.item_done(done,done_change,$description)
+}
+
+var $list_item_remove_click = function(ev) {
+	var $item = ev.target.parentNode
+    var item = $item.$data
+    var remove_click = ev 
+    var list = todolist.list
+    todolist.remove_item(remove_click,item,list)
+}
+
+var $task_change = function(ev) {
+	todolist.task = $task.value
+ 	var call = todolist.list_add(
+	    null, // add_click,
+	    null, // task_keypress_keyCode_13,
+	    ev,
+	    todolist.task, 
+    )
+ 	$list_item_add_result( call )
+}
+
+var $task_keypress_keyCode_13 = function(ev) {
+	if (ev.keycode!==13) return
+	todolist.task = $task.value
+ 	var call = todolist.list_add(
+	    null, // add_click, 
+	    true, // task_keypress_keyCode_13
+	    null, // task_change
+	    todolist.task, 
+    )
+ 	$list_item_add_result( call )
+}
+
+var $add_click = function(ev) {
+	todolist.task = $task.value
+ 	var call = todolist.list_add(
+	    ev, // add_click
+	    null, // task_keypress_keyCode_13
+	    null, // task_change
+	    todolist.task, 
+    )
+ 	$list_item_add_result( call )
+}
+
+var $add_status = function(ev) {
+    var task_keypress = ev
+    var task_empty = (todolist.task === "")
+ 	var call = todolist.add_status(
+	    $add, 
+	    task_keypress,
+	    task_empty
+    )
+}
+
+$task.addEventListener("change", $task_change)
+$task.addEventListener("keypress", $task_keypress_keyCode_13)
+$add.addEventListener("click", $add_click)
+$task.addEventListener("keypress", $add_status)
+
+// values
+$add.placeholder = todolist.$add.placeholder
+$task.value = todolist.task; $task.dispatchEvent(new Event('change'));
+
+
+</script>
+</html>
