@@ -251,6 +251,18 @@ widget @money
 - Simple todolist example with React [code](https://github.com/christiannwamba/scotch-react-todo/blob/master/src/index.jsx) [demo](https://codepen.io/codebeast/full/PzVyRm)
 - Simple todolist example with Angular2 [code&demo](http://embed.plnkr.co/ZiVJbCeX4GDgC1kMjnUB/)
 
+### Sponsor wanted
+
+<img src="imgs/IwantU.jpg" alt="I want You" style="zoom:15%;" />
+
+If you like the idea, I'm searching a sponsor for a full time development.
+
+### Next cases to check
+
+* case y = m * x
+* editable grid
+* grid with sub grid
+* grid with filters and resulting expression
 
 ## **Case y = m * x**
 
