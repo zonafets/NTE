@@ -11,96 +11,26 @@
 
 <body>
 
-<script name="view" type="application/javascript">
-  H1 "NTE todolist demo"
+<TodoList>
+  <H1>Todo NTE example</H1>
+
   Task:
-    input @task
-    button "Add" @add @undo
-    ul @list
-      li @item
-        checkbox @done
-        span @desciption
-        button "Remove" @remove
-    button "Remove all done tasks" @removedone
-</script>
-<script name="model" type="application/javascript">
-  
-  // data
-  
-  loadlist:["task1","task2","task3"]
-  undolist:[]
-  task: ""
-  list: []
+  <input name="task"> 
+  <button name="add">Add</button>
+  <button name="undo">Undo</button>
 
-  // messages
+  <ul name="list">
 
-  addTask: (
-  	task,add_click,
-  	task_change,
-  	task_keypress_return) 
-    => (list,push) 
-    => ({done:false, 
-    	description:task}) 
+    <li name="item">
+      <input name="done" type="checkbox">
+      <span name="description">todo</span>
+      <Button name="remove">Remove</button>
+    </li>
 
-  undoTask: (undolist,pop) 
-    => (list,push) 
-    => {}
-
-  removeTask: (
-  	list, item,
-  	remove_click)
-    => list.pop(item)
-
-  loadTasks: (
-  	loadlist,
-  	list)
-    => {
-      for (i in loadlist)
-      	list.push(
-      	  {done:false,
-      	   description:loadlist[i]
-      	  }
-      	)
-      }
-
-  // behaviours
-
-  add: { 
-    disabled: (task) => task===""
-  }
-
-  undo: {
-  	disabled: (list) => list.count===0
-  }
-
-  list: {
-  	item: {
-  		description: {
-  			className: (done) => done?"removed":"" 
-  		}
-  	}
-  }
-
-</script>
-    
-  <TodoList>
-	  <H1>Todo list</H1>
-
-	Task:
-	  <input id="task"> 
-	  <button id="add">Add</button>
-
-	<ul id="list">
-
-	  <li name="item">
-		<input name="done" type="checkbox">
-		<span name="description">todo</span>
-		<Button name="remove">Remove</button>
-	  </li>
-
-	</ul>
-  </TodoList>
+  </ul>
+  <button name="removedones">Remove all done tasks</button>
+  <button name="loadtasks">Load tasks</button>
+</TodoList>
 
 </body>
-<script src="TodoList.js?v=1" type="application/javascript"></script>
 </html>

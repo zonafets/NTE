@@ -26,7 +26,8 @@ So I struggled (and I'm struggling) to do something that combine the UNIX philos
     button "Remove all done tasks" @removedones
     button "Load tasks" @loadtasks
 ```
-Below the **HTML** rendered version.
+Below the rendered code as **HTML**.
+![TodoList.png](imgs/TodoList.png)
 
 ### TodoList (model)
 This is a JSON with js arrow functions, without commas.
