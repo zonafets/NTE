@@ -96,22 +96,19 @@ loadtasks: (
 removedones: (
   removedones_click,
   list,
-  item,
-  list_each,
-  item_done_true
-  )
-  => list.pop(item)
+  list_each_item,
+  list_each_item_done_true
+  ) 
+  => list.pop(list_each_item)
 
 // controls behaviours
 
 add: { 
-  disabled: (task) 
-  => task===""
-}
+  disabled: (task,task_empty)=>{} 
+  }
 
 undo: {
-  disabled: (list) 
-  => list.count===0
+  disabled: (list_count_0)=>{} 
 }
 
 list: {
@@ -127,7 +124,8 @@ Below the **transpiled** Javascript version.
 
 **Pros**
 
-- bouble bind check
+- a lot of inference
+- double bind check
 - possible flow-check
 - UI events are hidden/wrapped by application actions (**this is an application framework**, not an alternative behavior of the language and the browser's UI)
 - simplify/automate tests 
