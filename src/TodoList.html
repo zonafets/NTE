@@ -10,6 +10,78 @@
 </head>
 
 <body>
+
+<script name="view" type="application/javascript">
+  H1 "NTE todolist demo"
+  Task:
+    input @task
+    button "Add" @add @undo
+    ul @list
+      li @item
+        checkbox @done
+        span @desciption
+        button "Remove" @remove
+    button "Remove all done tasks" @removedone
+</script>
+<script name="model" type="application/javascript">
+  
+  // data
+  
+  loadlist:["task1","task2","task3"]
+  undolist:[]
+  task: ""
+  list: []
+
+  // messages
+
+  addTask: (
+  	task,add_click,
+  	task_change,
+  	task_keypress_return) 
+    => (list,push) 
+    => ({done:false, 
+    	description:task}) 
+
+  undoTask: (undolist,pop) 
+    => (list,push) 
+    => {}
+
+  removeTask: (
+  	list, item,
+  	remove_click)
+    => list.pop(item)
+
+  loadTasks: (
+  	loadlist,
+  	list)
+    => {
+      for (i in loadlist)
+      	list.push(
+      	  {done:false,
+      	   description:loadlist[i]
+      	  }
+      	)
+      }
+
+  // behaviours
+
+  add: { 
+    disabled: (task) => task===""
+  }
+
+  undo: {
+  	disabled: (list) => list.count===0
+  }
+
+  list: {
+  	item: {
+  		description: {
+  			className: (done) => done?"removed":"" 
+  		}
+  	}
+  }
+
+</script>
     
   <TodoList>
 	  <H1>Todo list</H1>
