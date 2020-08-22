@@ -14,19 +14,19 @@ So I struggled (and I'm struggling) to do something that combine the UNIX philos
 ### TodoList.layout.nte (view)
 
 ```ruby
-  H1 "Todolist NTE example"
+H1 "Todolist NTE example"
 
-  Task: input @task
-    	button "Add" @add @undo
+Task: input @task
+      button "Add" @add @undo
 
-  ul @list
-    li @item
-      checkbox @done
-      span "todo" @description
-      button "Remove" @remove
+ul @list
+  li @item
+    checkbox @done
+    span "todo" @description
+    button "Remove" @remove
 
-  button "Remove all done tasks" @removeDones
-  button "Load tasks" @loadtasks
+button "Remove all done tasks" @removeDones
+button "Load tasks" @loadtasks
 ```
 ![TodoList.png](imgs/TodoList.png)
 
@@ -46,9 +46,9 @@ list: []
 /* 
   controls <=> model_data <=> actions (VMC)
   
-  action_name: (
-    model_data_name, ...,
-    |ctrl_event, ...,
+  action: (
+    data_name, ...,
+    |control_event, ...,
     |event_precondition,
     |data_precondition )
     => {
@@ -75,6 +75,7 @@ addTask: (
 
 /////////////////////////////////
 undoTask: (
+  undo_click,
   list, 
   undolist,
   undolist_count_isnot_0 ) 
