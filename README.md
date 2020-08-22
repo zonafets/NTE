@@ -51,14 +51,13 @@ list: []
    }
 */
 
-// ------------------------------
-addTask: (
-// ------------------------------
+/////////////////////////////////
+addTask: ( 
   task, 
   list,
   add_click,
   task_keypress_keyCode_13,
-  task_isnot_empty
+  task_isnot_empty ) 
   => {
      list.push({
        done:false, 
@@ -68,23 +67,19 @@ addTask: (
      return {task:""}
      } 
 
-// ------------------------------
+/////////////////////////////////
 undoTask: (
-// ------------------------------
   list, 
   undolist,
-  undolist_count_isnot_0
-  ) 
+  undolist_count_isnot_0 ) 
   => {
      list.push(undolist.pop())
      }
 
-// ------------------------------
-loadtasks: (
-// ------------------------------    
-  // onclick implicit
+/////////////////////////////////
+loadtasks: (  
   loadlist,
-  list)
+  list ) 
   => {
     for (i in loadlist)
       list.push(
@@ -94,17 +89,15 @@ loadtasks: (
       )
   }
 
-// ------------------------------
+/////////////////////////////////
 removeTask: (
-// ------------------------------    
   list, 
   item,
-  remove_click)
+  remove_click )
   => list.pop(item)
 
-// ------------------------------
+/////////////////////////////////
 removeDones: (
-// ------------------------------    
   list,
   item,
   done_is_true
@@ -118,17 +111,15 @@ removeDones: (
 
 // controls behaviours
 
-// ------------------------------
+/////////////////////////////////
 add: { 
-// ------------------------------    
   disabled: 
     (task,task_keypress)
     => task==="" 
   }
 
-// ------------------------------
+/////////////////////////////////
 undo: {
-// ------------------------------    
   disabled:
     (list)=>list.count===0 
     // object's change events
@@ -136,9 +127,8 @@ undo: {
     // method's override
 }
 
-// ------------------------------
+/////////////////////////////////
 list: {
-// ------------------------------    
   item: {
     description: {
       className: 
