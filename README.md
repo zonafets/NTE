@@ -15,15 +15,18 @@ So I struggled (and I'm struggling) to do something that combine the UNIX philos
 
 ```ruby
   H1 "Todolist NTE example"
+
   Task: input @task
     	button "Add" @add @undo
-    ul @list
-      li @item
-        checkbox @done
-        span "todo" @description
-        button "Remove" @remove
-    button "Remove all done tasks" @removeDones
-    button "Load tasks" @loadtasks
+
+  ul @list
+    li @item
+      checkbox @done
+      span "todo" @description
+      button "Remove" @remove
+
+  button "Remove all done tasks" @removeDones
+  button "Load tasks" @loadtasks
 ```
 ![TodoList.png](imgs/TodoList.png)
 
