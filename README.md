@@ -11,7 +11,7 @@ So I struggled (and I'm struggling) to do something that combine the UNIX philos
 
 **"Natural"** because we must develop using what we already know, learning new things along the way. The framework has to teach while we use it.
 
-### TodoList (view)
+### TodoList.layout.nte (view)
 
 ```ruby
   H1 "Todolist NTE example"
@@ -25,11 +25,12 @@ So I struggled (and I'm struggling) to do something that combine the UNIX philos
     button "Remove all done tasks" @removeDones
     button "Load tasks" @loadtasks
 ```
-More below the rendered code as **HTML**.
 ![TodoList.png](imgs/TodoList.png)
 
-### TodoList (model)
-This is a JSON with js arrow functions, without commas.
+More below the rendered code as **HTML**.
+
+### TodoList (model-control)
+This is a JS object definition with js arrow functions and without commas.
 
 ```javascript
 // data
@@ -39,16 +40,18 @@ undolist:[]
 task: ""
 list: []
 
-/* actions
-   action_name: (
-     model_data_member, ...,
-     |ctrl_event, ...,
-     |event_precondition,
-     |data_precondition
-   ) => {
-     body
-     return (next_model_state)
-   }
+/* 
+  controls <=> model_data <=> actions (VMC)
+  
+  action_name: (
+    model_data_name, ...,
+    |ctrl_event, ...,
+    |event_precondition,
+    |data_precondition )
+    => {
+      body
+      return (next_model_state)
+    }
 */
 
 /////////////////////////////////
@@ -152,6 +155,7 @@ Will follow the **transpiled** Javascript version.
 - simplify/automate tests 
 - simplified code diffs
 - possible automatized diagram generation with tools as Graphwiz
+- splittable into parts: TodoList.layout.nte, TodoList.data.nte, TodoList.actions.nte, TodoList.behaviour.nte, TodoList.yourModule.nte
 
 **Cons**
 
